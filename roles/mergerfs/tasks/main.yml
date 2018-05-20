@@ -1,0 +1,7 @@
+# Install MergerFS
+
+---
+
+- name: 'install MergerFS package'
+  apt:
+    deb: '{{ mergerfs_download_url }}'

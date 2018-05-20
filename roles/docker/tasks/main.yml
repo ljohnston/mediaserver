@@ -1,0 +1,40 @@
+# Install docker.
+
+---
+
+- name: 'install apt repo installation packages'
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: true
+  with_items:
+    - 'apt-transport-https'
+    - 'ca-certificates'
+    - 'curl'
+    - 'software-properties-common'
+
+- name: 'install docker repository apt key'
+  apt_key:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    id: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
+    state: 'present'
+
+- name: 'install docker apt repository'
+  apt_repository:
+    repo: '{{ docker_apt_repository }}'
+    update_cache: true
+    state: 'present'
+
+- name: 'install docker-ce'
+  apt:
+    name: 'docker-ce'
+    state: 'present'
+    update_cache: true
+  notify:
+    - 'systemd daemon-reload'
+    - 'restart docker'
+
+- name: 'start docker'
+  service:
+    name: 'docker'
+    state: 'started'

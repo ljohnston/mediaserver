@@ -1,0 +1,27 @@
+---
+# ansible-playbook main.yml -i hosts --tags docker_apps -K
+# the binary | this.file | -i targets | *optional --tags | -K asks for sudo pass
+
+- hosts: all
+  become: yes
+
+  # Little hackery going on here. Ansible requires python2.7, but Xenial comes
+  # without python installed. We can fix that with a "pre_task" (see below),
+  # but simply collecting facts requires ansible and python. So we'll turn off
+  # facts and then run the "setup" task (which gathers facts) as a "pre_task"
+  # after installing python.
+  gather_facts: false
+
+  pre_tasks:
+    - name: 'Install python 2.7 for Ansible'
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      register: output
+      changed_when: output.stdout != ''
+    - setup:
+
+  roles:
+    - docker
+    - mergerfs
+    - snapraid
+    # - epsilon
+

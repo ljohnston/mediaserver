@@ -1,0 +1,5 @@
+---
+snapraid_version: '11.1'
+snapraid_build_path: '/tmp/snapraid-build'
+snapraid_built_package_dir: 'artifact'
+snapraid_built_package_name: 'snapraid-build.deb'
