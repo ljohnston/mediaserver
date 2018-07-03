@@ -1,31 +1,32 @@
 ---
 - name: 'create snapraid build directory'
   file: dest='{{ snapraid_build_path }}' state='directory'
-  # when: pkg_check.rc == 1
+  when: pkg_check.rc == 1
 
 - name: 'copy snapraid build script'
   template: 
     src: 'build.sh.j2' 
     dest: '{{ snapraid_build_path }}/build.sh' 
     mode: '0775'
-  # when: pkg_check.rc == 1
+  when: pkg_check.rc == 1
 
 - name: 'copy snapraid Dockerfile'
   template: 
     src: 'Dockerfile.j2' 
     dest: '{{ snapraid_build_path }}/Dockerfile'
-  # when: pkg_check.rc == 1
+  when: pkg_check.rc == 1
 
 - name: 'build snapraid debian package'
   command: './build.sh'
   args:
     chdir: '{{ snapraid_build_path }}'
+    creates: '{{ snapraid_build_path }}/{{ snapraid_built_package_name }}'
   # sudo: true
-  # when: pkg_check.rc == 1
+  when: pkg_check.rc == 1
 
-- name: 'Install SnapRaid debian package'
+- name: 'install snapraid debian package'
   apt: 
-    deb: '/{{ snapraid_built_package_dir }}/{{ snapraid_built_package_name }}'
+    deb: '{{ snapraid_build_path }}/{{ snapraid_built_package_name }}'
   # sudo: true
-  # when: pkg_check.rc == 1
+  when: pkg_check.rc == 1
 

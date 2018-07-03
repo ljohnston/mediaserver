@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/bin/bash -e
 
 tag='snapraid-build'
 
 docker build \
-    --build-arg DEBIAN_DIR={{ snapraid_built_package_dir }} \
-    --build-arg DEBIAN_NAME={{ snapraid_built_package_name }} \
+    --build-arg package_path={{ snapraid_built_package_path }} \
+    --build-arg package_name={{ snapraid_built_package_name }} \
     -t $tag .
 
 id=$(docker create --name snapraid-tmp $tag)
-docker cp $id:/{{ snapraid_built_package_dir }}/{{ snapraid_built_package_name }} .
+docker cp $id:{{ snapraid_built_package_path }}/{{ snapraid_built_package_name }} .
 
 docker rm -v $id
 docker rmi $tag

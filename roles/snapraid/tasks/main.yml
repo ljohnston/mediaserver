@@ -2,7 +2,7 @@
 # SnapRAID from source, built in a Docker container
 
 - name: 'check if snapraid is installed'
-  command: dpkg-query -W snapraid
+  shell: dpkg-query -W snapraid |grep {{ snapraid_version }}
   register: pkg_check
   failed_when: pkg_check.rc > 1
   changed_when: pkg_check.rc == 1

@@ -1,5 +1,9 @@
 FROM ubuntu:16.04
-ENV VERSION={{ snapraid_version }}
+
+ARG version={{ snapraid_version }}
+
+ARG package_path
+ARG package_name
 
 #
 # Build SnapRAID from source
@@ -11,13 +15,13 @@ RUN apt-get update && apt-get install -y \
         gcc \
         git \
         make \
-    && curl -LO https://github.com/amadvance/snapraid/releases/download/v$VERSION/snapraid-$VERSION.tar.gz \
-    && tar -xvf snapraid-$VERSION.tar.gz \
-    && cd snapraid-$VERSION \
+    && curl -LO https://github.com/amadvance/snapraid/releases/download/v${version}/snapraid-${version}.tar.gz \
+    && tar -xvf snapraid-${version}.tar.gz \
+    && cd snapraid-${version} \
     && ./configure \
     && make -j8 \
     && make -j8 check \
     && checkinstall -Dy --install=no --nodoc \
-    && mkdir /$DEBIAN_DIR \
-    && cp snapraid*.deb /$DEBIAN_DIR/$DEBIAN_NAME
+    && mkdir -p ${package_path} \
+    && mv snapraid*.deb ${package_path}/${package_name}
 
