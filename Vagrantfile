@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    config.vm.provision :shell, inline: bootstrap
 
    config.vm.provision :ansible do |ansible|
-     # ansible.verbose = "vvv"
+     ansible.verbose = "vvv"
      ansible.compatibility_mode = "2.0"
      ansible.playbook = "main.yml"
    end

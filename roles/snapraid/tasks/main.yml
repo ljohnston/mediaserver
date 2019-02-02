@@ -1,12 +1,9 @@
 ---
 # SnapRAID from source, built in a Docker container
 
-- name: 'check if snapraid is installed'
+- name: 'check snapraid install'
   shell: dpkg-query -W snapraid |grep {{ snapraid_version }}
-  register: pkg_check
-  failed_when: pkg_check.rc > 1
-  changed_when: pkg_check.rc == 1
-
-- name: 'build snapraid from source'
-  include_tasks: build.yml
-  when: pkg_check.rc == 1
+  register: build_snapraid
+  failed_when: build_snapraid.rc > 1
+  changed_when: build_snapraid.rc == 1
+  notify: 'build snapraid'
