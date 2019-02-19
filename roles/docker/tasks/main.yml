@@ -4,14 +4,13 @@
 
 - name: 'install apt repo installation packages'
   apt:
-    name: '{{ item }}'
+    name:
+        - 'apt-transport-https'
+        - 'ca-certificates'
+        - 'curl'
+        - 'software-properties-common'
     state: 'present'
     update_cache: true
-  with_items:
-    - 'apt-transport-https'
-    - 'ca-certificates'
-    - 'curl'
-    - 'software-properties-common'
 
 - name: 'install docker repository apt key'
   apt_key:

@@ -23,5 +23,5 @@
     - docker
     - mergerfs
     - snapraid
-    # - epsilon
+    - mediaserver
 

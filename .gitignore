@@ -1,1 +1,4 @@
 .vagrant/
+.vm
+
+*.retry

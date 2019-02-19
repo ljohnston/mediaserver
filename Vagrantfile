@@ -21,27 +21,62 @@ BOOTSTRAP
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-   # ubuntu 16.04
-   config.vm.box = "ubuntu/xenial64"
+   #
+   # We'd like to use the ubuntu image here. Unfortunately, VirtualBox 6 has
+   # an issue with adding storage controllers. See here for more:
+   #
+   #   https://github.com/hashicorp/vagrant/issues/10578
+   #
+   # For now we'll use the bento image and keep an eye on the issue.
+   #
 
-   config.vm.provider :virtualbox do |v|
-     v.name = "mediaserver.dev"
-     v.memory = 2048
-     v.cpus = 2
+   # config.vm.box = "ubuntu/xenial64"
+   config.vm.box = "bento/ubuntu-16.04"
+
+   parityDisk = './.vm/parityDisk.vdi'
+   dataDisk1  = './.vm/dataDisk1.vdi'
+   dataDisk2  = './.vm/dataDisk2.vdi'
+
+   config.vm.provider :virtualbox do |vb|
+       vb.name = "mediaserver-dev"
+       vb.memory = 2048
+       vb.cpus = 2
+
+       if not File.exists?(parityDisk)
+           vb.customize ['createhd', '--filename', parityDisk, '--variant', 'Fixed', '--size', 3 * 1024]
+       end
+
+       if not File.exists?(dataDisk1)
+           vb.customize ['createhd', '--filename', dataDisk1, '--variant', 'Fixed', '--size', 3 * 1024]
+       end
+
+       if not File.exists?(dataDisk2)
+           vb.customize ['createhd', '--filename', dataDisk2, '--variant', 'Fixed', '--size', 3 * 1024]
+       end
+
+       #
+       # While the ubuntu box uses a SCSI controller by default, the bento box
+       # uses a SATA controller, so we'll add a SCSI controller for our
+       # additional disks. The opposite when/if we can go back to the ubuntu
+       # box.
+       #
+
+       vb.customize ['storagectl', :id, '--name', 'SCSI', '--add', 'scsi']
+
+       vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 0, '--device', 0, '--type', 'hdd', '--medium', parityDisk]
+       vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', dataDisk1]
+       vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', dataDisk2]
    end
-
-   # Port forwards.
-   #config.vm.network "forwarded_port", guest: 8080, host: 8080
-
-   # Synced folders.
-   #config.vm.synced_folder "../some-folder", "/tmp/some-folder"
 
    config.vm.provision :shell, inline: bootstrap
 
-   config.vm.provision :ansible do |ansible|
-     ansible.verbose = "vvv"
-     ansible.compatibility_mode = "2.0"
-     ansible.playbook = "main.yml"
-   end
+   config.vm.hostname = "mediaserver-dev"
+   config.vm.define "#{config.vm.hostname}"
 
+   config.vm.provision :ansible do |ansible|
+       # ansible.verbose = "vvv"
+       ansible.compatibility_mode = "2.0"
+       ansible.playbook = "playbook.yml"
+       ansible.extra_vars = "@vagrant/mediaserver-dev.yml"
+   end
 end
