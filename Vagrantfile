@@ -54,14 +54,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
            vb.customize ['createhd', '--filename', dataDisk2, '--variant', 'Fixed', '--size', 3 * 1024]
        end
 
-       #
-       # While the ubuntu box uses a SCSI controller by default, the bento box
-       # uses a SATA controller, so we'll add a SCSI controller for our
-       # additional disks. The opposite when/if we can go back to the ubuntu
-       # box.
-       #
-
-       vb.customize ['storagectl', :id, '--name', 'SCSI', '--add', 'scsi']
+       if ! `VBoxManage showvminfo #{vb.name}`.split("\n").include?(/Storage Controller Name.*SCSI$/)
+           vb.customize ['storagectl', :id, '--name', 'SCSI', '--add', 'scsi']
+       end
 
        vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 0, '--device', 0, '--type', 'hdd', '--medium', parityDisk]
        vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', dataDisk1]
@@ -73,8 +68,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    config.vm.hostname = "mediaserver-dev"
    config.vm.define "#{config.vm.hostname}"
 
+   # Note the 'ansible.tags' in the provision block.
+   # This is probably a better way. Note that this won't work
+   # with my vagrant aliases.
+   # ANSIBLE_ARGS='--tags "tag1,tag2,..."' vagrant ...
+
    config.vm.provision :ansible do |ansible|
        # ansible.verbose = "vvv"
+       ansible.tags = ['configure']
        ansible.compatibility_mode = "2.0"
        ansible.playbook = "playbook.yml"
        ansible.extra_vars = "@vagrant/mediaserver-dev.yml"
