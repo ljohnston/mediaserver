@@ -1,0 +1,15 @@
+---
+
+- name: 'create mount points'
+  file:
+      path: "{{ item.mount_point }}"
+      state: directory
+  loop: "{{ devices | flatten(levels=1) }}"
+
+- name: 'create mounts'
+  mount:
+      path: "{{ item.mount_point }}"
+      src: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
+      fstype: "{{ item.fs_type }}"
+      state: mounted
+  loop: "{{ devices | flatten(levels=1) }}"

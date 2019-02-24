@@ -1,0 +1,15 @@
+---
+
+- name: 'install docker-ce'
+  apt:
+    name: 'docker-ce'
+    state: 'present'
+    update_cache: true
+  notify:
+    - 'systemd daemon-reload'
+    - 'restart docker'
+
+- name: 'start docker'
+  service:
+    name: 'docker'
+    state: 'started'

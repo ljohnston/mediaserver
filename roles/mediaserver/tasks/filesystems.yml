@@ -1,0 +1,27 @@
+---
+
+# - debug:
+#     msg: "UUID={{ ansible_devices[item.name.split('/')[-1]].partitions[item.name.split('/')[-1] + '1'].uuid }}"
+#   with_items:
+#       - { "name": "/dev/sdb" }
+
+- name: 'partition drives'
+  parted:
+      device: "{{ item.device }}"
+      number: 1
+      label: gpt
+      state: present
+  loop: "{{ devices | flatten(levels=1) }}"
+
+# Re-read facts to get new partition data so we can mount by UUID.
+# TODO: Notify this task only when needed?
+- name: 're-read facts'
+  setup:
+      filter: 'ansible_devices'
+
+- name: 'create filesystems'
+  filesystem:
+      dev: "{{ item.device }}1"
+      fstype: "{{ item.fs_type }}"
+      opts:  "{{ item.fs_opts  }}"
+  loop: "{{ devices | flatten(levels=1) }}"

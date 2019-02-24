@@ -20,8 +20,7 @@
     - setup:
 
   roles:
-    - docker
-    - mergerfs
-    - snapraid
-    - mediaserver
-
+      - { role: 'docker',      tags: 'docker' }
+      - { role: 'mergerfs',    tags: 'mergerfs' }
+      - { role: 'snapraid',    tags: 'snapraid' }
+      - { role: 'mediaserver', tags: 'mediaserver' }
