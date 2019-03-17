@@ -1,12 +1,10 @@
-# Defaults for MergerFS role
-
 ---
+# defaults file for mergerfs
 
-# TODO: Move this to some higher level?
+mergerfs__version: '2.24.2'
+
 arch: '{{ (ansible_userspace_bits == "64") | ternary("amd64","i386") }}'
 
-mergerfs_version: '2.24.2'
+mergerfs__download_file: 'mergerfs_{{ mergerfs__version }}.ubuntu-{{ ansible_distribution_release }}_{{ arch }}.deb'
 
-mergerfs_download_file: 'mergerfs_{{ mergerfs_version }}.ubuntu-{{ ansible_distribution_release }}_{{ arch }}.deb'
-
-mergerfs_download_url: 'https://github.com/trapexit/mergerfs/releases/download/{{ mergerfs_version }}/{{ mergerfs_download_file }}'
+mergerfs__download_url: 'https://github.com/trapexit/mergerfs/releases/download/{{ mergerfs__version }}/{{ mergerfs__download_file }}'

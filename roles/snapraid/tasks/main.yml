@@ -1,5 +1,5 @@
 ---
-# Install snapraid
+# tasks file for snapraid
 
 - name: 'install snapraid ppa'
   apt_repository:
@@ -9,3 +9,26 @@
   apt:
     pkg: 'snapraid'
     state: 'present'
+
+- name: 'create snapraid mount points'
+  file:
+    path: "{{ item.mount_point }}"
+    state: directory
+  with_flattened: "{{ snapraid__parity_devices + snapraid__data_devices }}"
+
+# - debug:
+#     msg: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
+#   with_flattened: "{{ snapraid__parity_devices + snapraid__data_devices }}"
+
+- name: 'create snapraid mounts'
+  mount:
+    path: "{{ item.mount_point }}"
+    src: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
+    fstype: "{{ item.fs_type }}"
+    state: mounted
+  with_flattened: "{{ snapraid__parity_devices + snapraid__data_devices }}"
+
+- name: 'create snapraid.conf'
+  template: 
+    src: 'etc/snapraid.conf.j2' 
+    dest: '/etc/snapraid.conf'

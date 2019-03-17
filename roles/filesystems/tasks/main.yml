@@ -1,0 +1,24 @@
+---
+# tasks file for filesystems
+
+- name: 'partition drives'
+  parted:
+      device: "{{ item.device }}"
+      number: 1
+      label: gpt
+      state: present
+  with_flattened: "{{ filesystems__devices  }}"
+
+- name: 'create filesystems'
+  filesystem:
+      dev: "{{ item.device }}1"
+      fstype: "{{ item.fs_type }}"
+      opts:  "{{ item.fs_opts  }}"
+  with_flattened: "{{ filesystems__devices  }}"
+  register: create_filesystems
+
+# Re-read facts to get new partition data (need later for mounts)
+- name: 're-read facts'
+  setup:
+      filter: 'ansible_devices'
+  when: create_filesystems.changed

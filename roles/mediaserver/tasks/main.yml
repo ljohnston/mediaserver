@@ -1,21 +1,5 @@
 ---
 
-- name: 'create filesystems'
-  include: 'filesystems.yml'
-  tags: ['filesystems']
-
-- name: 'mount snapraid drives'
-  include: 'snapraid_mounts.yml'
-  tags: ['snapraid_mounts']
-
-- name: 'configure snapraid'
-  include: 'configure_snapraid.yml'
-  tags: ['configure_snapraid']
-
-- name: 'mount mergerfs drives'
-  include: 'mergerfs_mount.yml'
-  tags: ['mergerfs_mount']
-
 - name: 'create users/groups'
   include: 'users.yml'
   tags: ['users']

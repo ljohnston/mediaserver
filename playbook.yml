@@ -33,6 +33,7 @@
 
   roles:
     - { role: 'roles.galaxy/geerlingguy.docker', tags: 'docker' }
+    - { role: 'filesystems', tags: 'filesystems' }
     - { role: 'mergerfs',    tags: 'mergerfs' }
     - { role: 'snapraid',    tags: 'snapraid' }
     - { role: 'samba',       tags: 'samba' }

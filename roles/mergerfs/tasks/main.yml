@@ -1,7 +1,19 @@
-# Install MergerFS
-
 ---
+# tasks file for mergerfs
 
 - name: 'install MergerFS package'
   apt:
-    deb: '{{ mergerfs_download_url }}'
+    deb: '{{ mergerfs__download_url }}'
+
+- name: 'create mergerfs mount point'
+  file:
+      path: "{{ mergerfs__mount_point }}"
+      state: 'directory'
+
+- name: 'create mergerfs mount'
+  mount:
+      path: "{{ mergerfs__mount_point }}"
+      src: "{{ mergerfs__mounts | join(':') }}"
+      fstype: "fuse.mergerfs"
+      opts: "{{ mergerfs__mount_options }}"
+      state: 'mounted'

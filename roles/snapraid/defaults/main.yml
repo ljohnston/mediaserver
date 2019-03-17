@@ -1,5 +1,2 @@
 ---
-snapraid_version: '11.3'
-snapraid_build_path: '/tmp/snapraid-build'
-snapraid_built_package_path: '/artifact'
-snapraid_built_package_name: 'snapraid-build-{{ snapraid_version }}.deb'
+# defaults file for snapraid
