@@ -5,7 +5,7 @@
   apt:
     pkg: '{{ samba__base_packages }}'
     state: 'present'
-    install_recommends: False
+    install_recommends: 'false'
   register: samba__register_packages
   until: samba__register_packages is succeeded
 
@@ -22,7 +22,7 @@
   service: 
     name: '{{ item }}' 
     state: 'started' 
-    enabled: true
+    enabled: 'true'
   with_flattened:
     - '{{ samba__services }}'
 
@@ -32,6 +32,6 @@
     || (echo {{ item.password }}; echo {{ item.password }}) \
     | smbpasswd -s -a {{ item.name }}
   with_items: "{{ samba__users }}"
-  no_log: true
+  no_log: 'true'
   register: samba__create_users_output
   changed_when: "'Added user' in samba__create_users_output.stdout"

@@ -1,8 +1,22 @@
 ---
 
 media_users:
-  - 'alison'
-  - 'ljohnston'
+  - name: 'alison'
+    create_home: 'no'
+    groups: []
+    password: ''
+    shell: '/sbin/nologin'
+  - name: 'ljohnston'
+    create_home: 'no'
+    groups: [ 'sudo' ]
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      65336132306232646366653462353533666166343736323239613162306261363066366463393333
+      3561373833303461373635383138646461666537613961300a636464653639326263623438396533
+      31396131663031633365353266653964366363393331626131363766626164626435333532363839
+      3138613665353732320a633339326161373862373431353135656662383234626430623931316361
+      3863
+    shell: '/bin/bash'
 
 snapraid__parity_devices:
   - device: "/dev/sdb"
