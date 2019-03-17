@@ -2,3 +2,5 @@
 .vm
 
 *.retry
+
+roles.galaxy/

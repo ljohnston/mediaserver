@@ -1,0 +1,16 @@
+---
+# handlers file for samba
+
+- name: 'check samba config'
+  command: testparm -s
+  notify: [ 'reload nmbd', 'reload smbd' ]
+
+- name: 'reload nmbd'
+  service:
+    name: 'nmbd'
+    state: 'restarted'
+
+- name: 'reload smbd'
+  service:
+    name: 'smbd'
+    state: 'reloaded'

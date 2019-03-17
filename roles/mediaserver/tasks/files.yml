@@ -1,0 +1,69 @@
+---
+
+# 
+# Create media directory with sgid set to ensure all future files will be
+# owned by the media users group.
+#
+# We'll also set the ACLs on the media directory to ensure that all future
+# files will be group writeable, regardless of what a user's umask may be.
+#
+
+- name: 'create media directory'
+  file:
+      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      group: '{{ mediausers_group }}'
+      mode: 'ug=rwx,o=rx,g+s'
+      state: 'directory'
+
+#
+# Set the ACLs on the media directory...
+#
+
+- name: 'set user acl on media directory'
+  acl:
+      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      etype: 'user'
+      permissions: 'rwX'
+      state: 'present'
+
+- name: 'set group acl on media directory'
+  acl:
+      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      etype: 'group'
+      permissions: 'rwX'
+      state: 'present'
+
+- name: 'set other acl on media directory'
+  acl:
+      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      etype: 'other'
+      permissions: 'rX'
+      state: 'present'
+
+#
+# ... and set the default ACLs so future files are correct.
+#
+
+- name: 'set default user acl on media directory'
+  acl:
+      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      default: true
+      etype: 'user'
+      permissions: 'rwX'
+      state: 'present'
+
+- name: 'set default group acl on media directory'
+  acl:
+      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      default: true
+      etype: 'group'
+      permissions: 'rwX'
+      state: 'present'
+
+- name: 'set default other acl on media directory'
+  acl:
+      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      etype: 'other'
+      permissions: 'rX'
+      state: 'present'
+

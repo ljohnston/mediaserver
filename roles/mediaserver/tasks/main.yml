@@ -4,10 +4,26 @@
   include: 'filesystems.yml'
   tags: ['filesystems']
 
-- name: 'mount drives'
-  include: 'mounts.yml'
-  tags: ['mounts']
+- name: 'mount snapraid drives'
+  include: 'snapraid_mounts.yml'
+  tags: ['snapraid_mounts']
 
 - name: 'configure snapraid'
   include: 'configure_snapraid.yml'
-  tags: ['configure', 'snapraid']
+  tags: ['configure_snapraid']
+
+- name: 'mount mergerfs drives'
+  include: 'mergerfs_mount.yml'
+  tags: ['mergerfs_mount']
+
+- name: 'create users/groups'
+  include: 'users.yml'
+  tags: ['users']
+
+- name: 'create files/dirs'
+  include: 'files.yml'
+  tags: ['files']
+
+- name: 'configure samba'
+  include: 'samba.yml'
+  tags: 'configure_samba'

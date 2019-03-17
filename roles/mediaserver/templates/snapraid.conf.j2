@@ -4,10 +4,8 @@
 # It must NOT be in a data disk
 # Format: "parity FILE [,FILE] ..."
 
-{% for device in devices -%}
-    {% if device.type == 'parity' -%}
-        parity {{ device.mount_point }}/snapraid.parity{{ '\n' }}
-    {%- endif %}
+{% for device in parity_devices -%}
+    parity {{ device.mount_point }}/snapraid.parity
 {% endfor %}
 
 # Defines the files to use as additional parity storage.
@@ -31,10 +29,8 @@
 # Format: "content FILE"
 
 content /var/snapraid/snapraid.content
-{% for device in devices -%}
-    {% if device.type == 'data' -%}
-        content {{ device.mount_point }}/snapraid.content{{ '\n' }}
-    {%- endif %}
+{% for device in data_devices -%}
+    content {{ device.mount_point }}/snapraid.content
 {% endfor %}
 
 # Defines the data disks to use
@@ -43,12 +39,8 @@ content /var/snapraid/snapraid.content
 # SnapRAID is better suited for files that rarely changes!
 # Format: "data DISK_NAME DISK_MOUNT_POINT"
 
-{% set ns_cntr = namespace(index=1) %}
-{% for device in devices -%}
-    {% if device.type == 'data' -%}
-        data d{{ ns_cntr.index }} {{ device.mount_point }}/{{ '\n' }}
-        {%- set ns_cntr.index = ns_cntr.index + 1 %}
-    {%- endif %}
+{% for device in data_devices -%}
+    data d{{ loop.index }} {{ device.mount_point }}/
 {% endfor %}
 
 # Excludes hidden files and directories (uncomment to enable).

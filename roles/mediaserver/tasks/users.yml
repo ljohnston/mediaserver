@@ -1,0 +1,15 @@
+---
+
+- name: 'create "mediausers" group'
+  group:
+    name: '{{ mediausers_group }}'
+    state: 'present'
+
+- name: 'create users'
+  user:
+    name: '{{ item }}'
+    append: 'yes'
+    groups: '{{ mediausers_group }}'
+    shell: '/bin/bash'
+  loop: "{{ mediausers }}"
+

@@ -19,8 +19,15 @@
       changed_when: output.stdout != ''
     - setup:
 
+    # We'll also install our any galaxy roles here.
+    - name: 'install ansible-galaxy roles'
+      command: 'ansible-galaxy install -r requirements.yml --roles-path roles.galaxy'
+      delegate_to: localhost
+      become: no
+
   roles:
-      - { role: 'docker',      tags: 'docker' }
-      - { role: 'mergerfs',    tags: 'mergerfs' }
-      - { role: 'snapraid',    tags: 'snapraid' }
-      - { role: 'mediaserver', tags: 'mediaserver' }
+    - { role: 'roles.galaxy/geerlingguy.docker', tags: 'docker' }
+    # - { role: 'mergerfs',    tags: 'mergerfs' }
+    # - { role: 'snapraid',    tags: 'snapraid' }
+    - { role: 'samba',       tags: 'samba' }
+    # - { role: 'mediaserver', tags: 'mediaserver' }

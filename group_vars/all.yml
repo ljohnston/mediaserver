@@ -1,0 +1,19 @@
+samba__custom_global:
+    'dns proxy'     : 'no'
+    'guest ok'      : 'no'
+    'security'      : 'user'
+    'server role'   : 'standalone server'
+    'server string' : 'Samba Server %v'
+    'workgroup'     : 'WORKGROUP'
+
+samba__shares:
+
+    storage:
+        path             : '/storage'
+        browsable        : 'yes'
+        writable         : 'yes'
+        'create mask'    : '0775'
+        'directory mask' : '0775'
+        'force group'    : 'mediausers'
+        'valid users'    : '@mediausers'
+
