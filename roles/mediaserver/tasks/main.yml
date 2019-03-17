@@ -7,7 +7,3 @@
 - name: 'create files/dirs'
   include: 'files.yml'
   tags: ['files']
-
-- name: 'configure samba'
-  include: 'samba.yml'
-  tags: 'configure_samba'

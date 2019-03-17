@@ -90,6 +90,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ansible.raw_arguments = Shellwords.shellsplit(ENV["ANSIBLE_ARGS"]) if ENV["ANSIBLE_ARGS"]
 
+    ansible.vault_password_file = '~/.ansible/.vault_pass'
+
     ansible.groups = {
       "dev" => [hostname],
     }

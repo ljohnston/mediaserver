@@ -25,3 +25,13 @@
     enabled: true
   with_flattened:
     - '{{ samba__services }}'
+
+- name: 'create samba users'
+  shell: >
+    (pdbedit --user={{ item.name }} 2>&1 > /dev/null) \
+    || (echo {{ item.password }}; echo {{ item.password }}) \
+    | smbpasswd -s -a {{ item.name }}
+  with_items: "{{ samba__users }}"
+  no_log: true
+  register: samba__create_users_output
+  changed_when: "'Added user' in samba__create_users_output.stdout"

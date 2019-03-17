@@ -2,17 +2,14 @@
 
 media_directory: 'media'
 media_group: 'mediausers'
-media_users:
-  - 'alison'
-  - 'ljohnston'
 
-filesystems__devices: '{{ parity_devices + data_devices }}'
+filesystems__devices: '{{ snapraid__parity_devices + snapraid__data_devices }}'
 
 mergerfs__mount_point: '/storage'
 mergerfs__mount_options: 'defaults,allow_other,direct_io,use_ino,category.create=eplfs,moveonenospc=true,minfreespace=20G,fsname=mergerfsPool'
 
 # Seems like map(...) oughta create a list, but seems to create some sort of
-# "generator" object. Would sure be nice if the docs were any good.
+# "generator" object. Would sure be nice if any of the docs were any good.
 mergerfs__mounts: '{{ snapraid__data_devices | map(attribute="mount_point") | list }}'
 
 samba__custom_global:

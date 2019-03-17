@@ -10,7 +10,7 @@
 
 - name: 'create media directory'
   file:
-      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       group: '{{ media_group }}'
       mode: 'ug=rwx,o=rx,g+s'
       state: 'directory'
@@ -21,21 +21,21 @@
 
 - name: 'set user acl on media directory'
   acl:
-      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       etype: 'user'
       permissions: 'rwX'
       state: 'present'
 
 - name: 'set group acl on media directory'
   acl:
-      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       etype: 'group'
       permissions: 'rwX'
       state: 'present'
 
 - name: 'set other acl on media directory'
   acl:
-      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       etype: 'other'
       permissions: 'rX'
       state: 'present'
@@ -46,7 +46,7 @@
 
 - name: 'set default user acl on media directory'
   acl:
-      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       default: true
       etype: 'user'
       permissions: 'rwX'
@@ -54,7 +54,7 @@
 
 - name: 'set default group acl on media directory'
   acl:
-      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       default: true
       etype: 'group'
       permissions: 'rwX'
@@ -62,7 +62,7 @@
 
 - name: 'set default other acl on media directory'
   acl:
-      path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       etype: 'other'
       permissions: 'rX'
       state: 'present'

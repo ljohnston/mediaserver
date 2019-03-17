@@ -1,20 +1,43 @@
 ---
 
+media_users:
+  - 'alison'
+  - 'ljohnston'
+
 snapraid__parity_devices:
-    - device: "/dev/sdb"
-      fs_type: "ext4"
-      fs_opts: "-m 0 -T largefile4"
-      mount_point: "/mnt/parity/1-parity"
-      type: "parity"
+  - device: "/dev/sdb"
+    fs_type: "ext4"
+    fs_opts: "-m 0 -T largefile4"
+    mount_point: "/mnt/parity/1-parity"
+    type: "parity"
 
 snapraid__data_devices:
-    - device: "/dev/sdc"
-      fs_type: "ext4"
-      fs_opts: "-m 2 -T largefile4"
-      mount_point: "/mnt/data/disk1"
-      type: "data"
-    - device: "/dev/sdd"
-      fs_type: "ext4"
-      fs_opts: "-m 2 -T largefile4"
-      mount_point: "/mnt/data/disk2"
-      type: "data"
+  - device: "/dev/sdc"
+    fs_type: "ext4"
+    fs_opts: "-m 2 -T largefile4"
+    mount_point: "/mnt/data/disk1"
+    type: "data"
+  - device: "/dev/sdd"
+    fs_type: "ext4"
+    fs_opts: "-m 2 -T largefile4"
+    mount_point: "/mnt/data/disk2"
+    type: "data"
+
+samba__users:
+  - name: alison
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      32383866646434653037616331356139376266363664303339376237646636613330323730663837
+      6562663433363138346464383134373634646466333934350a363564353564386533326163346665
+      35333237356332636565323232633731363237326638323137313135323538303533323561633634
+      6462343366316334380a323664363765333233326533333664383864633933356538346636313034
+      3031
+  - name: ljohnston
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      65336132306232646366653462353533666166343736323239613162306261363066366463393333
+      3561373833303461373635383138646461666537613961300a636464653639326263623438396533
+      31396131663031633365353266653964366363393331626131363766626164626435333532363839
+      3138613665353732320a633339326161373862373431353135656662383234626430623931316361
+      3863
+
