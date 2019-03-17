@@ -1,3 +1,14 @@
+---
+
+mergerfs_mount_point: '/storage'
+mergerfs_mount_options: 'defaults,allow_other,direct_io,use_ino,category.create=eplfs,moveonenospc=true,minfreespace=20G,fsname=mergerfsPool'
+
+media_directory: 'media'
+media_group: 'mediausers'
+media_users:
+    - 'alison'
+    - 'ljohnston'
+
 samba__custom_global:
     'dns proxy'     : 'no'
     'guest ok'      : 'no'
@@ -7,7 +18,6 @@ samba__custom_global:
     'workgroup'     : 'WORKGROUP'
 
 samba__shares:
-
     storage:
         path             : '/storage'
         browsable        : 'yes'

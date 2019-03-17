@@ -72,30 +72,28 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', dataDisk2]
   end
 
-  config.vm.hostname = "mediaserver-dev"
+  # This is required to set 'ansible.groups' for this vm.
+  config.vm.define hostname
+
+  config.vm.hostname = hostname
 
   config.vm.provision :shell, inline: bootstrap
 
   config.vm.network :private_network, ip: "10.0.1.10"
 
-  # Note the 'ansible.tags' in the provision block.
-  # This is probably a better way. Note that this won't work
-  # with my vagrant aliases.
-  # ANSIBLE_ARGS='--tags "tag1,tag2,..."' vagrant ...
-
   config.vm.provision :ansible do |ansible|
-    # ansible.verbose = "vvv"
-    # ansible.raw_arguments = ['--check']
+    ansible.compatibility_mode = "2.0"
+
+    ansible.galaxy_role_file = 'requirements.yml'
+    ansible.galaxy_roles_path = 'roles.galaxy'
+    ansible.galaxy_command = 'ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path}'
+
     ansible.raw_arguments = Shellwords.shellsplit(ENV["ANSIBLE_ARGS"]) if ENV["ANSIBLE_ARGS"]
 
-    # ansible.tags = ['configure_snapraid']
-    # ansible.tags = ['mergerfs_mount']
-    # ansible.tags = ['samba']
-    # ansible.tags = ['users']
-    # ansible.tags = ['files']
+    ansible.groups = {
+      "dev" => [hostname],
+    }
 
-    ansible.compatibility_mode = "2.0"
     ansible.playbook = "playbook.yml"
-    ansible.extra_vars = "@vagrant/mediaserver-dev.yml"
   end
 end

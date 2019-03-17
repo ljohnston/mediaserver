@@ -11,7 +11,7 @@
 - name: 'create media directory'
   file:
       path: '{{ mergerfs_mount_point }}/{{ media_directory }}'
-      group: '{{ mediausers_group }}'
+      group: '{{ media_group }}'
       mode: 'ug=rwx,o=rx,g+s'
       state: 'directory'
 

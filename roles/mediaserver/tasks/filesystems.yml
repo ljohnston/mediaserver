@@ -1,10 +1,5 @@
 ---
 
-# - debug:
-#     msg: "UUID={{ ansible_devices[item.name.split('/')[-1]].partitions[item.name.split('/')[-1] + '1'].uuid }}"
-#   with_items:
-#       - { "name": "/dev/sdb" }
-
 - name: 'partition drives'
   parted:
       device: "{{ item.device }}"
@@ -19,9 +14,9 @@
       fstype: "{{ item.fs_type }}"
       opts:  "{{ item.fs_opts  }}"
   loop: "{{ parity_devices + data_devices | flatten(levels=1) }}"
-  regiser: create_filesystems
+  register: create_filesystems
 
-# Re-read facts to get new partition data.
+# Re-read facts to get new partition data (need later for mounts)
 - name: 're-read facts'
   setup:
       filter: 'ansible_devices'

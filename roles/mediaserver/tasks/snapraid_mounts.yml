@@ -6,9 +6,9 @@
       state: directory
   loop: "{{ parity_devices + data_devices | flatten(levels=1) }}"
 
-- debug:
-    msg: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
-  loop: "{{ parity_devices + data_devices | flatten(levels=1) }}"
+# - debug:
+#     msg: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
+#   loop: "{{ parity_devices + data_devices | flatten(levels=1) }}"
 
 - name: 'create snapraid mounts'
   mount:

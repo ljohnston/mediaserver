@@ -1,9 +1,11 @@
 ---
-# SnapRAID from source, built in a Docker container
+# Install snapraid
 
-- name: 'check snapraid install'
-  shell: dpkg-query -W snapraid |grep {{ snapraid_version }}
-  register: build_snapraid
-  failed_when: build_snapraid.rc > 1
-  changed_when: build_snapraid.rc == 1
-  notify: 'build snapraid'
+- name: 'install snapraid ppa'
+  apt_repository:
+    repo: 'ppa:tikhonov/snapraid'
+
+- name: 'install snapraid package'
+  apt:
+    pkg: 'snapraid'
+    state: 'present'
