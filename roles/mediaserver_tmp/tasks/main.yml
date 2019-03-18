@@ -1,9 +1,0 @@
----
-
-- name: 'create users/groups'
-  include: 'users.yml'
-  tags: ['users']
-
-- name: 'create files/dirs'
-  include: 'files.yml'
-  tags: ['files']
