@@ -1,5 +1,6 @@
 ---
 
+media_share: 'storage'
 media_directory: 'media'
 media_group: 'mediausers'
 
@@ -20,13 +21,17 @@ samba__custom_global:
   'server string' : 'Samba Server %v'
   'workgroup'     : 'WORKGROUP'
 
-samba__shares:
-  storage:
-    path             : '/storage'
-    browsable        : 'yes'
-    writable         : 'yes'
-    'create mask'    : '0775'
-    'directory mask' : '0775'
-    'force group'    : 'mediausers'
-    'valid users'    : '@mediausers'
+# This syntax is total hackery to allow using a variable as a dictionary key.
+# See here:  https://github.com/ansible/ansible/pull/19664
+samba__shares: "{
+  '{{ media_share }}': {
+    'path'           : '{{ mergerfs__mount_point }}',
+    'browsable'      : 'yes',
+    'create mask'    : '0775',
+    'directory mask' : '0775',
+    'force group'    : 'mediausers',
+    'valid users'    : '@mediausers',
+    'writable'       : 'yes',
+  }
+}"
 

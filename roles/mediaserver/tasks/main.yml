@@ -8,3 +8,7 @@
 - name: 'create files/dirs'
   include: 'files.yml'
   tags: ['files']
+
+- name: 'docker apps'
+  include: 'docker_apps.yml'
+  tags: ['docker_apps']

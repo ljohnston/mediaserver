@@ -1,7 +1,5 @@
 ---
 
-media_share: 'storage-dev'
-
 media_users:
   - name: 'alison'
     create_home: 'no'
@@ -40,6 +38,11 @@ snapraid__data_devices:
     fs_type: "ext4"
     fs_opts: "-m 2 -T largefile4"
     mount_point: "/mnt/data/disk2"
+    type: "data"
+  - device: "/dev/sde"
+    fs_type: "ext4"
+    fs_opts: "-m 2 -T largefile4"
+    mount_point: "/mnt/data/disk3"
     type: "data"
 
 samba__users:

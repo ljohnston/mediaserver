@@ -1,0 +1,16 @@
+---
+version: "2"
+services:
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID={{ plexuser_uid }}
+      - PGID={{ plexuser_gid }}
+      - VERSION=docker
+    volumes:
+      - /var/lib/plexmediaserver:/config
+      - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
+    restart: unless-stopped
+
