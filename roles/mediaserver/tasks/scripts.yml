@@ -1,0 +1,39 @@
+---
+
+- name: 'create log directory for mediaserver script'
+  file:
+    path: '/var/log/mediaserver'
+    group: 'mediausers'
+    mode: '0775'
+    state: 'directory'
+
+- name: 'create log file for mediaserver script'
+  copy:
+    content: ''
+    dest: '/var/log/mediaserver/mediaserver.log'
+    force: 'no'
+    group: 'mediausers'
+    owner: 'root'
+    mode: '0664'
+
+- name: 'copy mediaserver script'
+  template:
+    # Ansible should find this automatically if the file path is relative.
+    # It wasn't though...
+    src: '{{ role_path }}/files/mediaserver'
+    dest: '/usr/local/bin/'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+- name: 'itunes music-sync cron'
+  cron:
+    name: 'itunes music-sync'
+    # minute: '0'
+    minute: '*/5'
+    # hour: '8-23,0'
+    hour: '*'
+    user: 'plexuser'
+    job: "/usr/local/bin/mediaserver sync-music -s /storage/media/source_music/Alison\\'s\\ iTunes,/storage/media/source_music/Lance\\'s\\ iTunes -d /storage/media/music,/storage/media/music -t itunes"
+
+

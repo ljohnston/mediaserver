@@ -67,3 +67,13 @@
       permissions: 'rX'
       state: 'present'
 
+- name: 'create static edia directories'
+  file:
+      path: '{{ mergerfs__mount_point }}/{{ media_directory }}/{{ item }}'
+      group: '{{ media_group }}'
+      state: 'directory'
+  loop: '{{ media_static_folders }}'
+
+
+
+

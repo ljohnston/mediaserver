@@ -31,12 +31,14 @@
 - name: 'create plexuser'
   user:
     name: 'plexuser'
+    append: 'yes'
     create_home: 'no'
+    groups: '{{ media_group }}'
     password_lock: 'yes'
     shell: '/bin/bash'
   register: create_plexuser
 
 - name: 'set plexuser uid/gid facts'
   set_fact:
-    plexuser_uid: create_plexuser.uid
-    plexuser_gid: create_plexuser.group
+    plexuser_uid: '{{ create_plexuser.uid }}'
+    plexuser_gid: '{{ create_plexuser.group }}'

@@ -12,3 +12,7 @@
 - name: 'docker apps'
   include: 'docker_apps.yml'
   tags: ['docker_apps']
+
+- name: 'scripts'
+  include: 'scripts.yml'
+  tags: ['scripts']

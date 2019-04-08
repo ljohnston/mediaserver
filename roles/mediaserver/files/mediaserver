@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+
+import argparse
+import glob
+import logging
+import logging.handlers
+import os
+import sys
+
+from os import path
+
+music_types = ['itunes']
+
+# Setup logging.
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+console_handler.setLevel(logging.INFO)
+
+file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/mediaserver.log')
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+file_handler.setLevel(logging.WARNING)
+
+logger = logging.getLogger('mediaserver')
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+def debug(msg):
+    logger.warning(msg)
+
+def info(msg):
+    logger.warning(msg)
+
+def warning(msg):
+    logger.warning(msg)
+
+def error(msg):
+    logger.error(msg)
+
+def sync_photos(args):
+    print('sync photos...')
+
+def sync_itunes(sources, destinations):
+
+    for i in (range(len(sources))):
+        source = sources[i]
+        destination = destinations[i]
+
+        music_path = path.join(source, 'iTunes Media/Music')
+
+        if not path.exists(music_path):
+            warning("iTunes music folder '{}' not found - nothing to sync".format(music_path))
+
+        for pathname in glob.iglob(path.join(music_path, '**/*'), recursive=True):
+
+            if path.isfile(pathname):
+                symlink = path.join(destination, path.relpath(pathname, music_path))
+                symlink_directory = path.dirname(symlink)
+
+                if not path.exists(symlink_directory):
+                    os.makedirs(symlink_directory)
+
+                if not path.exists(symlink):
+                    os.symlink(path.relpath(pathname, path.dirname(symlink)), symlink)
+
+def sync_music(args):
+    sources = args.sources.split(',')
+    destinations = args.destinations.split(',')
+
+    if len(sources) != len(destinations):
+        error('Must specify equal number of sources and destinations')
+        return 1
+
+    if args.type == 'itunes':
+        return sync_itunes(sources, destinations)
+
+def add_sync_parser(subparsers, command, media_types):
+    sync_parser = subparsers.add_parser(command)
+
+    required_args = sync_parser.add_argument_group(title='required arguments')
+    required_args.add_argument(
+        '-t',
+        '--type',
+        metavar='type',
+        choices=media_types,
+        required=True,
+        help='Media source library type.')
+    required_args.add_argument(
+        '-s',
+        '--sources',
+        metavar='sources',
+        required=True,
+        help='Path(s) to the source media. Delimit multiple with a comma.')
+    required_args.add_argument(
+        '-d',
+        '--destinations',
+        metavar='destinations',
+        required=True,
+        help='Path(s) to the media sync destinations. Delimit multiple with a comma.')
+
+def main():
+    parser = argparse.ArgumentParser(description='Media mangement utility')
+
+    # Must set 'dest' here to access command later.
+    subparsers = parser.add_subparsers(
+        metavar='command',
+        dest='command',
+        help='Valid commands (sync-music, sync-photos, photo-imports)')
+    subparsers.required = True
+
+    add_sync_parser(subparsers, 'sync-music', music_types)
+    add_sync_parser(subparsers, 'sync-photos', music_types)
+
+    args = parser.parse_args()
+
+    if args.command == 'sync-music':
+        sys.exit(sync_music(args))
+    elif args.command == 'sync-photos':
+        sync_photos(args)
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except Exception:
+        logging.exception('mediaserver caught exception:')
+        sys.exit(1)

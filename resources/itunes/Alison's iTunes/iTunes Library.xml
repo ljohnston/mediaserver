@@ -1,0 +1,2578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Application Version</key><string>12.9.4.94</string>
+	<key>Date</key><date>2019-04-07T00:21:49Z</date>
+	<key>Features</key><integer>5</integer>
+	<key>Show Content Ratings</key><true/>
+	<key>Library Persistent ID</key><string>44BC6F3DE9B59476</string>
+	<key>Tracks</key>
+	<dict>
+		<key>4809</key>
+		<dict>
+			<key>Track ID</key><integer>4809</integer>
+			<key>Size</key><integer>10414554</integer>
+			<key>Total Time</key><integer>301641</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>8EB931D4CDE32173</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Sleep Like a Baby Tonight</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Sleep Like a Baby Tonight</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4814</key>
+		<dict>
+			<key>Track ID</key><integer>4814</integer>
+			<key>Size</key><integer>5026204</integer>
+			<key>Total Time</key><integer>139294</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>14</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1994</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1994-11-15T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>1F0328F2ECCB6A42</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>I Don't Think You Know Me (Alternate Version)</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Carole King &#38; Gerry Goffin</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>I Don't Think You Know Me (Alternate Version)</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4817</key>
+		<dict>
+			<key>Track ID</key><integer>4817</integer>
+			<key>Size</key><integer>6904386</integer>
+			<key>Total Time</key><integer>194116</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>DB004681B1EEBEE9</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Volcano</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Volcano</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4820</key>
+		<dict>
+			<key>Track ID</key><integer>4820</integer>
+			<key>Size</key><integer>2241731</integer>
+			<key>Total Time</key><integer>52000</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>15</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>44BABCC1C5A09AB1</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>(Theme From) The Monkees (Early Version)</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>(Theme From) The Monkees (Early Version)</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4823</key>
+		<dict>
+			<key>Track ID</key><integer>4823</integer>
+			<key>Size</key><integer>9336108</integer>
+			<key>Total Time</key><integer>265268</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>8</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>2234674131F49B98</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Cedarwood Road</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Cedarwood Road</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4826</key>
+		<dict>
+			<key>Track ID</key><integer>4826</integer>
+			<key>Size</key><integer>8636426</integer>
+			<key>Total Time</key><integer>245599</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>7</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>55E81F631FE0479A</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Raised By Wolves</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Raised By Wolves</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4829</key>
+		<dict>
+			<key>Track ID</key><integer>4829</integer>
+			<key>Size</key><integer>9928436</integer>
+			<key>Total Time</key><integer>285843</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>11</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>69099A226DE4D9C8</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>The Troubles</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Troubles</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4832</key>
+		<dict>
+			<key>Track ID</key><integer>4832</integer>
+			<key>Size</key><integer>10715123</integer>
+			<key>Total Time</key><integer>305134</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>D08CC0219C32E80E</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>This Is Where You Can Reach Me Now</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>This Is Where You Can Reach Me Now</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4838</key>
+		<dict>
+			<key>Track ID</key><integer>4838</integer>
+			<key>Size</key><integer>8465279</integer>
+			<key>Total Time</key><integer>239846</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>E8832C7DE6FFF20F</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>California (There Is No End to Love)</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>California (There Is No End to Love)</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4841</key>
+		<dict>
+			<key>Track ID</key><integer>4841</integer>
+			<key>Size</key><integer>8842208</integer>
+			<key>Total Time</key><integer>252162</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>07442AD6E0861BBE</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Every Breaking Wave</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Every Breaking Wave</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4844</key>
+		<dict>
+			<key>Track ID</key><integer>4844</integer>
+			<key>Size</key><integer>8024225</integer>
+			<key>Total Time</key><integer>226763</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>779A41FBEC216D84</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Song for Someone</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Song for Someone</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4847</key>
+		<dict>
+			<key>Track ID</key><integer>4847</integer>
+			<key>Size</key><integer>9300291</integer>
+			<key>Total Time</key><integer>255382</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>6DB3A5052C68EC4F</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>The Miracle (Of Joey Ramone)</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Miracle (Of Joey Ramone)</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4850</key>
+		<dict>
+			<key>Track ID</key><integer>4850</integer>
+			<key>Size</key><integer>8259665</integer>
+			<key>Total Time</key><integer>230427</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>4537A5AD391183AB</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>I Still Want You</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Composer</key><string>Lloyd</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>I Still Want You</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4853</key>
+		<dict>
+			<key>Track ID</key><integer>4853</integer>
+			<key>Size</key><integer>11149865</integer>
+			<key>Total Time</key><integer>319457</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2014-09-07T13:42:00Z</date>
+			<key>Date Added</key><date>2014-09-07T13:42:00Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-09-09T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>E9ABA9BBC0F66BF3</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Iris (Hold Me Close)</string>
+			<key>Artist</key><string>U2</string>
+			<key>Album Artist</key><string>U2</string>
+			<key>Album</key><string>Songs of Innocence</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Iris (Hold Me Close)</string>
+			<key>Sort Album</key><string>Songs of Innocence</string>
+			<key>Sort Artist</key><string>U2</string>
+		</dict>
+		<key>4856</key>
+		<dict>
+			<key>Track ID</key><integer>4856</integer>
+			<key>Size</key><integer>5621610</integer>
+			<key>Total Time</key><integer>138120</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-08-16T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>7B075C0D35AEBC4E</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>The Monkees (Theme Song from the Show)</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Monkees (Theme Song from the Show)</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4859</key>
+		<dict>
+			<key>Track ID</key><integer>4859</integer>
+			<key>Size</key><integer>8851657</integer>
+			<key>Total Time</key><integer>234893</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>EDE458B7DC4DDEC4</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>It's Alright</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>It's Alright</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4862</key>
+		<dict>
+			<key>Track ID</key><integer>4862</integer>
+			<key>Size</key><integer>6027206</integer>
+			<key>Total Time</key><integer>163465</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>F44D000F623684EA</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Saturday's Child</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>David Gates &#38; Gerry Goffin</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Saturday's Child</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4865</key>
+		<dict>
+			<key>Track ID</key><integer>4865</integer>
+			<key>Size</key><integer>6383973</integer>
+			<key>Total Time</key><integer>159120</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>0ECC6E0E32A86805</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Tomorrow's Gonna Be Another Day</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Tommy Boyce &#38; Steve Venet</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Tomorrow's Gonna Be Another Day</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4868</key>
+		<dict>
+			<key>Track ID</key><integer>4868</integer>
+			<key>Size</key><integer>5437023</integer>
+			<key>Total Time</key><integer>144613</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-10T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>0DE65B7866C69B8F</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>I Wanna Be Free</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Bobby Hart &#38; Tommy Boyce</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>I Wanna Be Free</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4871</key>
+		<dict>
+			<key>Track ID</key><integer>4871</integer>
+			<key>Size</key><integer>7545660</integer>
+			<key>Total Time</key><integer>208667</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>F19B9728FA42C412</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Don't Run Wild</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Composer</key><string>Lloyd &#38; Ralston</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Don't Run Wild</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4874</key>
+		<dict>
+			<key>Track ID</key><integer>4874</integer>
+			<key>Size</key><integer>6946422</integer>
+			<key>Total Time</key><integer>194760</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>F33B6E8D03FF5B66</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Sound of Our Town</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Sound of Our Town</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4877</key>
+		<dict>
+			<key>Track ID</key><integer>4877</integer>
+			<key>Size</key><integer>9512764</integer>
+			<key>Total Time</key><integer>251800</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>8</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>EF8A523760903F22</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Night On the Town</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Night On the Town</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4880</key>
+		<dict>
+			<key>Track ID</key><integer>4880</integer>
+			<key>Size</key><integer>4961714</integer>
+			<key>Total Time</key><integer>117896</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>DBB3766D39CADDED</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Papa Gene's Blues</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Michael Nesmith</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Papa Gene's Blues</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4883</key>
+		<dict>
+			<key>Track ID</key><integer>4883</integer>
+			<key>Size</key><integer>6370096</integer>
+			<key>Total Time</key><integer>166173</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>7</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-08-16T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>BED608F57C78EEAB</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Last Train to Clarksville</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Bobby Hart &#38; Tommy Boyce</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Last Train to Clarksville</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4886</key>
+		<dict>
+			<key>Track ID</key><integer>4886</integer>
+			<key>Size</key><integer>5744347</integer>
+			<key>Total Time</key><integer>153350</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>0A5506622C5CB023</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Take a Giant Step</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Carole King &#38; Gerry Goffin</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Take a Giant Step</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4889</key>
+		<dict>
+			<key>Track ID</key><integer>4889</integer>
+			<key>Size</key><integer>8500484</integer>
+			<key>Total Time</key><integer>227533</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>A53DF4C9D8E54BD9</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Coupe de Ville</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Coupe de Ville</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4892</key>
+		<dict>
+			<key>Track ID</key><integer>4892</integer>
+			<key>Size</key><integer>5264182</integer>
+			<key>Total Time</key><integer>129133</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>8</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>C2A985BF9D53F4CB</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>This Just Doesn't Seem to Be My Day</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Bobby Hart &#38; Tommy Boyce</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>This Just Doesn't Seem to Be My Day</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4895</key>
+		<dict>
+			<key>Track ID</key><integer>4895</integer>
+			<key>Size</key><integer>8064702</integer>
+			<key>Total Time</key><integer>229560</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>40FF9FEA1A0CC074</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Fade to Blue</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Fade to Blue</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4898</key>
+		<dict>
+			<key>Track ID</key><integer>4898</integer>
+			<key>Size</key><integer>6954595</integer>
+			<key>Total Time</key><integer>169867</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>774D916A076D15D9</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>I'll Be True to You</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Gerry Goffin &#38; Russ Titelman</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>I'll Be True to You</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4901</key>
+		<dict>
+			<key>Track ID</key><integer>4901</integer>
+			<key>Size</key><integer>5915613</integer>
+			<key>Total Time</key><integer>150924</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>119AB2618132B4F9</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Let's Dance On</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Bobby Hart &#38; Tommy Boyce</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Let's Dance On</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4904</key>
+		<dict>
+			<key>Track ID</key><integer>4904</integer>
+			<key>Size</key><integer>6682776</integer>
+			<key>Total Time</key><integer>181960</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>CF7CB788268159D1</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Hand In Hand</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Composer</key><string>Lloyd</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Hand In Hand</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4907</key>
+		<dict>
+			<key>Track ID</key><integer>4907</integer>
+			<key>Size</key><integer>4819088</integer>
+			<key>Total Time</key><integer>116878</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>11</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>A6714FDDD22D0446</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Sweet Young Thing</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Michael Nesmith, Carole King &#38; Gerry Goffin</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Sweet Young Thing</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4910</key>
+		<dict>
+			<key>Track ID</key><integer>4910</integer>
+			<key>Size</key><integer>6810010</integer>
+			<key>Total Time</key><integer>170347</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>13</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-10T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>63B34C1F6661DEA1</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>I Can't Get Her Off My Mind (Early Version)</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Bobby Hart &#38; Tommy Boyce</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>I Can't Get Her Off My Mind (Early Version)</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>4913</key>
+		<dict>
+			<key>Track ID</key><integer>4913</integer>
+			<key>Size</key><integer>9599419</integer>
+			<key>Total Time</key><integer>269800</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>7</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>F15657E6B0D3ECE5</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Hold Us Down</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Composer</key><string>Dan Zanes</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Hold Us Down</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4916</key>
+		<dict>
+			<key>Track ID</key><integer>4916</integer>
+			<key>Size</key><integer>7264884</integer>
+			<key>Total Time</key><integer>200840</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2012-03-24T04:37:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1985-01-01T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>96F3AF17F0317B04</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Shame</string>
+			<key>Artist</key><string>The Del Fuegos</string>
+			<key>Album Artist</key><string>The Del Fuegos</string>
+			<key>Composer</key><string>Dan Zanes</string>
+			<key>Album</key><string>Boston, Mass.</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Shame</string>
+			<key>Sort Album</key><string>Boston, Mass.</string>
+			<key>Sort Artist</key><string>Del Fuegos</string>
+			<key>Sort Album Artist</key><string>Del Fuegos</string>
+		</dict>
+		<key>4919</key>
+		<dict>
+			<key>Track ID</key><integer>4919</integer>
+			<key>Size</key><integer>6290782</integer>
+			<key>Total Time</key><integer>161335</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>12</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>1966</integer>
+			<key>Date Modified</key><date>2019-02-13T05:12:52Z</date>
+			<key>Date Added</key><date>2011-03-26T04:44:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1966-10-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>70A10731143993F6</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+			<key>Name</key><string>Gonna Buy Me a Dog</string>
+			<key>Artist</key><string>The Monkees</string>
+			<key>Album Artist</key><string>The Monkees</string>
+			<key>Composer</key><string>Bobby Hart &#38; Tommy Boyce</string>
+			<key>Album</key><string>The Monkees</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Sort Name</key><string>Gonna Buy Me a Dog</string>
+			<key>Sort Album</key><string>Monkees</string>
+			<key>Sort Artist</key><string>Monkees</string>
+			<key>Sort Album Artist</key><string>Monkees</string>
+		</dict>
+		<key>5069</key>
+		<dict>
+			<key>Track ID</key><integer>5069</integer>
+			<key>Size</key><integer>30561066</integer>
+			<key>Total Time</key><integer>266733</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:24:48Z</date>
+			<key>Date Added</key><date>2019-04-06T23:24:23Z</date>
+			<key>Bit Rate</key><integer>915</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>D6993CF840762359</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>The Man Comes Around</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Name</key><string>Man Comes Around</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/01%20The%20Man%20Comes%20Around.m4a</string>
+		</dict>
+		<key>5081</key>
+		<dict>
+			<key>Track ID</key><integer>5081</integer>
+			<key>Size</key><integer>22486713</integer>
+			<key>Total Time</key><integer>218533</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:25:09Z</date>
+			<key>Date Added</key><date>2019-04-06T23:24:50Z</date>
+			<key>Bit Rate</key><integer>822</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>6A59737F54FEAA11</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Hurt</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/02%20Hurt.m4a</string>
+		</dict>
+		<key>5091</key>
+		<dict>
+			<key>Track ID</key><integer>5091</integer>
+			<key>Size</key><integer>18722900</integer>
+			<key>Total Time</key><integer>208773</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:25:27Z</date>
+			<key>Date Added</key><date>2019-04-06T23:25:11Z</date>
+			<key>Bit Rate</key><integer>716</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>3C0A35FDB4FF6624</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Give My Love To Rose</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/03%20Give%20My%20Love%20To%20Rose.m4a</string>
+		</dict>
+		<key>5101</key>
+		<dict>
+			<key>Track ID</key><integer>5101</integer>
+			<key>Size</key><integer>24890061</integer>
+			<key>Total Time</key><integer>235026</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:25:46Z</date>
+			<key>Date Added</key><date>2019-04-06T23:25:29Z</date>
+			<key>Bit Rate</key><integer>846</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>6D14A1C64B8EDD39</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Bridge Over Troubled Water</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/04%20Bridge%20Over%20Troubled%20Water.m4a</string>
+		</dict>
+		<key>5111</key>
+		<dict>
+			<key>Track ID</key><integer>5111</integer>
+			<key>Size</key><integer>24614486</integer>
+			<key>Total Time</key><integer>233800</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:26:04Z</date>
+			<key>Date Added</key><date>2019-04-06T23:25:48Z</date>
+			<key>Bit Rate</key><integer>841</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>9AE88CAC0CF43665</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>I Hung My Head</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/05%20I%20Hung%20My%20Head.m4a</string>
+		</dict>
+		<key>5121</key>
+		<dict>
+			<key>Track ID</key><integer>5121</integer>
+			<key>Size</key><integer>20095139</integer>
+			<key>Total Time</key><integer>232400</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:26:31Z</date>
+			<key>Date Added</key><date>2019-04-06T23:26:16Z</date>
+			<key>Bit Rate</key><integer>690</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>486F2F91E29941A4</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>First Time Ever I Saw Your Face</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/06%20First%20Time%20Ever%20I%20Saw%20Your%20Face.m4a</string>
+		</dict>
+		<key>5131</key>
+		<dict>
+			<key>Track ID</key><integer>5131</integer>
+			<key>Size</key><integer>21412545</integer>
+			<key>Total Time</key><integer>200266</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>7</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:26:45Z</date>
+			<key>Date Added</key><date>2019-04-06T23:26:33Z</date>
+			<key>Bit Rate</key><integer>854</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>82F0D6A6E415CF7A</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Personal Jesus</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/07%20Personal%20Jesus.m4a</string>
+		</dict>
+		<key>5141</key>
+		<dict>
+			<key>Track ID</key><integer>5141</integer>
+			<key>Size</key><integer>15720743</integer>
+			<key>Total Time</key><integer>177933</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>8</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:27:08Z</date>
+			<key>Date Added</key><date>2019-04-06T23:26:58Z</date>
+			<key>Bit Rate</key><integer>705</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>3D429C60296BE2AF</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>In My Life</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/08%20In%20My%20Life.m4a</string>
+		</dict>
+		<key>5151</key>
+		<dict>
+			<key>Track ID</key><integer>5151</integer>
+			<key>Size</key><integer>17888796</integer>
+			<key>Total Time</key><integer>160133</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:27:19Z</date>
+			<key>Date Added</key><date>2019-04-06T23:27:10Z</date>
+			<key>Bit Rate</key><integer>892</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>1FF02EE6AC11122B</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Sam Hall</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/09%20Sam%20Hall.m4a</string>
+		</dict>
+		<key>5161</key>
+		<dict>
+			<key>Track ID</key><integer>5161</integer>
+			<key>Size</key><integer>16611452</integer>
+			<key>Total Time</key><integer>199800</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:27:32Z</date>
+			<key>Date Added</key><date>2019-04-06T23:27:21Z</date>
+			<key>Bit Rate</key><integer>664</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>8E2CB49FDCE2789B</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Danny Boy</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/10%20Danny%20Boy.m4a</string>
+		</dict>
+		<key>5171</key>
+		<dict>
+			<key>Track ID</key><integer>5171</integer>
+			<key>Size</key><integer>18754644</integer>
+			<key>Total Time</key><integer>193466</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>11</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:27:55Z</date>
+			<key>Date Added</key><date>2019-04-06T23:27:44Z</date>
+			<key>Bit Rate</key><integer>774</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>B61D1314F38026DF</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Desperado</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/11%20Desperado.m4a</string>
+		</dict>
+		<key>5181</key>
+		<dict>
+			<key>Track ID</key><integer>5181</integer>
+			<key>Size</key><integer>16147692</integer>
+			<key>Total Time</key><integer>183373</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>12</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:28:17Z</date>
+			<key>Date Added</key><date>2019-04-06T23:28:08Z</date>
+			<key>Bit Rate</key><integer>703</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>2EBAEEC80BC370DE</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>I'm So Lonesome I Could Cry</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/12%20I'm%20So%20Lonesome%20I%20Could%20Cry.m4a</string>
+		</dict>
+		<key>5191</key>
+		<dict>
+			<key>Track ID</key><integer>5191</integer>
+			<key>Size</key><integer>25222514</integer>
+			<key>Total Time</key><integer>221426</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>13</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:28:41Z</date>
+			<key>Date Added</key><date>2019-04-06T23:28:30Z</date>
+			<key>Bit Rate</key><integer>910</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>8CFDE08C634E0485</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Tear Stained Letter</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/13%20Tear%20Stained%20Letter.m4a</string>
+		</dict>
+		<key>5201</key>
+		<dict>
+			<key>Track ID</key><integer>5201</integer>
+			<key>Size</key><integer>20759519</integer>
+			<key>Total Time</key><integer>213240</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>14</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:29:05Z</date>
+			<key>Date Added</key><date>2019-04-06T23:28:54Z</date>
+			<key>Bit Rate</key><integer>778</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>924EEAC542921B62</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Streets Of Laredo</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/14%20Streets%20Of%20Laredo.m4a</string>
+		</dict>
+		<key>5211</key>
+		<dict>
+			<key>Track ID</key><integer>5211</integer>
+			<key>Size</key><integer>16206121</integer>
+			<key>Total Time</key><integer>178626</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>15</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2002</integer>
+			<key>Date Modified</key><date>2019-04-06T23:29:15Z</date>
+			<key>Date Added</key><date>2019-04-06T23:29:07Z</date>
+			<key>Bit Rate</key><integer>724</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>A9F2477EC2FFF5FD</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>We'll Meet Again</string>
+			<key>Artist</key><string>Johnny Cash</string>
+			<key>Composer</key><string>Arr. by John R. Cash</string>
+			<key>Album</key><string>American IV: The Man Comes Around</string>
+			<key>Genre</key><string>Country &#38; Folk</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/Johnny%20Cash/American%20IV_%20The%20Man%20Comes%20Around/15%20We'll%20Meet%20Again.m4a</string>
+		</dict>
+		<key>5313</key>
+		<dict>
+			<key>Track ID</key><integer>5313</integer>
+			<key>Size</key><integer>15935773</integer>
+			<key>Total Time</key><integer>150266</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:14:22Z</date>
+			<key>Date Added</key><date>2019-04-07T00:13:48Z</date>
+			<key>Bit Rate</key><integer>847</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>63AFD76BD71818E3</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Drive My Car</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>The Beatles</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Sort Composer</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/01%20Drive%20My%20Car.m4a</string>
+		</dict>
+		<key>5325</key>
+		<dict>
+			<key>Track ID</key><integer>5325</integer>
+			<key>Size</key><integer>12859382</integer>
+			<key>Total Time</key><integer>125426</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:14:52Z</date>
+			<key>Date Added</key><date>2019-04-07T00:14:25Z</date>
+			<key>Bit Rate</key><integer>819</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>7112A086B73622BE</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Norwegian Wood (This Bird Has Flown)</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>Paul McCartney/John Lennon</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/02%20Norwegian%20Wood%20(This%20Bird%20Has%20Flown).m4a</string>
+		</dict>
+		<key>5335</key>
+		<dict>
+			<key>Track ID</key><integer>5335</integer>
+			<key>Size</key><integer>22651083</integer>
+			<key>Total Time</key><integer>202600</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:15:36Z</date>
+			<key>Date Added</key><date>2019-04-07T00:14:54Z</date>
+			<key>Bit Rate</key><integer>893</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>59FD1168B522F923</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>You Won't See Me</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>Paul McCartney/John Lennon</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/03%20You%20Won't%20See%20Me.m4a</string>
+		</dict>
+		<key>5345</key>
+		<dict>
+			<key>Track ID</key><integer>5345</integer>
+			<key>Size</key><integer>17965053</integer>
+			<key>Total Time</key><integer>164306</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:16:16Z</date>
+			<key>Date Added</key><date>2019-04-07T00:15:45Z</date>
+			<key>Bit Rate</key><integer>873</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>44CCC70732CAE34F</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Nowhere Man</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>John Lennon/Paul McCartney</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/04%20Nowhere%20Man.m4a</string>
+		</dict>
+		<key>5355</key>
+		<dict>
+			<key>Track ID</key><integer>5355</integer>
+			<key>Size</key><integer>15405603</integer>
+			<key>Total Time</key><integer>139333</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:16:54Z</date>
+			<key>Date Added</key><date>2019-04-07T00:16:29Z</date>
+			<key>Bit Rate</key><integer>883</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>64E3436B1996F9C2</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Think For Yourself</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>George Harrison</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/05%20Think%20For%20Yourself.m4a</string>
+		</dict>
+		<key>5365</key>
+		<dict>
+			<key>Track ID</key><integer>5365</integer>
+			<key>Size</key><integer>19129493</integer>
+			<key>Total Time</key><integer>163693</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:17:35Z</date>
+			<key>Date Added</key><date>2019-04-07T00:17:07Z</date>
+			<key>Bit Rate</key><integer>933</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>16812EB75EF19F73</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>The Word</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>John Lennon</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Name</key><string>Word</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/06%20The%20Word.m4a</string>
+		</dict>
+		<key>5375</key>
+		<dict>
+			<key>Track ID</key><integer>5375</integer>
+			<key>Size</key><integer>14165231</integer>
+			<key>Total Time</key><integer>162373</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>7</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:18:14Z</date>
+			<key>Date Added</key><date>2019-04-07T00:17:47Z</date>
+			<key>Bit Rate</key><integer>696</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>C96C40BF4D10FF1D</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Michelle</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>Paul McCartney/John Lennon</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/07%20Michelle.m4a</string>
+		</dict>
+		<key>5385</key>
+		<dict>
+			<key>Track ID</key><integer>5385</integer>
+			<key>Size</key><integer>16937819</integer>
+			<key>Total Time</key><integer>170800</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>8</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:18:53Z</date>
+			<key>Date Added</key><date>2019-04-07T00:18:26Z</date>
+			<key>Bit Rate</key><integer>792</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>3CEE862DC30D7420</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>What Goes On</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>Paul McCartney/Richard Starkey/John Lennon</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/08%20What%20Goes%20On.m4a</string>
+		</dict>
+		<key>5395</key>
+		<dict>
+			<key>Track ID</key><integer>5395</integer>
+			<key>Size</key><integer>15102328</integer>
+			<key>Total Time</key><integer>153866</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:19:29Z</date>
+			<key>Date Added</key><date>2019-04-07T00:19:06Z</date>
+			<key>Bit Rate</key><integer>784</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>AEA1F09B11477281</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Girl</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>Paul McCartney/John Lennon</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/09%20Girl.m4a</string>
+		</dict>
+		<key>5405</key>
+		<dict>
+			<key>Track ID</key><integer>5405</integer>
+			<key>Size</key><integer>15011801</integer>
+			<key>Total Time</key><integer>147826</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:20:03Z</date>
+			<key>Date Added</key><date>2019-04-07T00:19:41Z</date>
+			<key>Bit Rate</key><integer>811</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>FD8655ADAB0174E0</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>I'm Looking Through You</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>John Lennon/Paul McCartney</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/10%20I'm%20Looking%20Through%20You.m4a</string>
+		</dict>
+		<key>5416</key>
+		<dict>
+			<key>Track ID</key><integer>5416</integer>
+			<key>Size</key><integer>14224182</integer>
+			<key>Total Time</key><integer>147973</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>11</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:20:25Z</date>
+			<key>Date Added</key><date>2019-04-07T00:20:05Z</date>
+			<key>Bit Rate</key><integer>767</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>E43FB00590DC9D65</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>In My Life</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>Paul McCartney</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/11%20In%20My%20Life.m4a</string>
+		</dict>
+		<key>5426</key>
+		<dict>
+			<key>Track ID</key><integer>5426</integer>
+			<key>Size</key><integer>14813088</integer>
+			<key>Total Time</key><integer>136960</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>12</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:20:46Z</date>
+			<key>Date Added</key><date>2019-04-07T00:20:27Z</date>
+			<key>Bit Rate</key><integer>864</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>76B18DAF9ABDCCF0</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Wait</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>John Lennon/Paul McCartney</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/12%20Wait.m4a</string>
+		</dict>
+		<key>5436</key>
+		<dict>
+			<key>Track ID</key><integer>5436</integer>
+			<key>Size</key><integer>15177595</integer>
+			<key>Total Time</key><integer>143840</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>13</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:21:07Z</date>
+			<key>Date Added</key><date>2019-04-07T00:20:48Z</date>
+			<key>Bit Rate</key><integer>843</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>60A2E98736E32227</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>If I Needed Someone</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>The Beatles</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Sort Composer</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/13%20If%20I%20Needed%20Someone.m4a</string>
+		</dict>
+		<key>5446</key>
+		<dict>
+			<key>Track ID</key><integer>5446</integer>
+			<key>Size</key><integer>15293527</integer>
+			<key>Total Time</key><integer>138800</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>14</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1965</integer>
+			<key>Date Modified</key><date>2019-04-07T00:21:28Z</date>
+			<key>Date Added</key><date>2019-04-07T00:21:09Z</date>
+			<key>Bit Rate</key><integer>880</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Persistent ID</key><string>3679CC8C208BD877</string>
+			<key>Track Type</key><string>File</string>
+			<key>File Folder Count</key><integer>5</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+			<key>Name</key><string>Run For Your Life</string>
+			<key>Artist</key><string>The Beatles</string>
+			<key>Composer</key><string>John Lennon/Paul McCartney</string>
+			<key>Album</key><string>Rubber Soul</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Lossless audio file</string>
+			<key>Sort Artist</key><string>Beatles</string>
+			<key>Location</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/Music/The%20Beatles/Rubber%20Soul/14%20Run%20For%20Your%20Life.m4a</string>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Master</key><true/>
+			<key>Playlist ID</key><integer>70</integer>
+			<key>Playlist Persistent ID</key><string>19D3B52BEE35CD51</string>
+			<key>All Items</key><true/>
+			<key>Visible</key><false/>
+			<key>Name</key><string>Library</string>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>4809</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4814</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4817</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4820</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4823</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4826</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4829</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4832</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4838</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4841</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4844</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4847</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4850</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4853</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4856</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4859</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4862</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4865</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4868</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4871</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4874</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4877</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4880</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4883</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4886</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4889</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4892</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4895</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4898</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4901</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4904</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4907</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4910</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4913</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4916</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4919</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5069</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5081</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5091</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5101</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5111</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5121</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5131</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5141</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5151</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5161</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5171</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5181</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5191</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5201</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5211</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5313</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5325</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5335</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5345</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5355</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5365</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5375</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5385</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5395</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5405</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5416</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5426</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5436</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5446</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>107</integer>
+			<key>Playlist Persistent ID</key><string>3F33A3E38F66C518</string>
+			<key>Distinguished Kind</key><integer>65</integer>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Downloaded</string>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAQAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAQIbEAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAQIbEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AgAEAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAIIAE
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAIIAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAhQAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAEQAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAEAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+			</data>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>5069</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5081</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5091</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5101</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5111</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5121</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5131</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5141</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5151</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5161</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5171</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5181</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5191</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5201</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5211</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5313</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5325</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5335</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5345</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5355</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5365</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5375</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5385</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5395</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5405</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5416</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5426</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5436</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5446</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>80</integer>
+			<key>Playlist Persistent ID</key><string>D3B63C942B14D970</string>
+			<key>Distinguished Kind</key><integer>4</integer>
+			<key>Music</key><true/>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Music</string>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAQAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAQIbEAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAQIbEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AgAEAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAIIAE
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAIIAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAAAAAAA
+			</data>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>4871</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4904</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4850</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4874</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4895</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4859</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4913</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4877</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4916</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4889</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4856</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4862</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4868</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4865</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4880</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4886</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4883</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4892</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4901</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4898</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4907</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4919</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4910</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4814</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4820</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4847</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4841</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4838</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4844</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4853</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4817</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4826</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4823</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4809</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4832</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4829</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5069</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5081</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5091</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5101</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5111</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5121</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5131</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5141</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5151</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5161</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5171</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5181</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5191</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5201</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5211</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5313</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5325</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5335</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5345</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5355</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5365</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5375</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5385</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5395</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5405</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5416</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5426</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5436</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5446</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>110</integer>
+			<key>Playlist Persistent ID</key><string>D36A42CFBBBF0E01</string>
+			<key>Distinguished Kind</key><integer>66</integer>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Downloaded</string>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAQAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AgAEAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAIKAE
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAIKAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAhQAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAEQAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAEAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+			</data>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>83</integer>
+			<key>Playlist Persistent ID</key><string>55897A0ED09B5F91</string>
+			<key>Distinguished Kind</key><integer>2</integer>
+			<key>Movies</key><true/>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Movies</string>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAQAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AgAEAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAIKAE
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAIKAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAAAAAAA
+			</data>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>113</integer>
+			<key>Playlist Persistent ID</key><string>A0C41C045C44A5D4</string>
+			<key>Distinguished Kind</key><integer>67</integer>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Downloaded</string>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAQAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AgAEAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAIKAE
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAIKAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAhQAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAEQAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAEAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+			</data>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>86</integer>
+			<key>Playlist Persistent ID</key><string>EEBFBE519C5C864B</string>
+			<key>Distinguished Kind</key><integer>3</integer>
+			<key>TV Shows</key><true/>
+			<key>All Items</key><true/>
+			<key>Name</key><string>TV Shows</string>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAQAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AgAEAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAIKAE
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAIKAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAAAAAAA
+			</data>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>77</integer>
+			<key>Playlist Persistent ID</key><string>DBFA44B1DBD8F5AB</string>
+			<key>Distinguished Kind</key><integer>10</integer>
+			<key>Podcasts</key><true/>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Podcasts</string>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>89</integer>
+			<key>Playlist Persistent ID</key><string>B90C7818D73CB669</string>
+			<key>Distinguished Kind</key><integer>5</integer>
+			<key>Audiobooks</key><true/>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Audiobooks</string>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAQAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AgAEAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAIKAE
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAIKAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+			AAAAAAAA
+			</data>
+		</dict>
+		<dict>
+			<key>Playlist ID</key><integer>95</integer>
+			<key>Playlist Persistent ID</key><string>8A96DEB43452D7FC</string>
+			<key>Distinguished Kind</key><integer>26</integer>
+			<key>All Items</key><true/>
+			<key>Name</key><string>Genius</string>
+			<key>Smart Info</key>
+			<data>
+			AAABAwAAAAIAAAAZAAABAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+			</data>
+		</dict>
+	</array>
+	<key>Music Folder</key><string>file:///Volumes/storage-dev/media/source_music/Alison's%20iTunes/iTunes%20Media/</string>
+</dict>
+</plist>

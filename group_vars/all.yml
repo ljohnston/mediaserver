@@ -4,6 +4,16 @@ media_share: 'storage'
 media_directory: 'media'
 media_group: 'mediausers'
 
+media_static_folders:
+  - 'source_music'
+  - 'source_photos'
+  - 'mobile_photos_alison'
+  - 'mobile_photos_lance'
+  - 'music'
+  - 'movies'
+  - 'photos'
+  - 'tv'
+
 filesystems__devices: '{{ snapraid__parity_devices + snapraid__data_devices }}'
 
 mergerfs__mount_point: '/storage'
