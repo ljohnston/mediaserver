@@ -5,6 +5,8 @@ media_directory: 'media'
 media_group: 'mediausers'
 
 media_static_folders:
+  - 'historian_export'
+  - 'historian_import'
   - 'source_music'
   - 'source_photos'
   - 'mobile_photos_alison'
@@ -44,4 +46,12 @@ samba__shares: "{
     'writable'       : 'yes',
   }
 }"
+
+#
+# timezone / ntp
+#
+
+ntp_enabled: 'true'
+ntp_timezone: 'America/Denver'
+ntp_manage_config: 'true'
 
