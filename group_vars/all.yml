@@ -1,5 +1,7 @@
 ---
 
+plex_version: '1.15.5.994-4610c6e8d'
+
 media_share: 'storage'
 media_directory: 'media'
 media_group: 'mediausers'
@@ -9,6 +11,7 @@ media_static_folders:
   - 'historian_import'
   - 'source_music'
   - 'source_photos'
+  - 'mobile_photos'
   - 'mobile_photos_alison'
   - 'mobile_photos_lance'
   - 'music'
