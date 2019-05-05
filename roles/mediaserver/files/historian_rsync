@@ -1,0 +1,137 @@
+#!/bin/bash
+
+die() {
+    msg "$1"
+    exit 1
+}
+
+msg() {
+    echo "$1"
+}
+
+usage() {
+    msg "Usage: historian_rsync \\"
+    msg "           -s|--source <src> \\"
+    msg "           -d|--destination <dst> \\"
+    msg "           [-q|--quietperiod <mins>] \\"
+    msg "           [-w|--waitlimit <mins>] \\"
+    msg "           [-r|--reductionlimit <percent>]"
+    msg ""
+    msg "args:"
+    msg "  -s|--source         Historian src dir"
+    msg "  -d|--destination    Historian dst dir"
+    msg "  -q|--quietperiod    Minutes to wait since last update to src dir (default: 5)"
+    msg "  -w|--waitlimite     Minutes to wait to satisfy the quiet period (default: 60)"
+    msg "  -r|--reductionlimit Src to dst file count reduction limit %'age (default: 95)"
+}
+
+export_files() {
+    local source=$1
+
+    # Ignore the current directory (i.e. '.') and hidden files.
+    (( $(find $source -maxdepth 1 -not -path $source -a -not -path . -a \( ! -regex '.*/\..*' \) |wc -l) > 0 ))
+}
+
+wait() {
+    local source=$1
+    local quietperiod=$2
+    local waitlimit=$3 
+
+    local starttime=$(date +%s)
+
+    while (( $(find $source -mmin -$quietperiod |wc -l) > 0 )); do
+        echo "Quiet period ($quietperiod minutes) not satisfied - waiting..."
+        sleep $((quietperiod * 60))
+
+        currenttime=$(date +%s)
+        if (( $currenttime - $starttime >= (waitlimit * 60) )); then
+            die "Quiet period not satisfied within the wait limit ($waitlimit minutes)"
+        fi
+    done
+}
+
+sync() {
+    local source=$1
+    local destination=$2
+    local reductionlimit=$3 
+
+    source_file_count=$(find $source -type f |wc -l)
+    destination_file_count=$(find $destination -type f |wc -l)
+
+    if [ $source_file_count -lt $(( $destination_file_count * ${reductionlimit}/100 )) ]; then
+        die "Source files ($source_file_count) relative to desination files ($destination_file_count) below reduction limit (${reductionlimit}%)"
+    fi
+    
+    rsync --verbose --recursive --delete --checksum --remove-source-files $source/ $destination
+}
+
+remove_import() {
+    local source=$1
+
+    # Loop entirely to deal with removing hidden files in the 
+    # root of the export directory.
+    for f in $(ls -a $source); do 
+        [[ "$f" != "." && "$f" != ".." ]] && rm -rf $source/$f
+    done
+}
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    die "Unsupported OS: $OSTYPE"
+fi
+
+# Take source and destination dirs.
+# If source dir contains no files, exit 0.
+# If source dir contains any files written in the last X minutes, loop.
+# Count source files and destfiles if source files < some threshold (e.g. 95%) dest files, exit w/ error.
+# rsync
+
+source=
+destination=
+quietperiod=5
+waitlimit=60
+reductionlimit=95
+
+while test $# -gt 0
+do
+    case $1 in
+        -s|--source)
+            source=${2%/}
+            shift
+            ;;
+        -d|--destination)
+            destination=${2%/}
+            shift
+            ;;
+        -q|--quietperiod)
+            quietperiod=$2
+            shift
+            ;;
+        -w|--waitlimit)
+            quietperiod=$2
+            shift
+            ;;
+        -r|--reductionlimit)
+            reductionlimit=$2
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo >&2 "Invalid argument: $1"
+            ;;
+    esac
+    shift
+done
+
+if [[ -z $source || -z $destination ]]; then
+    usage
+    exit 1
+fi
+
+if export_files $source; then
+    wait $source $quietperiod $waitlimit
+    sync $source $destination $reductionlimit
+    remove_import $source
+fi

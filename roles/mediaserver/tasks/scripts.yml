@@ -1,9 +1,18 @@
 ---
 
-- name: 'create log directory for mediaserver script'
+- name: 'create log directory for mediaserver scripts'
   file:
     path: '/var/log/mediaserver'
-    group: 'mediausers'
+    group: '{{ media_group }}'
+    owner: 'root'
+    mode: '0775'
+    state: 'directory'
+
+- name: 'create data directory for mediaserver scripts'
+  file:
+    path: '/var/lib/mediaserver'
+    group: '{{ media_group }}'
+    owner: 'root'
     mode: '0775'
     state: 'directory'
 
@@ -12,7 +21,7 @@
     content: ''
     dest: '/var/log/mediaserver/mediaserver.log'
     force: 'no'
-    group: 'mediausers'
+    group: '{{ media_group }}'
     owner: 'root'
     mode: '0664'
 
@@ -20,20 +29,19 @@
   template:
     # Ansible should find this automatically if the file path is relative.
     # It wasn't though...
-    src: '{{ role_path }}/files/mediaserver'
+    src: '{{ role_path }}/files/{{ item }}'
     dest: '/usr/local/bin/'
     owner: 'root'
     group: 'root'
     mode: '0755'
+  with_flattened: [ 'mediaserver', 'historian_rsync' ]
 
 - name: 'itunes music-sync cron'
   cron:
     name: 'itunes music-sync'
-    # minute: '0'
-    minute: '*/5'
-    # hour: '8-23,0'
-    hour: '*'
+    minute: '0'
+    hour: '8-23,0'
     user: 'plexuser'
-    job: "/usr/local/bin/mediaserver sync-music -s /storage/media/source_music/Alison\\'s\\ iTunes,/storage/media/source_music/Lance\\'s\\ iTunes -d /storage/media/music,/storage/media/music -t itunes"
+    job: "/usr/local/bin/mediaserver sync-music -s /{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,/{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d /{{ mergerfs__mount_point }}/{{ media_directory }}/music,/{{ mergerfs__mount_point }}/{{ media_directory }}/music -t itunes"
 
 

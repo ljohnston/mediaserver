@@ -1,17 +1,34 @@
 #!/usr/bin/env python3
 
+#
+# Photo Naming Convention
+#
+#  <YYYY-MM-DD>/<filename>
+#
+
+#
+# TODO:
+#   - Add some info logging. I'd like to "syncing x to y", "finished syncing x
+#   to y in z seconds" kind of stuff in the log file.
+#   - Prune dead symlinks
+
 import argparse
 import glob
+import hashlib
+import json
 import logging
 import logging.handlers
 import os
 import sys
 
-from os import path
+from abc import ABC, abstractmethod
 
+# TODO: Real enums?
 music_types = ['itunes']
+photo_types = ['historian', 'mobilephotos']
 
-# Setup logging.
+data_dir = '/var/lib/mediaserver'
+
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
 console_handler.setLevel(logging.INFO)
@@ -24,20 +41,212 @@ logger = logging.getLogger('mediaserver')
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
-def debug(msg):
-    logger.warning(msg)
+def get_md5(file):
+    md5 = hashlib.md5()
+    with open(file, 'rb') as f:
+        while True:
+            data = f.read(32 * 1024)
+            if not data:
+                break
+            md5.update(data)
+    return md5.hexdigest()
 
-def info(msg):
-    logger.warning(msg)
+class PhotoSyncDB:
 
-def warning(msg):
-    logger.warning(msg)
+    # Class vars.
+    db_dir = '/var/lib/mediaserver/'
 
-def error(msg):
-    logger.error(msg)
+    def __init__(self, db):
+        self.db_path = os.path.join(self.db_dir, db)
+        if not os.path.exists(self.db_path):
+            os.makedirs(self.db_path)
+
+    def read_record(self, photo, destination_dir):
+        rec = self.__get_record_path(photo, destination_dir)
+
+        if not os.path.isfile(rec):
+            return None
+
+        # TODO: Error handling. Deserializing may fail due to corrupt or
+        # incomplete file. In that case we should delete it and return None.
+        with open(rec, 'r') as f:
+            data = json.load(f)
+
+        return self.__from_dict(data)
+
+    def write_record(self, photo, destination_dir):
+        rec = self.__get_record_path(photo, destination_dir)
+
+        rec_dir = os.path.dirname(rec)
+        if not os.path.exists(rec_dir):
+            os.makedirs(rec_dir)
+
+        with open(rec, 'w') as f:
+            json.dump(self.__to_dict(photo, destination_dir), f)
+
+    def delete_record(self, photo, destination_dir):
+        rec = self.__get_record_path(photo, destination_dir)
+
+        # TODO: Delete empty path elements up the tree.
+
+        if os.path.isfile(rec):
+            os.remote(rec)
+
+    #
+    # "Private" methods.
+    #
+
+    def __get_record_path(self, photo, destination_dir):
+        hash = self.__to_hash(photo, destination_dir)
+        return os.path.join(self.db_path, hash[-1], hash[-3:-1], hash[:-3])
+
+    def __to_hash(self, photo, destination_dir):
+        # Our primary keys is this photo (md5) in this media destination.
+        return hashlib.md5((photo.digest() + destination_dir).encode()).hexdigest()
+
+    def __to_json_str(self, photo, destination_dir):
+        return json.dumps(self.__to_dict(photo, destination_dir), sort_keys=True)
+
+    def __to_dict(self, photo, destination_dir):
+        data = {}
+        data['type'] = photo.type
+        data['source_file'] = photo.file
+        data['destination_dir'] = destination_dir
+        data['digest'] = photo.digest()
+        return data
+
+    def __from_dict(self, data):
+        return PhotoRecord(
+            data['type'],
+            data['source_file'],
+            data['destination_dir'],
+            data['digest'])
+
+class PhotoRecord:
+
+    def __init__(self, type, source_file, destination_dir, digest):
+        self.type = type
+        self.source_file = source_file
+        self.destination_dir = destination_dir
+        self.digest = digest
+
+class Photo(ABC):
+
+    def __init__(self, type, file):
+        self.type = type
+        self.file = file
+        self.__digest = None
+
+    def digest(self):
+        if self.__digest == None:
+            md5 = hashlib.md5()
+            with open(self.file, 'rb') as f:
+                while True:
+                    data = f.read(32 * 1024)
+                    if not data:
+                        break
+                    md5.update(data)
+            self.__digest = md5.hexdigest()
+        return self.__digest
+
+    @abstractmethod
+    def get_sync_path(self, path):
+        pass
+
+class MobilePhoto(Photo):
+    # Input filenames: YYYY-MM-DD <randomname>.<ext>
+
+    def __init__(self, file):
+        Photo.__init__(self, 'mobile', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        return os.path.join(*photo_relpath.split(' '))
+
+class HistorianPhoto(Photo):
+    # Input filenames: YYYY/MM-<Monthname>/<randomname>.<ext>
+
+    def __init__(self, file):
+        Photo.__init__(self, 'mobile', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        print(photo_relpath)
+        return os.path.join(*photo_relpath.split(' '))
+
+def sync_mobilephotos(sources, destinations):
+
+    #
+    # Input filenames: YYYY-MM-DD <randomname>.<ext>
+    #
+
+    for i in (range(len(sources))):
+        source = sources[i]
+        destination = destinations[i]
+
+        sync_db = PhotoSyncDB('synced_photos')
+
+        for pathname in glob.iglob(os.path.join(source, '**/*'), recursive=True):
+
+            if os.path.isfile(pathname):
+                photo = MobilePhoto(pathname)
+                photo_record = sync_db.read_record(photo, destination)
+
+                if photo_record == None:
+                    sync_db.write_record(photo, destination)
+
+                    # TODO: try/catch to delete record if something fails.
+                    # Need to do some logging and rethrow exception as we will
+                    # want to fail everything (I think).
+
+                    symlink = os.path.join(destination, photo.get_sync_path(source))
+                    symlink_directory = os.path.dirname(symlink)
+
+                    if not os.path.exists(symlink_directory):
+                        os.makedirs(symlink_directory)
+
+                    if not os.path.exists(symlink):
+                        os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
+
+def sync_historianphotos(sources, destinations):
+
+    #
+    # Input filenames: YYYY-MM-DD <randomname>.<ext>
+    #
+
+    for i in (range(len(sources))):
+        source = sources[i]
+        destination = destinations[i]
+
+        sync_db = PhotoSyncDB('synced_photos')
+
+        for pathname in glob.iglob(os.path.join(source, '**/*'), recursive=True):
+
+            if os.path.isfile(pathname):
+                photo = HistorianPhoto(pathname)
+                photo_record = sync_db.read_record(photo, destination)
+
+                if photo_record == None:
+                    # sync_db.write_record(photo, destination)
+
+                    symlink = os.path.join(destination, photo.get_sync_path(source))
+                    symlink_directory = os.path.dirname(symlink)
+                    # print(symlink)
+                    # print(symlink_directory)
 
 def sync_photos(args):
-    print('sync photos...')
+    sources = args.sources.split(',')
+    destinations = args.destinations.split(',')
+
+    if len(sources) != len(destinations):
+        logger.error('Must specify equal number of sources and destinations')
+        return 1
+
+    if args.type == 'mobilephotos':
+        return sync_mobilephotos(sources, destinations)
+
+    elif args.type == 'historian':
+        return sync_historianphotos(sources, destinations)
 
 def sync_itunes(sources, destinations):
 
@@ -45,29 +254,29 @@ def sync_itunes(sources, destinations):
         source = sources[i]
         destination = destinations[i]
 
-        music_path = path.join(source, 'iTunes Media/Music')
+        music_path = os.path.join(source, 'iTunes Media/Music')
 
-        if not path.exists(music_path):
-            warning("iTunes music folder '{}' not found - nothing to sync".format(music_path))
+        if not os.path.exists(music_path):
+            logger.warning("iTunes music folder '{}' not found - nothing to sync".format(music_path))
 
-        for pathname in glob.iglob(path.join(music_path, '**/*'), recursive=True):
+        for pathname in glob.iglob(os.path.join(music_path, '**/*'), recursive=True):
 
-            if path.isfile(pathname):
-                symlink = path.join(destination, path.relpath(pathname, music_path))
-                symlink_directory = path.dirname(symlink)
+            if os.path.isfile(pathname):
+                symlink = os.path.join(destination, os.path.relpath(pathname, music_path))
+                symlink_directory = os.path.dirname(symlink)
 
-                if not path.exists(symlink_directory):
+                if not os.path.exists(symlink_directory):
                     os.makedirs(symlink_directory)
 
-                if not path.exists(symlink):
-                    os.symlink(path.relpath(pathname, path.dirname(symlink)), symlink)
+                if not os.path.exists(symlink):
+                    os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
 
 def sync_music(args):
     sources = args.sources.split(',')
     destinations = args.destinations.split(',')
 
     if len(sources) != len(destinations):
-        error('Must specify equal number of sources and destinations')
+        logger.error('Must specify equal number of sources and destinations')
         return 1
 
     if args.type == 'itunes':
@@ -108,7 +317,7 @@ def main():
     subparsers.required = True
 
     add_sync_parser(subparsers, 'sync-music', music_types)
-    add_sync_parser(subparsers, 'sync-photos', music_types)
+    add_sync_parser(subparsers, 'sync-photos', photo_types)
 
     args = parser.parse_args()
 

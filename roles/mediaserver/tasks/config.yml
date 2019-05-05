@@ -1,0 +1,5 @@
+---
+- name: 'set timezone'
+  timezone:
+    name: 'America/Denver'
+

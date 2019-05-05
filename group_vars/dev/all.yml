@@ -1,4 +1,5 @@
 ---
+env: 'dev'
 
 media_share: 'storage-dev'
 
@@ -30,15 +31,18 @@ snapraid__parity_devices:
     mount_point: "/mnt/parity/1-parity"
     type: "parity"
 
+# That data devices in ouf Vagrant box are only getting 768 inodes.
+# That's not enough.
+
 snapraid__data_devices:
   - device: "/dev/sdc"
     fs_type: "ext4"
-    fs_opts: "-m 2 -T largefile4"
+    fs_opts: "-m 2 -T largefile4 -N 4096"
     mount_point: "/mnt/data/disk1"
     type: "data"
   - device: "/dev/sdd"
     fs_type: "ext4"
-    fs_opts: "-m 2 -T largefile4"
+    fs_opts: "-m 2 -T largefile4 -N 4096"
     mount_point: "/mnt/data/disk2"
     type: "data"
 

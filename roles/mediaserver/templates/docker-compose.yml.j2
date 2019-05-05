@@ -8,7 +8,7 @@ services:
     environment:
       - PUID={{ plexuser_uid }}
       - PGID={{ plexuser_gid }}
-      - VERSION=docker
+      - VERSION={{ plex_version }}
     volumes:
       - /var/lib/plexmediaserver:/config
       - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media

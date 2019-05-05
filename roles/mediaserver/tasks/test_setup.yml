@@ -1,0 +1,37 @@
+---
+
+# This is very slow for a "large" number of files. Replaced with the
+# synchronize/file combination below.
+# - name: 'copy test resources'
+#   copy:
+#     # Ansible should find this automatically if the file path is relative.
+#     # It wasn't though...
+#     src: 'test_resources'
+#     dest: '{{ mergerfs__mount_point }}/{{ media_directory }}'
+#     group: '{{ media_group }}'
+#     owner: 'root'
+#     mode: '0664'
+
+- name: 'sync test resources'
+  synchronize:
+    src: 'test_resources'
+    dest: '{{ mergerfs__mount_point }}/{{ media_directory }}'
+    group: 'no'
+    owner: 'no'
+    perms: 'no'
+    delete: 'yes'
+
+- name: 'set owner/group on test resources'
+  file:
+    path: '{{ mergerfs__mount_point }}/{{ media_directory }}/test_resources'
+    group: '{{ media_group }}'
+    owner: 'root'
+    mode: 'ug=rwX,o=rX'
+    recurse: 'yes'
+
+- name: 'add vagrant user to media users group'
+  user:
+    name: 'vagrant'
+    groups: ['{{ media_group }}']
+    append: 'yes'
+
