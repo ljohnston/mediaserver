@@ -98,4 +98,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ansible.playbook = "playbook.yml"
   end
+
+  config.vm.provision :serverspec do |spec|
+    spec.pattern = 'serverspec/*_spec.rb'
+  end
 end
