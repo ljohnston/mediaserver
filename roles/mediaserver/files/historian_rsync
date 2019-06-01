@@ -21,7 +21,7 @@ usage() {
     msg "  -s|--source         Historian src dir"
     msg "  -d|--destination    Historian dst dir"
     msg "  -q|--quietperiod    Minutes to wait since last update to src dir (default: 5)"
-    msg "  -w|--waitlimite     Minutes to wait to satisfy the quiet period (default: 60)"
+    msg "  -w|--waitlimit     Minutes to wait to satisfy the quiet period (default: 60)"
     msg "  -r|--reductionlimit Src to dst file count reduction limit %'age (default: 95)"
 }
 
@@ -81,8 +81,8 @@ fi
 
 # Take source and destination dirs.
 # If source dir contains no files, exit 0.
-# If source dir contains any files written in the last X minutes, loop.
-# Count source files and destfiles if source files < some threshold (e.g. 95%) dest files, exit w/ error.
+# If source dir contains any files written in the last quietperiod minutes, loop.
+# Count source files and destfiles if source files < some reductionlimit (e.g. 95%) dest files, exit w/ error.
 # rsync
 
 source=

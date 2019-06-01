@@ -25,7 +25,7 @@
     owner: 'root'
     mode: '0664'
 
-- name: 'copy mediaserver script'
+- name: 'copy media management scripts'
   template:
     # Ansible should find this automatically if the file path is relative.
     # It wasn't though...
@@ -36,12 +36,26 @@
     mode: '0755'
   with_flattened: [ 'mediaserver', 'historian_rsync' ]
 
+- name: 'historian rsync cron'
+  cron:
+    name: 'historian rsync'
+    minute: '20'
+    hour: '*/4'
+    user: 'plexuser'
+    job: "/usr/local/bin/historian_rsync -s /{{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d /{{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
+
+- name: 'historian photo-sync cron'
+  cron:
+    name: 'historian photo-sync'
+    minute: '0'
+    hour: '8-23,0'
+    user: 'plexuser'
+    job: "/usr/local/bin/mediaserver sync-photos -t historian -s /{{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d /{{ mergerfs__mount_point }}/{{ media_directory }}/photos"
+
 - name: 'itunes music-sync cron'
   cron:
     name: 'itunes music-sync'
     minute: '0'
     hour: '8-23,0'
     user: 'plexuser'
-    job: "/usr/local/bin/mediaserver sync-music -s /{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,/{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d /{{ mergerfs__mount_point }}/{{ media_directory }}/music,/{{ mergerfs__mount_point }}/{{ media_directory }}/music -t itunes"
-
-
+    job: "/usr/local/bin/mediaserver sync-music -t itunes -s /{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,/{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d /{{ mergerfs__mount_point }}/{{ media_directory }}/music,/{{ mergerfs__mount_point }}/{{ media_directory }}/music"

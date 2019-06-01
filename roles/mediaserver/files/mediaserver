@@ -165,14 +165,17 @@ class MobilePhoto(Photo):
 
 class HistorianPhoto(Photo):
     # Input filenames: YYYY/MM-<Monthname>/<randomname>.<ext>
+    # Note there's no "day" portion to the date we get here, so we'll set them
+    # all to "01".
 
     def __init__(self, file):
         Photo.__init__(self, 'mobile', file)
 
     def get_sync_path(self, source_path):
         photo_relpath = os.path.relpath(self.file, source_path)
-        print(photo_relpath)
-        return os.path.join(*photo_relpath.split(' '))
+        date = (photo_relpath.split('-')[0] + '/01').replace('/', '-')
+        filename = photo_relpath.split('/')[-1]
+        return os.path.join(date, filename)
 
 def sync_mobilephotos(sources, destinations):
 
@@ -205,8 +208,9 @@ def sync_mobilephotos(sources, destinations):
                     if not os.path.exists(symlink_directory):
                         os.makedirs(symlink_directory)
 
-                    if not os.path.exists(symlink):
-                        os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
+                    # I think we always want to create the symlink.
+                    # if not os.path.exists(symlink):
+                    os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
 
 def sync_historianphotos(sources, destinations):
 
@@ -227,12 +231,17 @@ def sync_historianphotos(sources, destinations):
                 photo_record = sync_db.read_record(photo, destination)
 
                 if photo_record == None:
-                    # sync_db.write_record(photo, destination)
+                    sync_db.write_record(photo, destination)
 
                     symlink = os.path.join(destination, photo.get_sync_path(source))
                     symlink_directory = os.path.dirname(symlink)
-                    # print(symlink)
-                    # print(symlink_directory)
+
+                    if not os.path.exists(symlink_directory):
+                        os.makedirs(symlink_directory)
+
+                    # I think we always want to create the symlink.
+                    # if not os.path.exists(symlink):
+                    os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
 
 def sync_photos(args):
     sources = args.sources.split(',')
