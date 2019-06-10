@@ -17,10 +17,6 @@
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
       register: output
       changed_when: output.stdout != ''
-    - name: 'install python-apt'
-      apt:
-        pkg: '{{ samba__base_packages }}'
-        state: 'present'
     - setup:
       tags:
         - always

@@ -1,8 +1,23 @@
 #!/bin/bash
 
+#
+# TODO: 
+# - logging, log rotation
+#   Here's an interesting link:
+#       https://serverfault.com/questions/310098/how-to-add-a-timestamp-to-bash-script-log 
+#
+
+RTN_GENERAL_ERROR=1
+RTN_USAGE_ERROR=2
+RTN_UNSUPPORTED_OS=3
+RTN_QUIETPERIOD_EXPIRED=4
+RTN_REDUCTIONLIMIT_EXCEEDED=5
+
 die() {
-    msg "$1"
-    exit 1
+    local msg=$1
+    local rtn=${2:-$RTN_GENERAL_ERROR}
+    msg "$msg"
+    exit $rtn
 }
 
 msg() {
@@ -21,7 +36,7 @@ usage() {
     msg "  -s|--source         Historian src dir"
     msg "  -d|--destination    Historian dst dir"
     msg "  -q|--quietperiod    Minutes to wait since last update to src dir (default: 5)"
-    msg "  -w|--waitlimit     Minutes to wait to satisfy the quiet period (default: 60)"
+    msg "  -w|--waitlimit      Minutes to wait to satisfy the quiet period (default: 60)"
     msg "  -r|--reductionlimit Src to dst file count reduction limit %'age (default: 95)"
 }
 
@@ -45,7 +60,7 @@ wait() {
 
         currenttime=$(date +%s)
         if (( $currenttime - $starttime >= (waitlimit * 60) )); then
-            die "Quiet period not satisfied within the wait limit ($waitlimit minutes)"
+            die "Quiet period not satisfied within the wait limit ($waitlimit minutes)" $RTN_QUIETPERIOD_EXPIRED
         fi
     done
 }
@@ -59,7 +74,7 @@ sync() {
     destination_file_count=$(find $destination -type f |wc -l)
 
     if [ $source_file_count -lt $(( $destination_file_count * ${reductionlimit}/100 )) ]; then
-        die "Source files ($source_file_count) relative to desination files ($destination_file_count) below reduction limit (${reductionlimit}%)"
+        die "Source files ($source_file_count) relative to desination files ($destination_file_count) below reduction limit (${reductionlimit}%)" $RTN_REDUCTIONLIMIT_EXCEEDED
     fi
     
     rsync --verbose --recursive --delete --checksum --remove-source-files $source/ $destination
@@ -76,7 +91,7 @@ remove_import() {
 }
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    die "Unsupported OS: $OSTYPE"
+    die "Unsupported OS: $OSTYPE" $RTN_UNSUPPORTED_OS
 fi
 
 # Take source and destination dirs.
@@ -127,7 +142,7 @@ done
 
 if [[ -z $source || -z $destination ]]; then
     usage
-    exit 1
+    exit 2
 fi
 
 if export_files $source; then

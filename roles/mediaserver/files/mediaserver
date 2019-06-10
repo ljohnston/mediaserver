@@ -23,6 +23,8 @@ import sys
 
 from abc import ABC, abstractmethod
 
+# TODO: Clean up dead symlinks.
+
 # TODO: Real enums?
 music_types = ['itunes']
 photo_types = ['historian', 'mobilephotos']
