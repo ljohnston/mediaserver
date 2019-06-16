@@ -7,6 +7,10 @@ import subprocess
 import tempfile
 import unittest
 
+# TODO:
+#   - Test for quiet period exceeded? Would be tricky as it would have to be
+#   multi-threaded to we could keep touching a file while in the quiet period.
+
 class TestHistorianRsync(unittest.TestCase):
 
     def setUp(self):
