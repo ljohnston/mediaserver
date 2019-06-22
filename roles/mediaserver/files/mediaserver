@@ -29,7 +29,7 @@ from abc import ABC, abstractmethod
 music_types = ['itunes']
 photo_types = ['historian', 'mobilephotos']
 
-data_dir = '/var/lib/mediaserver'
+default_database_dir = '/var/lib/mediaserver'
 
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
@@ -55,11 +55,8 @@ def get_md5(file):
 
 class PhotoSyncDB:
 
-    # Class vars.
-    db_dir = '/var/lib/mediaserver/'
-
-    def __init__(self, db):
-        self.db_path = os.path.join(self.db_dir, db)
+    def __init__(self, database_dir, db):
+        self.db_path = os.path.join(self.database_dir, db)
         if not os.path.exists(self.db_path):
             os.makedirs(self.db_path)
 
@@ -179,7 +176,7 @@ class HistorianPhoto(Photo):
         filename = photo_relpath.split('/')[-1]
         return os.path.join(date, filename)
 
-def sync_mobilephotos(sources, destinations):
+def sync_mobilephotos(sources, destinations, database_dir):
 
     #
     # Input filenames: YYYY-MM-DD <randomname>.<ext>
@@ -189,7 +186,7 @@ def sync_mobilephotos(sources, destinations):
         source = sources[i]
         destination = destinations[i]
 
-        sync_db = PhotoSyncDB('synced_photos')
+        sync_db = PhotoSyncDB(database_dir, 'synced_photos')
 
         for pathname in glob.iglob(os.path.join(source, '**/*'), recursive=True):
 
@@ -214,7 +211,7 @@ def sync_mobilephotos(sources, destinations):
                     # if not os.path.exists(symlink):
                     os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
 
-def sync_historianphotos(sources, destinations):
+def sync_historianphotos(sources, destinations, database_dir):
 
     #
     # Input filenames: YYYY-MM-DD <randomname>.<ext>
@@ -224,7 +221,7 @@ def sync_historianphotos(sources, destinations):
         source = sources[i]
         destination = destinations[i]
 
-        sync_db = PhotoSyncDB('synced_photos')
+        sync_db = PhotoSyncDB(database_dir, 'synced_photos')
 
         for pathname in glob.iglob(os.path.join(source, '**/*'), recursive=True):
 
@@ -254,10 +251,10 @@ def sync_photos(args):
         return 1
 
     if args.type == 'mobilephotos':
-        return sync_mobilephotos(sources, destinations)
+        return sync_mobilephotos(sources, destinations, args.database_dir)
 
     elif args.type == 'historian':
-        return sync_historianphotos(sources, destinations)
+        return sync_historianphotos(sources, destinations, args.database_dir)
 
 def sync_itunes(sources, destinations):
 
@@ -345,15 +342,19 @@ def add_sync_parser(subparsers, command, media_types):
     required_args.add_argument(
         '-s',
         '--sources',
-        metavar='sources',
         required=True,
         help='Path(s) to the source media. Delimit multiple with a comma.')
     required_args.add_argument(
         '-d',
         '--destinations',
-        metavar='destinations',
         required=True,
         help='Path(s) to the media sync destinations. Delimit multiple with a comma.')
+
+    optional_args = sync_parser.add_argument_group(title='optional arguments')
+    optional_args.add_argument(
+        '--database-dir',
+        default=default_database_dir,
+        help='Path to database directory (ignored for some media types).')
 
 def main():
     parser = argparse.ArgumentParser(description='Media mangement utility')

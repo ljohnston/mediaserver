@@ -44,6 +44,6 @@ describe command('mediaserver --help') do
   its(:exit_status) { should eq 0 }
 end
 
-describe command('/test/test_mediaserver.py') do
+describe command('/test/test_mediaserver_itunes_sync.py') do
   its(:exit_status) { should eq 0 }
 end
