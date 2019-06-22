@@ -282,6 +282,12 @@ def sync_itunes(sources, destinations):
                 if not os.path.exists(symlink):
                     os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
 
+    unique_destinations = list(set(destinations))
+
+    for destination in unique_destinations:
+        delete_broken_symlinks(destination)
+        delete_empty_directories(destination)
+
 def sync_music(args):
     sources = args.sources.split(',')
     destinations = args.destinations.split(',')
@@ -292,6 +298,38 @@ def sync_music(args):
 
     if args.type == 'itunes':
         return sync_itunes(sources, destinations)
+
+def find_broken_symlinks(path):
+    broken = []
+    for root, dirs, files in os.walk(path):
+        for filename in files:
+            path = os.path.join(root,filename)
+
+            if os.path.islink(path):
+                target_path = os.readlink(path)
+
+                if not os.path.isabs(target_path):
+                    target_path = os.path.join(os.path.dirname(path),target_path)
+                if not os.path.exists(target_path):
+                    broken.append(path)
+
+    return broken
+
+def delete_broken_symlinks(path):
+    for broken_link in find_broken_symlinks(path):
+        os.unlink(broken_link)
+
+def delete_empty_directories(path):
+    empty_dirs = []
+
+    for root, dirs, files in os.walk(path):
+        if not files:
+            empty_dirs.append(root)
+
+    for dir in reversed(empty_dirs):
+        if not os.listdir(dir):
+            os.rmdir(dir)
+
 
 def add_sync_parser(subparsers, command, media_types):
     sync_parser = subparsers.add_parser(command)
