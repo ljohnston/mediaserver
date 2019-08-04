@@ -97,6 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ansible.groups = {
       "dev" => [hostname],
+      "mediaservers" => [hostname],
     }
 
     ansible.playbook = "playbook.yml"

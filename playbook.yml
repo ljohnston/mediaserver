@@ -2,7 +2,7 @@
 # ansible-playbook main.yml -i hosts --tags docker_apps -K
 # the binary | this.file | -i targets | *optional --tags | -K asks for sudo pass
 
-- hosts: all
+- hosts: mediaservers
   become: yes
 
   # Little hackery going on here. Ansible requires python2.7, but Xenial comes
@@ -40,3 +40,9 @@
     - { role: 'mergerfs',    tags: 'mergerfs' }
     - { role: 'mediaserver', tags: 'mediaserver' }
     - { role: 'samba',       tags: 'samba' }
+
+- hosts: macbook
+  connection: local
+
+  roles:
+    - { role: 'macbook', tags: 'macbook' }

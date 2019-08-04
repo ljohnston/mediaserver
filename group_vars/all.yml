@@ -1,8 +1,9 @@
 ---
 
-plex_version: '1.15.6.1079-78232c603'
+# plex_version: '1.15.6.1079-78232c603'
+# plex_version: '1.16.1.1246-1d09ac057'
+plex_version: '1.16.3.1433-359b06978'
 
-media_share: 'storage'
 media_directory: 'media'
 media_group: 'mediausers'
 
@@ -39,7 +40,7 @@ samba__custom_global:
 # This syntax is total hackery to allow using a variable as a dictionary key.
 # See here:  https://github.com/ansible/ansible/pull/19664
 samba__shares: "{
-  '{{ media_share }}': {
+  '{{ mediaserver_share }}': {
     'path'           : '{{ mergerfs__mount_point }}',
     'browsable'      : 'yes',
     'create mask'    : '0775',

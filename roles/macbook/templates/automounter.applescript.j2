@@ -1,0 +1,29 @@
+
+on logIt(msg)
+    set logFile to "/var/log/automounter.log"
+    set now to current date
+    set d to short date string of now
+    set t to time string of now
+    try
+        open for access logFile with write permission
+        write "[" & d & " " & t & "] " & msg & linefeed starting at eof to logFile
+    end try
+    try
+        close access logFile
+    end try
+end logIt
+
+
+tell application "Finder"
+    set isConnected to disk "{{ mediaserver_share }}" exists
+end tell
+
+if isConnected = false then
+    my logIt("Volume '{{ mediaserver_share }}' not mounted. Mounting...")
+    try
+        mount volume "{{ mediaserver_share }}" on server "{{ mediaserver_hostname }}"
+        my logIt("Volume '{{ mediaserver_share }}' successfully mounted")
+    on error errMsg
+        my logIt("Error mounting volume '{{ mediaserver_share }}' (" & errMsg & ")")
+    end try
+end if

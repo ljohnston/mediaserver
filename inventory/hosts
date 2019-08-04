@@ -1,3 +1,9 @@
+[mediaservers]
+mediaserver 
 
 [prd]
 mediaserver
+localhost
+
+[macbook]
+localhost

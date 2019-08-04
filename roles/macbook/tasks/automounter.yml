@@ -1,0 +1,26 @@
+---
+
+# - debug: var=ansible_env.HOME
+
+- name: 'create applescript directory'
+  file:
+    path: '{{ ansible_user_dir }}/applescript'
+    mode: '0750'
+    state: 'directory'
+
+- name: 'install automounter script'
+  template:
+    src: 'automounter.applescript.j2'
+    dest: '{{ ansible_user_dir }}/applescript/automounter.applescript'
+    mode: '0644'
+
+- name: 'install automounter launch agent'
+  template:
+    src: 'com.user.mediaserver.automounter.plist.j2'
+    dest: '{{ ansible_user_dir }}/Library/LaunchAgents/{{ automounter_service_file }}'
+    mode: '0644'
+  vars:
+    script_path: '{{ ansible_user_dir }}/applescript/automounter.applescript'
+  notify: 
+    - 'reload automounter launch agent'
+

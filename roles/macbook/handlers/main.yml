@@ -1,0 +1,11 @@
+---
+# handlers file for macbook
+
+- name: 'bootout automounter launch agent'
+  shell: 'launchctl bootout gui/{{ ansible_user_uid }} {{ ansible_user_dir }}/Library/LaunchAgents/{{ automounter_service_file }}'
+  failed_when: 'false'
+  listen: 'reload automounter launch agent'
+
+- name: 'bootstrap automounter launch agent'
+  shell: 'launchctl bootstrap gui/{{ ansible_user_uid }} {{ ansible_user_dir }}/Library/LaunchAgents/{{ automounter_service_file }}'
+  listen: 'reload automounter launch agent'

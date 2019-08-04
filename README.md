@@ -1,4 +1,4 @@
-# mediaserver
+# vagrant_mediaserver
 
 Ansible project to configure my media server.
 
@@ -28,3 +28,8 @@ This project includes a Vagrantfile for local development. Simply...
 
     $ vagrant provision
 
+## mediaserver
+
+To use this project to provision the "production" mediaserver, simply:
+
+    $ ansible-playbook playbook.yml --vault-id ~/.ansible/.vault_pass -i inventory/hosts

@@ -1,6 +1,11 @@
 ---
 env: 'prd'
 
+automounter_service_file: 'com.user.mediaserver.automounter.plist'
+
+mediaserver_hostname: 'mediaserver'
+mediaserver_share: 'storage'
+
 media_users:
   - name: 'alison'
     create_home: 'no'

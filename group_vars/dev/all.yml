@@ -1,7 +1,8 @@
 ---
 env: 'dev'
 
-media_share: 'storage-dev'
+mediaserver_hostname: 'mediaserver-dev'
+mediaserver_share: 'storage-dev'
 
 media_users:
   - name: 'alison'
