@@ -32,6 +32,7 @@ mergerfs__mounts: '{{ snapraid__data_devices | map(attribute="mount_point") | li
 samba__custom_global:
   'dns proxy'     : 'no'
   'guest ok'      : 'no'
+  'hosts allow'   : '10.'
   'security'      : 'user'
   'server role'   : 'standalone server'
   'server string' : 'Samba Server %v'
