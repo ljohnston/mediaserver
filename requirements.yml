@@ -1,4 +1,4 @@
 ---
-- { src: geerlingguy.docker, version: '2.5.2' }
-- { src: geerlingguy.ntp,    version: '1.6.2' }
+- { src: geerlingguy.docker, version: '2.5.3' }
+- { src: geerlingguy.ntp,    version: '1.6.4' }
 
