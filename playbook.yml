@@ -10,16 +10,20 @@
   # but simply collecting facts requires ansible and python. So we'll turn off
   # facts and then run the "setup" task (which gathers facts) as a "pre_task"
   # after installing python.
-  gather_facts: false
-
-  pre_tasks:
-    - name: 'Install python 2.7 for Ansible'
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-      register: output
-      changed_when: output.stdout != ''
-    - setup:
-      tags:
-        - always
+  #
+  # With ansible 2.8+, ansible will search the guest for a python interpreter,
+  # so it seems this is no longer necessary.
+  #
+  # gather_facts: false
+  #
+  # pre_tasks:
+  #   - name: 'Install python 2.7 for Ansible'
+  #     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+  #     register: output
+  #     changed_when: output.stdout != ''
+  #   - setup:
+  #     tags:
+  #       - always
 
     # We'll also install our any galaxy roles here.
     # This doesn't work... ansible "compiles" the playbook and dies if these
