@@ -13,6 +13,10 @@
   include: 'files.yml'
   tags: ['files']
 
+- name: 'create backup dir'
+  include: 'backup.yml'
+  tags: ['backup']
+
 - name: 'docker apps'
   include: 'docker_apps.yml'
   tags: ['docker_apps']

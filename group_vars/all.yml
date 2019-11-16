@@ -1,8 +1,12 @@
 ---
 
-# plex_version: '1.15.6.1079-78232c603'
-# plex_version: '1.16.1.1246-1d09ac057'
-plex_version: '1.16.3.1433-359b06978'
+# To get the latest version number:
+# - https://www.plex.tv/media-server-downloads/
+# - Select "linux" in the dropdown
+# - Version number will be displayed on page.
+
+# plex_version: '1.16.3.1433-359b06978'
+plex_version: '1.18.2.2015-5a99a9a46'
 
 media_directory: 'media'
 media_group: 'mediausers'
@@ -19,6 +23,9 @@ media_static_folders:
   - 'movies'
   - 'photos'
   - 'tv'
+
+backup_share: 'backup'
+backup_path: '/backup'
 
 filesystems__devices: '{{ snapraid__parity_devices + snapraid__data_devices }}'
 
@@ -41,8 +48,17 @@ samba__custom_global:
 # This syntax is total hackery to allow using a variable as a dictionary key.
 # See here:  https://github.com/ansible/ansible/pull/19664
 samba__shares: "{
-  '{{ mediaserver_share }}': {
+  '{{ media_share }}': {
     'path'           : '{{ mergerfs__mount_point }}',
+    'browsable'      : 'yes',
+    'create mask'    : '0775',
+    'directory mask' : '0775',
+    'force group'    : 'mediausers',
+    'valid users'    : '@mediausers',
+    'writable'       : 'yes',
+  },
+  '{{ backup_share }}': {
+    'path'           : '{{ backup_path }}',
     'browsable'      : 'yes',
     'create mask'    : '0775',
     'directory mask' : '0775',

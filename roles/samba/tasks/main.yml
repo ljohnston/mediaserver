@@ -26,6 +26,10 @@
   with_flattened:
     - '{{ samba__services }}'
 
+# - debug:
+#     msg: '{{ item.password }}'
+#   with_items: "{{ samba__users }}"
+
 - name: 'create samba users'
   shell: >
     (pdbedit --user={{ item.name }} 2>&1 > /dev/null) \
