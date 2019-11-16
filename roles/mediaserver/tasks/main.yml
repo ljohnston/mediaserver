@@ -24,8 +24,3 @@
 - name: 'scripts'
   include: 'scripts.yml'
   tags: ['scripts']
-
-- name: 'test setup'
-  include: 'test_setup.yml'
-  tags: ['test_setup']
-  when: env == 'dev'
