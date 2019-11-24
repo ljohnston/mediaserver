@@ -9,20 +9,16 @@ import unittest
 
 # TODO:
 
-class TestMediaserver(unittest.TestCase):
+class TestMediaserverItunesSync(unittest.TestCase):
 
     def setUp(self):
         self.test_dir = tempfile.mkdtemp()
 
         self.source_music_dir = os.path.join(self.test_dir, 'source_music')
-        self.source_photos_dir = os.path.join(self.test_dir, 'source_photos')
         self.dest_music_dir = os.path.join(self.test_dir, 'music')
-        self.dest_photos_dir = os.path.join(self.test_dir, 'photos')
 
         os.makedirs(self.source_music_dir)
-        os.makedirs(self.source_photos_dir)
         os.makedirs(self.dest_music_dir)
-        os.makedirs(self.dest_photos_dir)
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
