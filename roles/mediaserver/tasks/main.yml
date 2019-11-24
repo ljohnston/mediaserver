@@ -23,4 +23,9 @@
 
 - name: 'scripts'
   include: 'scripts.yml'
-  tags: ['scripts']
+  tags: ['scripts','test']
+
+- name: 'test'
+  include: 'test.yml'
+  tags: ['test']
+  when: env == 'dev'
