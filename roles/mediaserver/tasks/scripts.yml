@@ -42,7 +42,7 @@
     minute: '20'
     hour: '*/4'
     user: 'plexuser'
-    job: "/usr/local/bin/historian_rsync -s /{{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d /{{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
+    job: "/usr/local/bin/historian_rsync -s {{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
 
 - name: 'historian photo-sync cron'
   cron:
@@ -50,7 +50,7 @@
     minute: '0'
     hour: '8-23,0'
     user: 'plexuser'
-    job: "/usr/local/bin/mediaserver sync-photos -t historian -s /{{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d /{{ mergerfs__mount_point }}/{{ media_directory }}/photos"
+    job: "/usr/local/bin/mediaserver sync-photos -t historian -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos"
 
 - name: 'itunes music-sync cron'
   cron:
@@ -58,4 +58,4 @@
     minute: '0'
     hour: '8-23,0'
     user: 'plexuser'
-    job: "/usr/local/bin/mediaserver sync-music -t itunes -s /{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,/{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d /{{ mergerfs__mount_point }}/{{ media_directory }}/music,/{{ mergerfs__mount_point }}/{{ media_directory }}/music"
+    job: "/usr/local/bin/mediaserver sync-music -t itunes -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d {{ mergerfs__mount_point }}/{{ media_directory }}/music,{{ mergerfs__mount_point }}/{{ media_directory }}/music"
