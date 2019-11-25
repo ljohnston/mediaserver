@@ -8,9 +8,14 @@
 
 #
 # TODO:
+#   - IMPORTANT!!! Excpetion handling! Right now we have a situation where we
+#   can write the database record, but then hit an exception, but we're not
+#   rolling back the database record, so the next sync ignores that file, even
+#   though it never actually got synched.
+#
 #   - Add some info logging. I'd like to "syncing x to y", "finished syncing x
 #   to y in z seconds" kind of stuff in the log file.
-#   - Prune dead symlinks
+#
 
 import argparse
 import glob
@@ -23,11 +28,9 @@ import sys
 
 from abc import ABC, abstractmethod
 
-# TODO: Clean up dead symlinks.
-
 # TODO: Real enums?
 music_types = ['itunes']
-photo_types = ['historian', 'mobilephotos']
+photo_types = ['historian', 'photosync-app']
 
 default_database_dir = '/var/lib/mediaserver'
 
@@ -43,20 +46,12 @@ logger = logging.getLogger('mediaserver')
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
-def get_md5(file):
-    md5 = hashlib.md5()
-    with open(file, 'rb') as f:
-        while True:
-            data = f.read(32 * 1024)
-            if not data:
-                break
-            md5.update(data)
-    return md5.hexdigest()
 
 class PhotoSyncDB:
 
     def __init__(self, database_dir, db):
-        self.db_path = os.path.join(self.database_dir, db)
+        self.db_path = os.path.join(database_dir, db)
+        print('wtf:' + self.db_path)
         if not os.path.exists(self.db_path):
             os.makedirs(self.db_path)
 
@@ -89,7 +84,7 @@ class PhotoSyncDB:
         # TODO: Delete empty path elements up the tree.
 
         if os.path.isfile(rec):
-            os.remote(rec)
+            os.remove(rec)
 
     #
     # "Private" methods.
@@ -100,7 +95,7 @@ class PhotoSyncDB:
         return os.path.join(self.db_path, hash[-1], hash[-3:-1], hash[:-3])
 
     def __to_hash(self, photo, destination_dir):
-        # Our primary keys is this photo (md5) in this media destination.
+        # Our primary key is this photo (md5) in this media destination.
         return hashlib.md5((photo.digest() + destination_dir).encode()).hexdigest()
 
     def __to_json_str(self, photo, destination_dir):
@@ -121,6 +116,7 @@ class PhotoSyncDB:
             data['destination_dir'],
             data['digest'])
 
+
 class PhotoRecord:
 
     def __init__(self, type, source_file, destination_dir, digest):
@@ -128,6 +124,7 @@ class PhotoRecord:
         self.source_file = source_file
         self.destination_dir = destination_dir
         self.digest = digest
+
 
 class Photo(ABC):
 
@@ -152,15 +149,9 @@ class Photo(ABC):
     def get_sync_path(self, path):
         pass
 
-class MobilePhoto(Photo):
-    # Input filenames: YYYY-MM-DD <randomname>.<ext>
-
-    def __init__(self, file):
-        Photo.__init__(self, 'mobile', file)
-
-    def get_sync_path(self, source_path):
-        photo_relpath = os.path.relpath(self.file, source_path)
-        return os.path.join(*photo_relpath.split(' '))
+#
+# Photo subclasses.
+#
 
 class HistorianPhoto(Photo):
     # Input filenames: YYYY/MM-<Monthname>/<randomname>.<ext>
@@ -168,7 +159,7 @@ class HistorianPhoto(Photo):
     # all to "01".
 
     def __init__(self, file):
-        Photo.__init__(self, 'mobile', file)
+        Photo.__init__(self, 'historian', file)
 
     def get_sync_path(self, source_path):
         photo_relpath = os.path.relpath(self.file, source_path)
@@ -176,11 +167,64 @@ class HistorianPhoto(Photo):
         filename = photo_relpath.split('/')[-1]
         return os.path.join(date, filename)
 
-def sync_mobilephotos(sources, destinations, database_dir):
 
-    #
+class PhotosyncAppPhoto(Photo):
+    # Input filenames: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+
+    def __init__(self, file):
+        Photo.__init__(self, 'photossync-app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        date = (photo_relpath.split('_')[0])
+        filename = photo_relpath.split('/')[-1]
+        return os.path.join(date, filename)
+
+
+# OS X photos app (f.k.a. iPhoto) photo (not currently using)
+class PhotosAppPhoto(Photo):
+    # Input filenames: Masters/YYYY/MM/DD/<timestamped_subdir>/<randomname>.<ext>
+
+    def __init__(self, file):
+        Photo.__init__(self, 'photos.app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        date = (photo_relpath.split('/')[1:3]).replace('/', '-')
+        filename = photo_relpath.split('/')[-1]
+        return os.path.join(date, filename)
+
+
+# Plex photo sync (which doesn't work) photo (not currently using)
+class PlexAppPhoto(Photo):
     # Input filenames: YYYY-MM-DD <randomname>.<ext>
-    #
+
+    def __init__(self, file):
+        Photo.__init__(self, 'plex-app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        return os.path.join(*photo_relpath.split(' '))
+
+
+def sync_photo(photo, source, destination, sync_db):
+    photo_record = sync_db.read_record(photo, destination)
+
+    if photo_record == None:
+        symlink = os.path.join(destination, photo.get_sync_path(source))
+        symlink_directory = os.path.dirname(symlink)
+
+        if not os.path.exists(symlink_directory):
+            os.makedirs(symlink_directory)
+
+        # Can the symlink exist and point to a different file?
+        if not os.path.exists(symlink):
+            os.symlink(os.path.relpath(photo.file, os.path.dirname(symlink)), symlink)
+
+        sync_db.write_record(photo, destination)
+
+
+def sync_photosyncapp_photos(sources, destinations, database_dir):
 
     for i in (range(len(sources))):
         source = sources[i]
@@ -188,59 +232,12 @@ def sync_mobilephotos(sources, destinations, database_dir):
 
         sync_db = PhotoSyncDB(database_dir, 'synced_photos')
 
-        for pathname in glob.iglob(os.path.join(source, '**/*'), recursive=True):
+        for path in glob.iglob(os.path.join(source, '**/*'), recursive=True):
 
-            if os.path.isfile(pathname):
-                photo = MobilePhoto(pathname)
-                photo_record = sync_db.read_record(photo, destination)
+            # OS X writes '._<filename>' files on Samba shares.
+            if os.path.isfile(path) and not path.startswith('._'):
+                sync_photo(PhotosyncAppPhoto(path), source, destination, sync_db)
 
-                if photo_record == None:
-                    sync_db.write_record(photo, destination)
-
-                    # TODO: try/catch to delete record if something fails.
-                    # Need to do some logging and rethrow exception as we will
-                    # want to fail everything (I think).
-
-                    symlink = os.path.join(destination, photo.get_sync_path(source))
-                    symlink_directory = os.path.dirname(symlink)
-
-                    if not os.path.exists(symlink_directory):
-                        os.makedirs(symlink_directory)
-
-                    # I think we always want to create the symlink.
-                    # if not os.path.exists(symlink):
-                    os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
-
-def sync_historianphotos(sources, destinations, database_dir):
-
-    #
-    # Input filenames: YYYY-MM-DD <randomname>.<ext>
-    #
-
-    for i in (range(len(sources))):
-        source = sources[i]
-        destination = destinations[i]
-
-        sync_db = PhotoSyncDB(database_dir, 'synced_photos')
-
-        for pathname in glob.iglob(os.path.join(source, '**/*'), recursive=True):
-
-            if os.path.isfile(pathname):
-                photo = HistorianPhoto(pathname)
-                photo_record = sync_db.read_record(photo, destination)
-
-                if photo_record == None:
-                    sync_db.write_record(photo, destination)
-
-                    symlink = os.path.join(destination, photo.get_sync_path(source))
-                    symlink_directory = os.path.dirname(symlink)
-
-                    if not os.path.exists(symlink_directory):
-                        os.makedirs(symlink_directory)
-
-                    # I think we always want to create the symlink.
-                    # if not os.path.exists(symlink):
-                    os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
 
 def sync_photos(args):
     sources = args.sources.split(',')
@@ -250,11 +247,12 @@ def sync_photos(args):
         logger.error('Must specify equal number of sources and destinations')
         return 1
 
-    if args.type == 'mobilephotos':
-        return sync_mobilephotos(sources, destinations, args.database_dir)
+    if args.type == 'historian':
+        return sync_historian_photos(sources, destinations, args.database_dir)
 
-    elif args.type == 'historian':
-        return sync_historianphotos(sources, destinations, args.database_dir)
+    elif args.type == 'photosync-app':
+        return sync_photosyncapp_photos(sources, destinations, args.database_dir)
+
 
 def sync_itunes(sources, destinations):
 
@@ -285,6 +283,7 @@ def sync_itunes(sources, destinations):
         delete_broken_symlinks(destination)
         delete_empty_directories(destination)
 
+
 def sync_music(args):
     sources = args.sources.split(',')
     destinations = args.destinations.split(',')
@@ -295,6 +294,7 @@ def sync_music(args):
 
     if args.type == 'itunes':
         return sync_itunes(sources, destinations)
+
 
 def find_broken_symlinks(path):
     broken = []
@@ -312,9 +312,11 @@ def find_broken_symlinks(path):
 
     return broken
 
+
 def delete_broken_symlinks(path):
     for broken_link in find_broken_symlinks(path):
         os.unlink(broken_link)
+
 
 def delete_empty_directories(path):
     empty_dirs = []
@@ -356,6 +358,7 @@ def add_sync_parser(subparsers, command, media_types):
         default=default_database_dir,
         help='Path to database directory (ignored for some media types).')
 
+
 def main():
     parser = argparse.ArgumentParser(description='Media mangement utility')
 
@@ -375,6 +378,7 @@ def main():
         sys.exit(sync_music(args))
     elif args.command == 'sync-photos':
         sync_photos(args)
+
 
 if __name__ == '__main__':
     try:
