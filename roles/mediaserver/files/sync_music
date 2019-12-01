@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+
+import argparse
+import glob
+import logging
+import logging.handlers
+import os
+import sys
+
+music_types = ['itunes']
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+console_handler.setLevel(logging.INFO)
+
+file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/sync_music.log')
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+file_handler.setLevel(logging.WARNING)
+
+logger = logging.getLogger('sync_music')
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+
+def sync_itunes(sources, destination):
+
+    for i in (range(len(sources))):
+        source = sources[i]
+
+        music_path = os.path.join(source, 'iTunes Media/Music')
+
+        if not os.path.exists(music_path):
+            logger.warning("iTunes music folder '{}' not found - nothing to sync".format(music_path))
+
+        for pathname in glob.iglob(os.path.join(music_path, '**/*'), recursive=True):
+
+            if os.path.isfile(pathname):
+                symlink = os.path.join(destination, os.path.relpath(pathname, music_path))
+                symlink_directory = os.path.dirname(symlink)
+
+                if not os.path.exists(symlink_directory):
+                    os.makedirs(symlink_directory)
+
+                if not os.path.exists(symlink):
+                    os.symlink(os.path.relpath(pathname, os.path.dirname(symlink)), symlink)
+
+    delete_broken_symlinks(destination)
+    delete_empty_directories(destination)
+
+
+def sync_music(args):
+    sources = args.sources.split(',')
+    destination = args.destination
+
+    if args.type == 'itunes':
+        return sync_itunes(sources, destination)
+
+
+def find_broken_symlinks(path):
+    broken = []
+    for root, dirs, files in os.walk(path):
+        for filename in files:
+            path = os.path.join(root,filename)
+
+            if os.path.islink(path):
+                target_path = os.readlink(path)
+
+                if not os.path.isabs(target_path):
+                    target_path = os.path.join(os.path.dirname(path),target_path)
+                if not os.path.exists(target_path):
+                    broken.append(path)
+
+    return broken
+
+
+def delete_broken_symlinks(path):
+    for broken_link in find_broken_symlinks(path):
+        os.unlink(broken_link)
+
+
+def delete_empty_directories(path):
+    empty_dirs = []
+
+    for root, dirs, files in os.walk(path):
+        if not files:
+            empty_dirs.append(root)
+
+    for dir in reversed(empty_dirs):
+        if not os.listdir(dir):
+            os.rmdir(dir)
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Mediaserver music mangement utility')
+
+    parser.add_argument(
+        '-t',
+        '--type',
+        metavar='type',
+        choices=music_types,
+        required=True,
+        help='Media source library type.')
+    parser.add_argument(
+        '-s',
+        '--sources',
+        required=True,
+        help='Path(s) to the source media. Delimit multiple with a comma.')
+    parser.add_argument(
+        '-d',
+        '--destination',
+        required=True,
+        help='Path to the media sync destination.')
+
+    args = parser.parse_args()
+
+    sys.exit(sync_music(args))
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except Exception:
+        logging.exception('caught exception:')
+        sys.exit(1)
+

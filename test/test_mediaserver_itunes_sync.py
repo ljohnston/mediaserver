@@ -4,10 +4,16 @@ import glob
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
 # TODO:
+
+# To facilitate test/script development. Pass path to script location (i.e. the
+# location of the script this test will be calling for tests) as argument on
+# command line.
+script_path = ''
 
 class TestMediaserverItunesSync(unittest.TestCase):
 
@@ -21,6 +27,7 @@ class TestMediaserverItunesSync(unittest.TestCase):
         os.makedirs(self.dest_music_dir)
 
     def tearDown(self):
+        # print(self.test_dir)
         shutil.rmtree(self.test_dir)
 
     def create_itunes_test_data(self, libraries):
@@ -67,10 +74,10 @@ class TestMediaserverItunesSync(unittest.TestCase):
                             os.path.join(self.source_music_dir, "Alison's iTunes")]
 
         self.create_itunes_test_data(libraries)
-        args = ['mediaserver', 'sync-music',
+        args = [os.path.join(script_path, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
-                '-d', ','.join([self.dest_music_dir, self.dest_music_dir])]
+                '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
         synced_files = glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True)
@@ -92,10 +99,10 @@ class TestMediaserverItunesSync(unittest.TestCase):
                             os.path.join(self.source_music_dir, "Alison's iTunes")]
 
         self.create_itunes_test_data(libraries)
-        args = ['mediaserver', 'sync-music',
+        args = [os.path.join(script_path, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
-                '-d', ','.join([self.dest_music_dir, self.dest_music_dir])]
+                '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
         # We'll simulate a delete by removing the sources and recreating with
@@ -113,10 +120,10 @@ class TestMediaserverItunesSync(unittest.TestCase):
         }
 
         self.create_itunes_test_data(libraries)
-        args = ['mediaserver', 'sync-music',
+        args = [os.path.join(script_path, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
-                '-d', ','.join([self.dest_music_dir, self.dest_music_dir])]
+                '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
         synced_files = glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True)
@@ -138,10 +145,10 @@ class TestMediaserverItunesSync(unittest.TestCase):
                             os.path.join(self.source_music_dir, "Alison's iTunes")]
 
         self.create_itunes_test_data(libraries)
-        args = ['mediaserver', 'sync-music',
+        args = [os.path.join(script_path, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
-                '-d', ','.join([self.dest_music_dir, self.dest_music_dir])]
+                '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
         # We'll simulate a delete by removing the sources and recreating with
@@ -157,10 +164,10 @@ class TestMediaserverItunesSync(unittest.TestCase):
         }
 
         self.create_itunes_test_data(libraries)
-        args = ['mediaserver', 'sync-music',
+        args = [os.path.join(script_path, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
-                '-d', ','.join([self.dest_music_dir, self.dest_music_dir])]
+                '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
         synced_files = glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True)
@@ -169,4 +176,6 @@ class TestMediaserverItunesSync(unittest.TestCase):
         self.assertEqual(response.returncode, 0)
 
 if __name__ == '__main__':
+    if len(sys.argv) == 2:
+        script_path = sys.argv.pop()
     unittest.main()

@@ -19,7 +19,6 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
     def setUp(self):
         self.test_dir = tempfile.mkdtemp()
-        print(self.test_dir)
 
         self.source_photos_dir = os.path.join(self.test_dir, 'source_photos')
         self.dest_photos_dir = os.path.join(self.test_dir, 'photos')
@@ -29,8 +28,9 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         os.makedirs(self.dest_photos_dir)
 
 
-    # def tearDown(self):
-    #     shutil.rmtree(self.test_dir)
+    def tearDown(self):
+        print(self.test_dir)
+        # shutil.rmtree(self.test_dir)
 
     def create_test_data(self, data_defs):
         # Filenames: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
@@ -68,11 +68,10 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         for data_def in data_defs:
             source_dirs.add(os.path.join(self.source_photos_dir, data_def['source_subdir']))
 
-        args = [os.path.join(script_path, 'mediaserver'), 'sync-photos',
+        args = [os.path.join(script_path, 'sync_photos'),
                 '-t', 'photosync-app',
                 '-s', ','.join(source_dirs),
-                '-d', ','.join([self.dest_photos_dir]),
-                '--database-dir', self.database_dir]
+                '-d', self.dest_photos_dir]
         response = subprocess.run(args, shell=False)
 
         synced_files = [

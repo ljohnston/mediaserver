@@ -32,15 +32,15 @@ end
   end
 end
 
+describe command('sync_music --help') do
+  its(:exit_status) { should eq 0 }
+end
+
+describe command('sync_photos --help') do
+  its(:exit_status) { should eq 0 }
+end
+
 describe command('historian_rsync --help') do
-  its(:exit_status) { should eq 0 }
-end
-
-describe command('/test/test_historian_rsync.py') do
-  its(:exit_status) { should eq 0 }
-end
-
-describe command('mediaserver --help') do
   its(:exit_status) { should eq 0 }
 end
 
@@ -49,5 +49,9 @@ describe command('/test/test_mediaserver_itunes_sync.py') do
 end
 
 describe command('/test/test_mediaserver_photosyncapp_sync.py') do
+  its(:exit_status) { should eq 0 }
+end
+
+describe command('/test/test_historian_rsync.py') do
   its(:exit_status) { should eq 0 }
 end

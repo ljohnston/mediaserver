@@ -1,13 +1,5 @@
 ---
 
-- name: 'create log directory for mediaserver scripts'
-  file:
-    path: '/var/log/mediaserver'
-    group: '{{ media_group }}'
-    owner: 'root'
-    mode: '0775'
-    state: 'directory'
-
 - name: 'create data directory for mediaserver scripts'
   file:
     path: '/var/lib/mediaserver'
@@ -16,16 +8,26 @@
     mode: '0775'
     state: 'directory'
 
-- name: 'create log file for mediaserver script'
+- name: 'create log directory for mediaserver scripts'
+  file:
+    path: '/var/log/mediaserver'
+    group: '{{ media_group }}'
+    owner: 'root'
+    mode: '0775'
+    state: 'directory'
+
+- name: 'create log files for mediaserver scripts'
   copy:
     content: ''
-    dest: '/var/log/mediaserver/mediaserver.log'
+    dest: '/var/log/mediaserver/{{ item }}.log'
     force: 'no'
     group: '{{ media_group }}'
     owner: 'root'
     mode: '0664'
+  with_flattened: [ 'sync_music', 'sync_photos', 'mediaserver', 'historian_rsync' ]
 
 - name: 'copy media management scripts'
+  # TODO: These aren't templates...
   template:
     # Ansible should find this automatically if the file path is relative.
     # It wasn't though...
@@ -34,7 +36,7 @@
     owner: 'root'
     group: 'root'
     mode: '0755'
-  with_flattened: [ 'mediaserver', 'historian_rsync' ]
+  with_flattened: [ 'sync_music', 'sync_photos', 'mediaserver', 'historian_rsync' ]
 
 - name: 'historian rsync cron'
   cron:

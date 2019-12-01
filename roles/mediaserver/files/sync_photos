@@ -1,0 +1,264 @@
+#!/usr/bin/env python3
+
+import argparse
+import glob
+import hashlib
+import json
+import logging
+import logging.handlers
+import os
+import sys
+
+from abc import ABC, abstractmethod
+
+# TODO: Real enums?
+photo_types = ['historian', 'photosync-app']
+
+default_database_dir = '/var/lib/mediaserver'
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+console_handler.setLevel(logging.INFO)
+
+file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/sync_photos.log')
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+file_handler.setLevel(logging.WARNING)
+
+logger = logging.getLogger('sync_music')
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+
+class PhotoSyncDB:
+
+    def __init__(self, database_dir, db):
+        self.db_path = os.path.join(database_dir, db)
+        print('wtf:' + self.db_path)
+        if not os.path.exists(self.db_path):
+            os.makedirs(self.db_path)
+
+    def read_record(self, photo, destination_dir):
+        rec = self.__get_record_path(photo, destination_dir)
+
+        if not os.path.isfile(rec):
+            return None
+
+        # TODO: Error handling. Deserializing may fail due to corrupt or
+        # incomplete file. In that case we should delete it and return None.
+        with open(rec, 'r') as f:
+            data = json.load(f)
+
+        return self.__from_dict(data)
+
+    def write_record(self, photo, destination_dir):
+        rec = self.__get_record_path(photo, destination_dir)
+
+        rec_dir = os.path.dirname(rec)
+        if not os.path.exists(rec_dir):
+            os.makedirs(rec_dir)
+
+        with open(rec, 'w') as f:
+            json.dump(self.__to_dict(photo, destination_dir), f)
+
+    def delete_record(self, photo, destination_dir):
+        rec = self.__get_record_path(photo, destination_dir)
+
+        # TODO: Delete empty path elements up the tree.
+
+        if os.path.isfile(rec):
+            os.remove(rec)
+
+    #
+    # "Private" methods.
+    #
+
+    def __get_record_path(self, photo, destination_dir):
+        hash = self.__to_hash(photo, destination_dir)
+        return os.path.join(self.db_path, hash[-1], hash[-3:-1], hash[:-3])
+
+    def __to_hash(self, photo, destination_dir):
+        # Our primary key is this photo (md5) in this media destination.
+        return hashlib.md5((photo.digest() + destination_dir).encode()).hexdigest()
+
+    def __to_json_str(self, photo, destination_dir):
+        return json.dumps(self.__to_dict(photo, destination_dir), sort_keys=True)
+
+    def __to_dict(self, photo, destination_dir):
+        data = {}
+        data['type'] = photo.type
+        data['source_file'] = photo.file
+        data['destination_dir'] = destination_dir
+        data['digest'] = photo.digest()
+        return data
+
+    def __from_dict(self, data):
+        return PhotoRecord(
+            data['type'],
+            data['source_file'],
+            data['destination_dir'],
+            data['digest'])
+
+
+class PhotoRecord:
+
+    def __init__(self, type, source_file, destination_dir, digest):
+        self.type = type
+        self.source_file = source_file
+        self.destination_dir = destination_dir
+        self.digest = digest
+
+
+class Photo(ABC):
+
+    def __init__(self, type, file):
+        self.type = type
+        self.file = file
+        self.__digest = None
+
+    def digest(self):
+        if self.__digest == None:
+            md5 = hashlib.md5()
+            with open(self.file, 'rb') as f:
+                while True:
+                    data = f.read(32 * 1024)
+                    if not data:
+                        break
+                    md5.update(data)
+            self.__digest = md5.hexdigest()
+        return self.__digest
+
+    @abstractmethod
+    def get_sync_path(self, path):
+        pass
+
+#
+# Photo subclasses.
+#
+
+class HistorianPhoto(Photo):
+    # Input filenames: YYYY/MM-<Monthname>/<randomname>.<ext>
+    # Note there's no "day" portion to the date we get here, so we'll set them
+    # all to "01".
+
+    def __init__(self, file):
+        Photo.__init__(self, 'historian', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        date = (photo_relpath.split('-')[0] + '/01').replace('/', '-')
+        filename = photo_relpath.split('/')[-1]
+        return os.path.join(date, filename)
+
+
+class PhotosyncAppPhoto(Photo):
+    # Input filenames: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+
+    def __init__(self, file):
+        Photo.__init__(self, 'photossync-app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        date = (photo_relpath.split('_')[0])
+        filename = photo_relpath.split('/')[-1]
+        return os.path.join(date, filename)
+
+
+# OS X photos app (f.k.a. iPhoto) photo (not currently using)
+class PhotosAppPhoto(Photo):
+    # Input filenames: Masters/YYYY/MM/DD/<timestamped_subdir>/<randomname>.<ext>
+
+    def __init__(self, file):
+        Photo.__init__(self, 'photos.app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        date = (photo_relpath.split('/')[1:3]).replace('/', '-')
+        filename = photo_relpath.split('/')[-1]
+        return os.path.join(date, filename)
+
+
+# Plex photo sync (which doesn't work) photo (not currently using)
+class PlexAppPhoto(Photo):
+    # Input filenames: YYYY-MM-DD <randomname>.<ext>
+
+    def __init__(self, file):
+        Photo.__init__(self, 'plex-app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        return os.path.join(*photo_relpath.split(' '))
+
+
+def sync_photo(photo, source, destination, sync_db):
+    photo_record = sync_db.read_record(photo, destination)
+
+    if photo_record == None:
+        symlink = os.path.join(destination, photo.get_sync_path(source))
+        symlink_directory = os.path.dirname(symlink)
+
+        if not os.path.exists(symlink_directory):
+            os.makedirs(symlink_directory)
+
+        # Can the symlink exist and point to a different file?
+        if not os.path.exists(symlink):
+            os.symlink(os.path.relpath(photo.file, os.path.dirname(symlink)), symlink)
+
+        sync_db.write_record(photo, destination)
+
+
+def sync_photosyncapp_photos(sources, destination, database_dir):
+
+    for i in (range(len(sources))):
+        source = sources[i]
+
+        sync_db = PhotoSyncDB(database_dir, 'synced_photos')
+
+        for path in glob.iglob(os.path.join(source, '**/*'), recursive=True):
+
+            # OS X writes '._<filename>' files on Samba shares.
+            if os.path.isfile(path) and not path.startswith('._'):
+                sync_photo(PhotosyncAppPhoto(path), source, destination, sync_db)
+
+
+def sync_photos(args):
+    sources = args.sources.split(',')
+
+    if args.type == 'historian':
+        return sync_historian_photos(sources, args.destination, default_database_dir)
+
+    elif args.type == 'photosync-app':
+        return sync_photosyncapp_photos(sources, args.destination, default_database_dir)
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Mediaserver photo mangement utility')
+
+    parser.add_argument(
+        '-t',
+        '--type',
+        metavar='type',
+        choices=photo_types,
+        required=True,
+        help='Media source library type.')
+    parser.add_argument(
+        '-s',
+        '--sources',
+        required=True,
+        help='Path(s) to the source media. Delimit multiple with a comma.')
+    parser.add_argument(
+        '-d',
+        '--destination',
+        required=True,
+        help='Path to the media sync destination.')
+
+    args = parser.parse_args()
+
+    sys.exit(sync_photos(args))
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except Exception:
+        logging.exception('caught exception:')
+        sys.exit(1)
