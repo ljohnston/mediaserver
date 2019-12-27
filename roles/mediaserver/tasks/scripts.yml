@@ -16,11 +16,21 @@
     mode: '0775'
     state: 'directory'
 
+# Note this is a copy task that won't create the file if it exists...
 - name: 'create log files for mediaserver scripts'
   copy:
     content: ''
     dest: '/var/log/mediaserver/{{ item }}.log'
     force: 'no'
+    group: '{{ media_group }}'
+    owner: 'root'
+    mode: '0664'
+  with_flattened: [ 'sync_music', 'sync_photos', 'mediaserver', 'historian_rsync' ]
+
+# ... so we need to make sure we set ownership/permissions separately.
+- name: 'set ownership/permissions on log files for mediaserver scripts'
+  file:
+    dest: '/var/log/mediaserver/{{ item }}.log'
     group: '{{ media_group }}'
     owner: 'root'
     mode: '0664'
