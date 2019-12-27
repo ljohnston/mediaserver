@@ -53,12 +53,14 @@ class TestMediaserverItunesSync(unittest.TestCase):
                         with open(fq_filename, 'w') as f:
                             f.write('{}_{}_{}'.format(artist, album[0], filename))
 
+
     def delete_directory_contents(self, dir):
         for root, dirs, files in os.walk(dir):
             for f in files:
                 os.unlink(os.path.join(root, f))
             for d in dirs:
                 shutil.rmtree(os.path.join(root, d))
+
 
     def test_sync_itunes(self):
         libraries = {
@@ -80,10 +82,17 @@ class TestMediaserverItunesSync(unittest.TestCase):
                 '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
-        synced_files = glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True)
+        synced_files = [
+                f for f in glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True) \
+                if not os.path.isdir(f)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f)]
 
-        self.assertEqual(len(synced_files), 36)
+        self.assertEqual(len(synced_files), 30)
+        self.assertEqual(len(destination_dirs), 6)
         self.assertEqual(response.returncode, 0)
+
 
     def test_sync_itunes_with_deleted_song(self):
         libraries = {
@@ -126,10 +135,17 @@ class TestMediaserverItunesSync(unittest.TestCase):
                 '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
-        synced_files = glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True)
+        synced_files = [
+                f for f in glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True) \
+                if not os.path.isdir(f)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f)]
 
-        self.assertEqual(len(synced_files), 35)
+        self.assertEqual(len(synced_files), 29)
+        self.assertEqual(len(destination_dirs), 6)
         self.assertEqual(response.returncode, 0)
+
 
     def test_sync_itunes_with_deleted_album(self):
         libraries = {
@@ -170,10 +186,17 @@ class TestMediaserverItunesSync(unittest.TestCase):
                 '-d', self.dest_music_dir]
         response = subprocess.run(args, shell=False)
 
-        synced_files = glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True)
+        synced_files = [
+                f for f in glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True) \
+                if not os.path.isdir(f)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_music_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f)]
 
-        self.assertEqual(len(synced_files), 24)
+        self.assertEqual(len(synced_files), 20)
+        self.assertEqual(len(destination_dirs), 4)
         self.assertEqual(response.returncode, 0)
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
