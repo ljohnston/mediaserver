@@ -170,6 +170,68 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         self.assertEqual(response.returncode, 0)
 
 
+    def test_sync_photos_with_deleted_date(self):
+
+        data_defs = [
+            {
+                'source_subdir': "Lance Johnston's iPhone",
+                'files_prefix': '2019-01-02',
+                'files_start': 1,
+                'files_end': 10},
+            {
+                'source_subdir': "Lance Johnston's iPhone",
+                'files_prefix': '2019-01-03',
+                'files_start': 1,
+                'files_end': 10},
+            ]
+        self.create_test_data(data_defs)
+
+        source_dirs = set()
+
+        for data_def in data_defs:
+            source_dirs.add(os.path.join(self.source_photos_dir, data_def['source_subdir']))
+
+        args = [os.path.join(script_path, 'sync_photos'),
+                '-t', 'photosync-app',
+                '-s', ','.join(source_dirs),
+                '-d', self.dest_photos_dir]
+        response = subprocess.run(args, shell=False)
+
+        # We'll simulate a delete by removing the sources and recreating with
+        # one less song.
+
+        self.delete_directory_contents(self.source_photos_dir)
+
+        data_defs = [
+            {
+                'source_subdir': "Lance Johnston's iPhone",
+                'files_prefix': '2019-01-02',
+                'files_start': 1,
+                'files_end': 10},
+            ]
+        self.create_test_data(data_defs)
+
+        source_dirs = set()
+
+        for data_def in data_defs:
+            source_dirs.add(os.path.join(self.source_photos_dir, data_def['source_subdir']))
+
+        args = [os.path.join(script_path, 'sync_photos'),
+                '-t', 'photosync-app',
+                '-s', ','.join(source_dirs),
+                '-d', self.dest_photos_dir]
+        response = subprocess.run(args, shell=False)
+
+        synced_files = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if not os.path.isdir(f)]
+        destination_dirs = [f for f in os.listdir(self.dest_photos_dir)]
+
+        self.assertEqual(len(synced_files), 10)
+        self.assertEqual(len(destination_dirs), 1)
+        self.assertEqual(response.returncode, 0)
+
+
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         script_path = sys.argv.pop()
