@@ -219,6 +219,9 @@ def sync_photosyncapp_photos(sources, destination, database_dir):
             if os.path.isfile(path) and not path.startswith('._'):
                 sync_photo(PhotosyncAppPhoto(path), source, destination, sync_db)
 
+    delete_broken_symlinks(destination)
+    delete_empty_directories(destination)
+
 
 def sync_photos(args):
     sources = args.sources.split(',')
@@ -228,6 +231,40 @@ def sync_photos(args):
 
     elif args.type == 'photosync-app':
         return sync_photosyncapp_photos(sources, args.destination, default_database_dir)
+
+
+def find_broken_symlinks(path):
+    broken = []
+    for root, dirs, files in os.walk(path):
+        for filename in files:
+            path = os.path.join(root,filename)
+
+            if os.path.islink(path):
+                target_path = os.readlink(path)
+
+                if not os.path.isabs(target_path):
+                    target_path = os.path.join(os.path.dirname(path),target_path)
+                if not os.path.exists(target_path):
+                    broken.append(path)
+
+    return broken
+
+
+def delete_broken_symlinks(path):
+    for broken_link in find_broken_symlinks(path):
+        os.unlink(broken_link)
+
+
+def delete_empty_directories(path):
+    empty_dirs = []
+
+    for root, dirs, files in os.walk(path):
+        if not files:
+            empty_dirs.append(root)
+
+    for dir in reversed(empty_dirs):
+        if not os.listdir(dir):
+            os.rmdir(dir)
 
 
 def main():
