@@ -22,7 +22,6 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
         self.source_photos_dir = os.path.join(self.test_dir, 'source_photos')
         self.dest_photos_dir = os.path.join(self.test_dir, 'photos')
-        self.database_dir = os.path.join(self.test_dir, 'photosdb')
 
         os.makedirs(self.source_photos_dir)
         os.makedirs(self.dest_photos_dir)
@@ -51,14 +50,57 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
 
     def delete_directory_contents(self, dir):
-        for root, dirs, files in os.walk(dir):
-            for f in files:
-                os.unlink(os.path.join(root, f))
-            for d in dirs:
-                shutil.rmtree(os.path.join(root, d))
+        for root, dirs, files in os.walk(dir, topdown=False):
+            if not '.mediaserver' in root:
+                for f in files:
+                    os.unlink(os.path.join(root, f))
+                for d in dirs:
+                    path = os.path.join(root, d)
+                    if len(os.listdir(path)) == 0:
+                        os.rmdir(path)
 
 
     def test_sync_photos(self):
+
+        # Note duplicate content.
+        data_defs = [
+            {
+                'source_subdir': "Lance Johnston's iPhone",
+                'files_prefix': '2019-01-02',
+                'files_start': 1,
+                'files_end': 10},
+            {
+                'source_subdir': "Lance Johnston's iPhone",
+                'files_prefix': '2019-01-03',
+                'files_start': 1,
+                'files_end': 10},
+            ]
+        self.create_test_data(data_defs)
+
+        source_dirs = set()
+
+        for data_def in data_defs:
+            source_dirs.add(os.path.join(self.source_photos_dir, data_def['source_subdir']))
+
+        args = [os.path.join(script_path, 'sync_photos'),
+                '-t', 'photosync-app',
+                '-s', ','.join(source_dirs),
+                '-d', self.dest_photos_dir]
+        response = subprocess.run(args, shell=False)
+
+        synced_files = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if not os.path.isdir(f)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
+
+        self.assertEqual(len(synced_files), 20)
+        self.assertEqual(len(destination_dirs), 2)
+        self.assertEqual(response.returncode, 0)
+
+
+    def test_sync_photos_with_dup(self):
 
         # Note duplicate content.
         data_defs = [
@@ -101,7 +143,9 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         synced_files = [
                 f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
                 if not os.path.isdir(f)]
-        destination_dirs = [f for f in os.listdir(self.dest_photos_dir)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
 
         self.assertEqual(len(synced_files), 21)
         self.assertEqual(len(destination_dirs), 2)
@@ -163,7 +207,9 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         synced_files = [
                 f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
                 if not os.path.isdir(f)]
-        destination_dirs = [f for f in os.listdir(self.dest_photos_dir)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
 
         self.assertEqual(len(synced_files), 19)
         self.assertEqual(len(destination_dirs), 2)
@@ -225,10 +271,57 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         synced_files = [
                 f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
                 if not os.path.isdir(f)]
-        destination_dirs = [f for f in os.listdir(self.dest_photos_dir)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
 
         self.assertEqual(len(synced_files), 10)
         self.assertEqual(len(destination_dirs), 1)
+        self.assertEqual(response.returncode, 0)
+
+
+    def test_sync_photos_previously_synced(self):
+
+        data_defs = [
+            {
+                'source_subdir': "Lance Johnston's iPhone",
+                'files_prefix': '2019-01-02',
+                'files_start': 1,
+                'files_end': 10},
+            ]
+        self.create_test_data(data_defs)
+
+        source_dirs = set()
+
+        for data_def in data_defs:
+            source_dirs.add(os.path.join(self.source_photos_dir, data_def['source_subdir']))
+
+        args = [os.path.join(script_path, 'sync_photos'),
+                '-t', 'photosync-app',
+                '-s', ','.join(source_dirs),
+                '-d', self.dest_photos_dir]
+        response = subprocess.run(args, shell=False)
+
+        # Remove destination photos dir. Another sync should put nothing back,
+        # since everything has previously been synced there.
+
+        self.delete_directory_contents(self.dest_photos_dir)
+
+        args = [os.path.join(script_path, 'sync_photos'),
+                '-t', 'photosync-app',
+                '-s', ','.join(source_dirs),
+                '-d', self.dest_photos_dir]
+        response = subprocess.run(args, shell=False)
+
+        synced_files = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if not os.path.isdir(f)]
+        destination_dirs = [
+                f for f in glob.glob(os.path.join(self.dest_photos_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
+
+        self.assertEqual(len(synced_files), 0)
+        self.assertEqual(len(destination_dirs), 0)
         self.assertEqual(response.returncode, 0)
 
 

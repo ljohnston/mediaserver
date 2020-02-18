@@ -29,16 +29,32 @@ logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
 
-class PhotoSyncDB:
+class MediaserverDB(ABC):
 
     def __init__(self, database_dir, db):
         self.db_path = os.path.join(database_dir, db)
-        print('wtf:' + self.db_path)
         if not os.path.exists(self.db_path):
             os.makedirs(self.db_path)
 
-    def read_record(self, photo, destination_dir):
-        rec = self.__get_record_path(photo, destination_dir)
+    @abstractmethod
+    def get_key(self, photo):
+        pass
+
+    @abstractmethod
+    def to_dict(self, photo):
+        pass
+
+    @abstractmethod
+    def from_dict(self, data):
+        pass
+
+    # TODO: We need a select method (really just select all), so that we can
+    # remove DB records for files that may have been deleted.
+    def select_all(self):
+        pass
+
+    def read_record(self, photo):
+        rec = self.__get_record_path(photo)
 
         if not os.path.isfile(rec):
             return None
@@ -48,20 +64,20 @@ class PhotoSyncDB:
         with open(rec, 'r') as f:
             data = json.load(f)
 
-        return self.__from_dict(data)
+        return self.from_dict(data)
 
-    def write_record(self, photo, destination_dir):
-        rec = self.__get_record_path(photo, destination_dir)
+    def write_record(self, photo):
+        rec = self.__get_record_path(photo)
 
         rec_dir = os.path.dirname(rec)
         if not os.path.exists(rec_dir):
             os.makedirs(rec_dir)
 
         with open(rec, 'w') as f:
-            json.dump(self.__to_dict(photo, destination_dir), f)
+            json.dump(self.to_dict(photo), f)
 
-    def delete_record(self, photo, destination_dir):
-        rec = self.__get_record_path(photo, destination_dir)
+    def delete_record(self, photo):
+        rec = self.__get_record_path(photo)
 
         # TODO: Delete empty path elements up the tree.
 
@@ -72,27 +88,54 @@ class PhotoSyncDB:
     # "Private" methods.
     #
 
-    def __get_record_path(self, photo, destination_dir):
-        hash = self.__to_hash(photo, destination_dir)
+    def __get_record_path(self, photo):
+        hash = self.get_key(photo)
         return os.path.join(self.db_path, hash[-1], hash[-3:-1], hash[:-3])
 
-    def __to_hash(self, photo, destination_dir):
-        # Our primary key is this photo (md5) in this media destination.
-        return hashlib.md5((photo.digest() + destination_dir).encode()).hexdigest()
-
     def __to_json_str(self, photo, destination_dir):
-        return json.dumps(self.__to_dict(photo, destination_dir), sort_keys=True)
+        return json.dumps(self.to_dict(photo, destination_dir), sort_keys=True)
 
-    def __to_dict(self, photo, destination_dir):
+
+class PhotoDB(MediaserverDB):
+
+    def __init__(self, database_dir):
+        MediaserverDB.__init__(self, database_dir, '.mediaserver_photoDB')
+
+    def get_key(self, photo):
+        return photo.digest()
+
+    def to_dict(self, photo):
         data = {}
         data['type'] = photo.type
         data['source_file'] = photo.file
-        data['destination_dir'] = destination_dir
         data['digest'] = photo.digest()
         return data
 
-    def __from_dict(self, data):
+    def from_dict(self, data):
         return PhotoRecord(
+            data['type'],
+            data['source_file'],
+            data['digest'])
+
+class SyncDB(MediaserverDB):
+
+    def __init__(self, database_dir, destination_dir):
+        MediaserverDB.__init__(self, database_dir, '.mediaserver_syncDB')
+        self.destination_dir = destination_dir
+
+    def get_key(self, photo):
+        return hashlib.md5((photo.digest() + self.destination_dir).encode()).hexdigest()
+
+    def to_dict(self, photo):
+        data = {}
+        data['type'] = photo.type
+        data['source_file'] = photo.file
+        data['destination_dir'] = self.destination_dir
+        data['digest'] = photo.digest()
+        return data
+
+    def from_dict(self, data):
+        return SyncRecord(
             data['type'],
             data['source_file'],
             data['destination_dir'],
@@ -100,6 +143,14 @@ class PhotoSyncDB:
 
 
 class PhotoRecord:
+
+    def __init__(self, type, source_file, digest):
+        self.type = type
+        self.source_file = source_file
+        self.digest = digest
+
+
+class SyncRecord:
 
     def __init__(self, type, source_file, destination_dir, digest):
         self.type = type
@@ -154,7 +205,7 @@ class PhotosyncAppPhoto(Photo):
     # Input filenames: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
 
     def __init__(self, file):
-        Photo.__init__(self, 'photossync-app', file)
+        Photo.__init__(self, 'photosync-app', file)
 
     def get_sync_path(self, source_path):
         photo_relpath = os.path.relpath(self.file, source_path)
@@ -168,7 +219,7 @@ class PhotosAppPhoto(Photo):
     # Input filenames: Masters/YYYY/MM/DD/<timestamped_subdir>/<randomname>.<ext>
 
     def __init__(self, file):
-        Photo.__init__(self, 'photos.app', file)
+        Photo.__init__(self, 'photos-app', file)
 
     def get_sync_path(self, source_path):
         photo_relpath = os.path.relpath(self.file, source_path)
@@ -189,21 +240,25 @@ class PlexAppPhoto(Photo):
         return os.path.join(*photo_relpath.split(' '))
 
 
-def sync_photo(photo, source, destination, sync_db):
-    photo_record = sync_db.read_record(photo, destination)
+def sync_photo(photo, source, destination, sync_db, photo_db):
+    sync_record = sync_db.read_record(photo)
+    photo_record = photo_db.read_record(photo)
 
-    if photo_record == None:
-        symlink = os.path.join(destination, photo.get_sync_path(source))
-        symlink_directory = os.path.dirname(symlink)
+    # No-op if photo has been synced before or it exists in destination.
+    if sync_record != None or photo_record != None:
+        return
 
-        if not os.path.exists(symlink_directory):
-            os.makedirs(symlink_directory)
+    symlink = os.path.join(destination, photo.get_sync_path(source))
+    symlink_directory = os.path.dirname(symlink)
 
-        # Can the symlink exist and point to a different file?
-        if not os.path.exists(symlink):
-            os.symlink(os.path.relpath(photo.file, os.path.dirname(symlink)), symlink)
+    if not os.path.exists(symlink_directory):
+        os.makedirs(symlink_directory)
 
-        sync_db.write_record(photo, destination)
+    if not os.path.exists(symlink):
+        os.symlink(os.path.relpath(photo.file, os.path.dirname(symlink)), symlink)
+
+    sync_db.write_record(photo)
+    photo_db.write_record(photo)
 
 
 def sync_photosyncapp_photos(sources, destination, database_dir):
@@ -211,13 +266,14 @@ def sync_photosyncapp_photos(sources, destination, database_dir):
     for i in (range(len(sources))):
         source = sources[i]
 
-        sync_db = PhotoSyncDB(database_dir, 'synced_photos')
+        sync_db = SyncDB(source, destination)
+        photo_db = PhotoDB(destination)
 
         for path in glob.iglob(os.path.join(source, '**/*'), recursive=True):
 
             # OS X writes '._<filename>' files on Samba shares.
             if os.path.isfile(path) and not path.startswith('._'):
-                sync_photo(PhotosyncAppPhoto(path), source, destination, sync_db)
+                sync_photo(PhotosyncAppPhoto(path), source, destination, sync_db, photo_db)
 
     delete_broken_symlinks(destination)
     delete_empty_directories(destination)
