@@ -29,6 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   # For now we'll use the bento image and keep an eye on the issue.
   #
+
   # config.vm.box = "ubuntu/xenial64"
   config.vm.box = "bento/ubuntu-16.04"
 

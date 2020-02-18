@@ -1,5 +1,11 @@
 ---
 
+# This will shutup the python vs. python3 deprecation warning.
+# 'auto' will be future default per this page:
+#
+#   https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html
+ansible_python_interpreter: 'auto'
+
 # To get the latest version number:
 # - https://www.plex.tv/media-server-downloads/
 # - Select "linux" in the dropdown
