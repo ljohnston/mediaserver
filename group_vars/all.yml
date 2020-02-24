@@ -12,7 +12,8 @@ ansible_python_interpreter: 'auto'
 # - Version number will be displayed on page.
 
 # plex_version: '1.16.3.1433-359b06978'
-plex_version: '1.18.2.2015-5a99a9a46'
+# plex_version: '1.18.2.2015-5a99a9a46'
+plex_version: '1.18.7.2438-f342a5a43'
 
 media_directory: 'media'
 media_group: 'mediausers'
