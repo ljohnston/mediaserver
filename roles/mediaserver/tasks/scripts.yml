@@ -35,6 +35,8 @@
     owner: 'root'
     mode: '0664'
   with_flattened: [ 'sync_music', 'sync_photos', 'mediaserver', 'historian_rsync' ]
+  ignore_errors: "{{ ansible_check_mode }}"
+  
 
 - name: 'copy media management scripts'
   # TODO: These aren't templates...
@@ -47,6 +49,22 @@
     group: 'root'
     mode: '0755'
   with_flattened: [ 'sync_music', 'sync_photos', 'mediaserver', 'historian_rsync' ]
+
+- name: 'mobile photo-sync cron - lance'
+  cron:
+    name: 'mobile photo-sync - lance'
+    minute: '0'
+    hour: '*'
+    user: 'plexuser'
+    job: "/usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/Lance\\ Johnston\\'s\\ iPhone -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_lance"
+
+- name: 'mobile photo-sync cron - alison'
+  cron:
+    name: 'mobile photo-sync - alison'
+    minute: '0'
+    hour: '*'
+    user: 'plexuser'
+    job: "/usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/iAl\\'s -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_alison"
 
 - name: 'historian rsync cron'
   cron:

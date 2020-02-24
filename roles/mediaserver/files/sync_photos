@@ -14,8 +14,6 @@ from abc import ABC, abstractmethod
 # TODO: Real enums?
 photo_types = ['historian', 'photosync-app']
 
-default_database_dir = '/var/lib/mediaserver'
-
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
 console_handler.setLevel(logging.INFO)
@@ -202,7 +200,9 @@ class HistorianPhoto(Photo):
 
 
 class PhotosyncAppPhoto(Photo):
-    # Input filenames: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+    # Filenames
+    # Usually: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+    # Can be:  YYYY-MM-DD_HH-MM-SS_<randomname>.<ext>
 
     def __init__(self, file):
         Photo.__init__(self, 'photosync-app', file)
@@ -261,7 +261,7 @@ def sync_photo(photo, source, destination, sync_db, photo_db):
     photo_db.write_record(photo)
 
 
-def sync_photosyncapp_photos(sources, destination, database_dir):
+def sync_photosyncapp_photos(sources, destination):
 
     for i in (range(len(sources))):
         source = sources[i]
@@ -283,10 +283,10 @@ def sync_photos(args):
     sources = args.sources.split(',')
 
     if args.type == 'historian':
-        return sync_historian_photos(sources, args.destination, default_database_dir)
+        return sync_historian_photos(sources, args.destination)
 
     elif args.type == 'photosync-app':
-        return sync_photosyncapp_photos(sources, args.destination, default_database_dir)
+        return sync_photosyncapp_photos(sources, args.destination)
 
 
 def find_broken_symlinks(path):
@@ -315,6 +315,9 @@ def delete_empty_directories(path):
     empty_dirs = []
 
     for root, dirs, files in os.walk(path):
+        # Don't delete the root dir.
+        if root == path:
+            continue
         if not files:
             empty_dirs.append(root)
 
@@ -343,6 +346,16 @@ def main():
         '--destination',
         required=True,
         help='Path to the media sync destination.')
+    parser.add_argument(
+        '-n',
+        '--not-in-destination',
+        required=False,
+        help='Only sync if photo does not exist in this destination.')
+    parser.add_argument(
+        '-f',
+        '--flag-file',
+        required=False,
+        help='Only sync if this file exists.')
 
     args = parser.parse_args()
 
