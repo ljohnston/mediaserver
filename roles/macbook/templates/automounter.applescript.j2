@@ -1,6 +1,7 @@
 
 on logIt(msg)
-    set logFile to "/var/log/automounter.log"
+    -- TODO: Log rotation.
+    set logFile to "{{ automount_logfile }}"
     set now to current date
     set d to short date string of now
     set t to time string of now

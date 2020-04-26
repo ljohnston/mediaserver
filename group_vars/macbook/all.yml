@@ -1,2 +1,3 @@
 ---
 automount_user: '{{ ansible_user_id }}'
+automount_logfile: '/var/log/automounter.log'

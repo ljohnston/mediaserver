@@ -16,6 +16,15 @@
     mode: '0440'
   become: true
 
+- name: 'create automount log file'
+  copy:
+    content: ''
+    dest: '{{ automount_logfile }}'
+    force: 'no'
+    owner: '{{ automount_user }}'
+    mode: '0644'
+  become: true
+
 - name: 'create applescript directory'
   file:
     path: '{{ ansible_user_dir }}/applescript'
