@@ -1,6 +1,20 @@
 ---
 
 # - debug: var=ansible_env.HOME
+# - debug: var=ansible_user_id
+# - debug: var=automount_user
+
+- name: 'create nopasswd automount sudoers'
+  copy:
+    dest: '/etc/sudoers.d/10_{{ automount_user }}'
+    # dest: '/tmp/10_{{ automount_user }}'
+    content: |
+      {{ automount_user }} ALL=(ALL:ALL) NOPASSWD: /bin/mkdir -p /Volumes/{{mediaserver_hostname}}
+      {{ automount_user }} ALL=(ALL:ALL) NOPASSWD: /sbin/mount -t smbfs //{{ mediaserver_hostname }}/{{ media_share }} /Volumes/{{ mediaserver_hostname }}
+    owner: 'root'
+    group: 'wheel'
+    mode: '0440'
+  become: true
 
 - name: 'create applescript directory'
   file:

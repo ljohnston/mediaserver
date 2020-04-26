@@ -1,0 +1,2 @@
+---
+automount_user: '{{ ansible_user_id }}'
