@@ -11,9 +11,8 @@ ansible_python_interpreter: 'auto'
 # - Select "linux" in the dropdown
 # - Version number will be displayed on page.
 
-# plex_version: '1.16.3.1433-359b06978'
-# plex_version: '1.18.2.2015-5a99a9a46'
-plex_version: '1.18.7.2438-f342a5a43'
+# plex_version: '1.18.9.2571-e106a8a91'
+plex_version: '1.18.9.2578-513b381af'
 
 media_directory: 'media'
 media_group: 'mediausers'
@@ -23,6 +22,8 @@ media_static_folders:
   - 'historian_import'
   - 'source_music'
   - 'source_photos'
+  - 'source_photos/lance_photosync'
+  - 'source_photos/alison_photosync'
   - 'mobile_photos'
   - 'mobile_photos_alison'
   - 'mobile_photos_lance'
@@ -42,6 +43,9 @@ mergerfs__mount_options: 'defaults,allow_other,direct_io,use_ino,category.create
 # Seems like map(...) oughta create a list, but seems to create some sort of
 # "generator" object. Would sure be nice if any of the docs were any good.
 mergerfs__mounts: '{{ snapraid__data_devices | map(attribute="mount_point") | list }}'
+
+# For mac automounter applescript.
+smbd_port: '445'
 
 samba__custom_global:
   'dns proxy'     : 'no'

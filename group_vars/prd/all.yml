@@ -28,19 +28,19 @@ nopasswd_sudoers:
   - 'ljohnston'
 
 snapraid__parity_devices:
-  - device: "/dev/sdc"
+  - device: "/dev/sdb"
     fs_type: "ext4"
     fs_opts: "-m 0 -T largefile4"
     mount_point: "/mnt/parity/1-parity"
     type: "parity"
 
 snapraid__data_devices:
-  - device: "/dev/sdd"
+  - device: "/dev/sdc"
     fs_type: "ext4"
     fs_opts: "-m 2 -T largefile4"
     mount_point: "/mnt/data/disk1"
     type: "data"
-  - device: "/dev/sde"
+  - device: "/dev/sdd"
     fs_type: "ext4"
     fs_opts: "-m 2 -T largefile4"
     mount_point: "/mnt/data/disk2"

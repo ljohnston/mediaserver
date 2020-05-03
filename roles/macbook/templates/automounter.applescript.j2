@@ -14,19 +14,26 @@ on logIt(msg)
     end try
 end logIt
 
+on serverExists()
+    try
+        do shell script "nc -G2 -z {{ mediaserver_hostname }} {{ smbd_port }} &>/dev/null"
+        return true
+    on error
+        my logIt("Smb service on '{{ mediaserver_hostname }}' not responding (server down?)")
+        return false
+    end try
+end serverExists
 
 tell application "Finder"
     set isConnected to disk "{{ media_share }}" exists
 end tell
 
-if isConnected = false then
+if isConnected = false and serverExists() then
     my logIt("Volume '{{ media_share }}' not mounted. Mounting...")
     try
-        -- Using the "mount volume" applescript command will throw up a dialog
-        -- on every attempt if the server just simply doesn't exist.
-        -- mount volume "{{ media_share }}" on server "{{ mediaserver_hostname }}"
-        do shell script "[ -d /Volumes/{{ mediaserver_hostname }} ] || sudo /bin/mkdir -p /Volumes/{{mediaserver_hostname}}"
-        do shell script "sudo /sbin/mount -t smbfs //{{ mediaserver_hostname }}/{{ media_share }} /Volumes/{{ mediaserver_hostname }}"
+        -- This "mount volume" command will throw up a dialog on every attempt
+        -- if the server doesn't exist (hence the serverExists() check).
+        mount volume "{{ media_share }}" on server "{{ mediaserver_hostname }}"
         my logIt("Volume '{{ media_share }}' successfully mounted")
     on error errMsg
         my logIt("Error mounting volume '{{ media_share }}' (" & errMsg & ")")

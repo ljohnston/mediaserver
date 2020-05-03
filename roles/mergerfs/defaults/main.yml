@@ -1,7 +1,7 @@
 ---
 # defaults file for mergerfs
 
-mergerfs__version: '2.24.2'
+mergerfs__version: '2.28.3'
 
 arch: '{{ (ansible_userspace_bits == "64") | ternary("amd64","i386") }}'
 
