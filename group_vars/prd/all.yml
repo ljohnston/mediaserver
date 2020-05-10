@@ -46,6 +46,8 @@ snapraid__data_devices:
     mount_point: "/mnt/data/disk2"
     type: "data"
 
+mergerfs__mount_options: 'defaults,allow_other,direct_io,use_ino,category.create=eplfs,moveonenospc=true,minfreespace=20G,fsname=mergerfsPool'
+
 samba__users:
   - name: alison
     password: !vault |
