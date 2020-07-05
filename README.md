@@ -11,25 +11,49 @@ link, the second link came along after I'd already gotten something built):
 This ansible config inspired by the following repository from the author of
 both of the above links:
 
-https://github.com/IronicBadger/ansible
+    * https://github.com/IronicBadger/ansible
 
 Here's another good ansible/vagrant with snapraid and mergerfs link:
 
     * http://zacklalanne.me/using-vagrant-to-virtualize-multiple-hard-drives/   
 
-My inital build was done by hand just because I was (stupidly) in a hurry (why?
-I don't know...). This project is an effort to fix that.
+##  Ansible 
+
+This project uses some roles from ansible galaxy. To install them:
+
+    $ ansible-galaxy install --role-file requirements.yml --roles-path roles.galaxy
+
+##  Vagrant
 
 This project includes a Vagrantfile for local development. Simply...
 
     $ vagrant up
 
-    Or, if vm already exists...
+  Or, if vm already exists...
 
     $ vagrant provision
+
+  Or, to target specfic ansible configuration:
+
+    ANSILBE_ARGS='--tags snapraid' vagrant provision
 
 ## mediaserver
 
 To use this project to provision the "production" mediaserver, simply:
 
     $ ansible-playbook playbook.yml --vault-id ~/.ansible/.vault_pass -i inventory/hosts
+
+## iTunes
+
+iTunes is a pain in the ass when it comes to how it manages libraries and such.
+It's possible that it can get out of sync with the filesystem.
+
+We can audit things via the following:
+
+  iTunes Library
+    $ grep '>Album<' iTunes\ Library.xml |sed 's/.*<string>\(.*\)<\/string>/\1/g' |sort -u >albums_xml
+
+  File System
+    $ find iTunes\ Media/Music/ -type f -name '*.m4a' |sed -r 's|/[^/]+$||' |awk -F "/" '{print $NF}' |sort -u >albums_fs
+
+  diff away ...
