@@ -26,6 +26,16 @@ logger = logging.getLogger('sync_music')
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
+#
+# All plex photo libraries (i.e. our sync targets) should have the following
+# diretory structure:
+#
+#   <root>
+#     <year>
+#       <month>
+#         <day>
+#           ...
+#
 
 class MediaserverDB(ABC):
 
@@ -200,18 +210,17 @@ class HistorianPhoto(Photo):
 
 
 class PhotosyncAppPhoto(Photo):
-    # Filenames
+    # Filenames:
     # Usually: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
     # Can be:  YYYY-MM-DD_HH-MM-SS_<randomname>.<ext>
+    # Source files are already in <yyyy>/<mm>/<dd> subdirs.
 
     def __init__(self, file):
         Photo.__init__(self, 'photosync-app', file)
 
     def get_sync_path(self, source_path):
         photo_relpath = os.path.relpath(self.file, source_path)
-        date = (photo_relpath.split('_')[0])
-        filename = photo_relpath.split('/')[-1]
-        return os.path.join(date, filename)
+        return photo_relpath
 
 
 # OS X photos app (f.k.a. iPhoto) photo (not currently using)
