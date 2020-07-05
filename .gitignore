@@ -5,3 +5,5 @@
 *.retry
 
 roles.galaxy/
+
+/source_music
