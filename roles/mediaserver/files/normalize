@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+
+import argparse
+import glob
+import logging
+import logging.handlers
+import os
+import sys
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+console_handler.setLevel(logging.INFO)
+
+file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/normalize.log')
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+file_handler.setLevel(logging.WARNING)
+
+logger = logging.getLogger('normalize')
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+def normalize(args):
+    sources = args.sources.split(',')
+    destination = args.destination
+
+    for i in (range(len(sources))):
+        source = sources[i]
+
+        if not os.path.exists(source):
+            logger.warning("source folder '{}' not found - nothing to normalize".format(source))
+
+        for sourcefile in glob.iglob(os.path.join(source, '**/*.m4a'), recursive=True):
+            destfile = os.path.join(destination, os.path.relpath(sourcefile, source))
+            destfile_dir = os.path.dirname(destfile)
+
+            if not os.path.exists(destfile_dir):
+                os.makedirs(destfile_dir)
+
+            destfile = os.path.splitext(destfile)[0]+'.m4a'
+
+            if not os.path.exists(destfile):
+                cmd = 'ffmpeg-normalize "{}" -o "{}" -c:a aac -ar 48000'.format(sourcefile, destfile)
+                os.system(cmd)
+
+def main():
+    parser = argparse.ArgumentParser(description='Mediaserver audio normalizer')
+
+    parser.add_argument(
+        '-s',
+        '--sources',
+        required=True,
+        help='Path(s) to the source media. Delimit multiple with a comma.')
+    parser.add_argument(
+        '-d',
+        '--destination',
+        required=True,
+        help='Path to the normalization destination.')
+
+    args = parser.parse_args()
+
+    sys.exit(normalize(args))
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except Exception:
+        logging.exception('caught exception:')
+        sys.exit(1)

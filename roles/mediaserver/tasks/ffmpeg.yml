@@ -1,0 +1,19 @@
+---
+# tasks file for ffmpeg
+
+- name: 'install python3-pip package'
+  apt:
+    pkg: 'python3-pip'
+    state: 'present'
+
+- name: 'install ffmpeg package'
+  apt:
+    pkg: 'ffmpeg'
+    state: 'present'
+
+- name: 'install ffmpeg-normalize'
+  pip:
+    name: 'ffmpeg-normalize'
+    state: 'present'
+    executable: 'pip3'
+

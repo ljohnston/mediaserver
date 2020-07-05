@@ -21,6 +21,10 @@
   include: 'docker_apps.yml'
   tags: ['docker_apps']
 
+- name: 'ffmpeg'
+  include: 'ffmpeg.yml'
+  tags: ['ffmpeg']
+
 - name: 'scripts'
   include: 'scripts.yml'
   tags: ['scripts','test']

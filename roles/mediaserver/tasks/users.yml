@@ -14,7 +14,7 @@
     append: 'yes'
     groups: '{{ item.groups + [ media_group ] }}'
     update_password: 'on_create'
-  # no_log: 'true'
+  no_log: 'true'
   with_flattened: "{{ media_users }}"
 
 - name: 'create nopasswd sudoers'
