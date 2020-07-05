@@ -11,8 +11,8 @@ ansible_python_interpreter: 'auto'
 # - Select "linux" in the dropdown
 # - Version number will be displayed on page.
 
-# plex_version: '1.18.9.2571-e106a8a91'
-plex_version: '1.18.9.2578-513b381af'
+# plex_version: '1.18.9.2578-513b381af'
+plex_version: '1.19.5.3035-864bbcbb7'
 
 media_directory: 'media'
 media_group: 'mediausers'
@@ -28,6 +28,7 @@ media_static_folders:
   - 'mobile_photos_alison'
   - 'mobile_photos_lance'
   - 'music'
+  - 'music_normalized'
   - 'movies'
   - 'photos'
   - 'tv'
@@ -77,6 +78,45 @@ samba__shares: "{
     'writable'       : 'yes',
   }
 }"
+
+# 
+# postfix
+# 
+
+postfix_relayhost: 'smtp.mail.yahoo.com'
+postfix_relayhost_port: '587'
+postfix_sasl_auth_enable: 'yes'
+postfix_sasl_security_options: ''
+postfix_sasl_tls_security_options: ''
+postfix_sasl_user: 'lance_johnston@yahoo.com'
+postfix_sasl_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  32643638363462333633666435363861333438386239646436363261646532653637373766323433
+  6239376239373666613937333362656336316239623361660a353031393065653634616630326338
+  39353839393833323432636638336139346631313066383831616666303539376232613335306163
+  3139383938373738610a396362616366353734666562356230623932303934666439613862393166
+  30323134343135366663613463333462343130313133613232343066633565326335
+postfix_smtp_tls_cafile: '/etc/ssl/certs/ca-certificates.crt'
+
+# 
+# This is a hack because the galaxy postfix role kinda sucks:
+# - postfix_relaytls: If we set this to true, it brings along
+#   settings that we don't want and can't configure.
+# - smtp_generic_maps: We can't set 'regexp', which we need.
+#   Note that the module will always include this setting, so 
+#   we're essentially overriding it here since the raw options 
+#   are added at the end of main.cf (fortunately, those have
+#   precedence).
+#
+postfix_relaytls: false
+postfix_raw_options:
+  - |
+    smtp_use_tls = yes
+    smtp_generic_maps = regexp:/etc/postfix/generic
+
+postfix_generic:
+  - pattern: '/.+@{{ mediaserver_hostname }}/'
+    result: 'lance_johnston@yahoo.com'
 
 #
 # timezone / ntp
