@@ -10,9 +10,13 @@ import unittest
 
 # TODO:
 
-# To facilitate test/script development. Pass path to script location (i.e. the
-# location of the script this test will be calling for tests) as argument on
-# command line.
+#
+# To facilitate test/script development, pass the path to script location (i.e.
+# the location of the script this test will be calling for tests) an as
+# argument on command line. For example:
+#
+#   $ /test/test_mediaserver_photosyncapp_sync.py /vagrant/roles/mediaserver/files/
+#
 script_path = ''
 
 class TestMediaserverPhotosyncSync(unittest.TestCase):
@@ -33,16 +37,20 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
 
     def create_test_data(self, data_defs):
-        # Filenames: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+        # Filenames
+        # Usually: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+        # Can be:  YYYY-MM-DD_HH-MM-SS_<randomname>.<ext>
 
         for data_def in data_defs:
             path = os.path.join(self.source_photos_dir, data_def['source_subdir'])
+            for d in data_def['files_date'].split('-'):
+                path = os.path.join(path, d)
 
             if not os.path.exists(path):
                 os.makedirs(path)
 
             for i in range(data_def['files_start'], data_def['files_end'] + 1):
-                filename = '{}_01-23-45_IMG_{:04d}.JPG'.format(data_def['files_prefix'], i)
+                filename = '{}_01-23-45_IMG_{:04d}.JPG'.format(data_def['files_date'], i)
                 fq_filename = os.path.join(path, filename)
                 with open(fq_filename, 'w') as f:
                     content = data_def.get('content', filename)
@@ -65,13 +73,13 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         # Note duplicate content.
         data_defs = [
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 1,
                 'files_end': 10},
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-03',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-03',
                 'files_start': 1,
                 'files_end': 10},
             ]
@@ -96,7 +104,7 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
                 if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
 
         self.assertEqual(len(synced_files), 20)
-        self.assertEqual(len(destination_dirs), 2)
+        self.assertEqual(len(destination_dirs), 4)
         self.assertEqual(response.returncode, 0)
 
 
@@ -105,24 +113,24 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
         # Note duplicate content.
         data_defs = [
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 1,
                 'files_end': 10},
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 11,
                 'files_end': 11,
                 'content': 'foo'},
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-03',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-03',
                 'files_start': 1,
                 'files_end': 10},
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-03',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-03',
                 'files_start': 11,
                 'files_end': 11,
                 'content': 'foo'},
@@ -148,7 +156,7 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
                 if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
 
         self.assertEqual(len(synced_files), 21)
-        self.assertEqual(len(destination_dirs), 2)
+        self.assertEqual(len(destination_dirs), 4)
         self.assertEqual(response.returncode, 0)
 
 
@@ -156,13 +164,13 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
         data_defs = [
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 1,
                 'files_end': 10},
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-03',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-03',
                 'files_start': 1,
                 'files_end': 10},
             ]
@@ -186,13 +194,13 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
         data_defs = [
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 1,
                 'files_end': 10},
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-03',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-03',
                 'files_start': 1,
                 'files_end': 9},
             ]
@@ -212,7 +220,7 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
                 if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
 
         self.assertEqual(len(synced_files), 19)
-        self.assertEqual(len(destination_dirs), 2)
+        self.assertEqual(len(destination_dirs), 4)
         self.assertEqual(response.returncode, 0)
 
 
@@ -220,13 +228,13 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
         data_defs = [
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 1,
                 'files_end': 10},
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-03',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-03',
                 'files_start': 1,
                 'files_end': 10},
             ]
@@ -250,8 +258,8 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
         data_defs = [
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 1,
                 'files_end': 10},
             ]
@@ -276,7 +284,7 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
                 if os.path.isdir(f) and not os.path.basename(f).startswith('.mediaserver_')]
 
         self.assertEqual(len(synced_files), 10)
-        self.assertEqual(len(destination_dirs), 1)
+        self.assertEqual(len(destination_dirs), 3)
         self.assertEqual(response.returncode, 0)
 
 
@@ -284,8 +292,8 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
         data_defs = [
             {
-                'source_subdir': "Lance Johnston's iPhone",
-                'files_prefix': '2019-01-02',
+                'source_subdir': "lance_photosync",
+                'files_date': '2019-01-02',
                 'files_start': 1,
                 'files_end': 10},
             ]
