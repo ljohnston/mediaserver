@@ -9,7 +9,13 @@
         <string>osascript</string>
         <string>{{ script_path }}</string>
     </array>
+    <!-- 
+     Seems StartInterval is being ignored, use ThrottleInterval. See here:
+     https://alvinalexander.com/mac-os-x/mac-os-x-startinterval-broken-launchctl-throttleinterval/
+    -->
     <key>StartInterval</key>
+    <integer>20</integer>
+    <key>ThrottleInterval</key>
     <integer>20</integer>
     <key>KeepAlive</key>
     <true/>
