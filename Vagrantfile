@@ -15,6 +15,8 @@ test -f /etc/bootstrapped && exit
 echo "alias ll='ls -la'" >> .bashrc
 echo 'set -o vi' >> .bashrc
 
+apt-get update
+
 date > /etc/bootstrapped
 
 BOOTSTRAP
@@ -30,8 +32,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # For now we'll use the bento image and keep an eye on the issue.
   #
 
-  # config.vm.box = "ubuntu/xenial64"
-  config.vm.box = "bento/ubuntu-16.04"
+  # # config.vm.box = "ubuntu/xenial64"
+  # config.vm.box = "bento/ubuntu-16.04"
+
+  # config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "bento/ubuntu-18.04"
 
   parityDisk = './.vm/parityDisk.vdi'
   dataDisk1  = './.vm/dataDisk1.vdi'
@@ -80,10 +85,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, inline: bootstrap
 
-  config.vm.network :private_network, ip: "10.0.1.10"
+  config.vm.network :private_network, ip: '10.0.1.10'
 
   # config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "./test", "/test"
+
+  if File.exist?('./source_music')
+    config.vm.synced_folder './source_music', '/storage/media/source_music', group: 'mediausers', mount_options: ['dmode=775,fmode=664']
+  end
 
   config.vm.provision :ansible do |ansible|
     ansible.compatibility_mode = "2.0"
