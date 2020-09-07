@@ -37,6 +37,13 @@ This project includes a Vagrantfile for local development. Simply...
 
     ANSILBE_ARGS='--tags snapraid' vagrant provision
 
+### Vagrant guest additions plugin
+
+  The vagrant guest addtions plugin should be installed (no configuration
+  should be necessary though).
+
+    $ vagrant plugin install vagrant-vbguest
+
 ## mediaserver
 
 To use this project to provision the "production" mediaserver, simply:

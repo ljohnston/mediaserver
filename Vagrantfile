@@ -83,16 +83,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.hostname = hostname
 
-  config.vm.provision :shell, inline: bootstrap
-
   config.vm.network :private_network, ip: '10.0.1.10'
 
   # config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "./test", "/test"
 
-  if File.exist?('./source_music')
-    config.vm.synced_folder './source_music', '/storage/media/source_music', group: 'mediausers', mount_options: ['dmode=775,fmode=664']
-  end
+  config.vm.provision :shell, inline: bootstrap
 
   config.vm.provision :ansible do |ansible|
     ansible.compatibility_mode = "2.0"
@@ -111,6 +107,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
 
     ansible.playbook = "playbook.yml"
+  end
+
+  # Create symlink in project dir to seed source media for testing.
+  if File.exist?('./source_music')
+    config.vm.provision "ansible" do |ansible|
+      ansible.groups = {
+        "dev" => [hostname],
+        "mediaservers" => [hostname],
+      }
+      ansible.playbook = "testdata.yml"
+    end
   end
 
   config.vm.provision :serverspec do |spec|

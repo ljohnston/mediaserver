@@ -1,0 +1,12 @@
+---
+# This playbook is only run as part of vagrant provisioning.
+
+- hosts: mediaservers
+
+  tasks:
+  - name: 'copy source_music test data'
+    synchronize:
+      src: './source_music/'
+      dest: '{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/'
+      perms: 'no'
+      times: 'no'
