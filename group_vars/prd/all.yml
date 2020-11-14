@@ -27,23 +27,30 @@ media_users:
 nopasswd_sudoers:
   - 'ljohnston'
 
+# devices:
+#   - device: "/dev/sda"
+#     fs_type: "ext4"
+#     fs_opts: "-m 2 -T largefile4"
+#     mount_point: "/mnt/"
+#     type: "data"
+
 snapraid__parity_devices:
   - device: "/dev/sdb"
     fs_type: "ext4"
     fs_opts: "-m 0 -T largefile4"
-    mount_point: "/mnt/parity/1-parity"
+    mount_point: "/mnt/snapraid/parity/1-parity"
     type: "parity"
 
 snapraid__data_devices:
   - device: "/dev/sdc"
     fs_type: "ext4"
     fs_opts: "-m 2 -T largefile4"
-    mount_point: "/mnt/data/disk1"
+    mount_point: "/mnt/snapraid/data/disk1"
     type: "data"
   - device: "/dev/sdd"
     fs_type: "ext4"
     fs_opts: "-m 2 -T largefile4"
-    mount_point: "/mnt/data/disk2"
+    mount_point: "/mnt/snapraid/data/disk2"
     type: "data"
 
 mergerfs__mount_options: 'defaults,allow_other,direct_io,use_ino,category.create=eplfs,moveonenospc=true,minfreespace=20G,fsname=mergerfsPool'
