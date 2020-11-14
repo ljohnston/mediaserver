@@ -11,8 +11,8 @@ ansible_python_interpreter: 'auto'
 # - Select "linux" in the dropdown
 # - Version number will be displayed on page.
 
-# plex_version: '1.18.9.2578-513b381af'
-plex_version: '1.19.5.3035-864bbcbb7'
+# plex_version: '1.20.3.3483-211702a9f'
+plex_version: '1.20.5.3583-309e93364'
 
 media_directory: 'media'
 media_group: 'mediausers'
