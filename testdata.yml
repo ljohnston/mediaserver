@@ -2,6 +2,7 @@
 # This playbook is only run as part of vagrant provisioning.
 
 - hosts: mediaservers
+  become: yes
 
   tasks:
   - name: 'copy source_music test data'
@@ -10,3 +11,12 @@
       dest: '{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/'
       perms: 'no'
       times: 'no'
+
+  - name: 'set source_music test data perms'
+    file:
+      dest: '{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/'
+      group: '{{ media_group }}'
+      owner: 'root'
+      mode: 'ug=rwX,o=rX' 
+      recurse: 'yes'
+      
