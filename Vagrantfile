@@ -48,6 +48,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vb|
 
+    # Samba configured to only allow connections from 192.168.
+    # This will allow us to connect from that CIDR range.
+    vb.customize ['modifyvm', :id, '--natnet1', '192.168/16']
+
     # Controls how the vm shows up in the VirtualBox GUI and comand line.
     vb.name = hostname
 
@@ -83,7 +87,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.hostname = hostname
 
-  config.vm.network :private_network, ip: '10.0.1.10'
+  config.vm.network :private_network, ip: '192.168.1.10'
 
   # config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "./test", "/test"
