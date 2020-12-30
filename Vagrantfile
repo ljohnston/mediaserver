@@ -38,9 +38,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.box = "ubuntu/bionic64"
   config.vm.box = "bento/ubuntu-18.04"
 
-  parityDisk = './.vm/parityDisk.vdi'
-  dataDisk1  = './.vm/dataDisk1.vdi'
-  dataDisk2  = './.vm/dataDisk2.vdi'
+  disk1 = './.vm/disk1.vdi'
+  disk2 = './.vm/disk2.vdi'
+  disk3 = './.vm/disk3.vdi'
+  disk4 = './.vm/data4.vdi'
 
   # Set hostname variable here so we can use it in the 'VBoxManage' command
   # below as 'vb.name' isn't directly accessible there.
@@ -58,16 +59,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.memory = 2048
     vb.cpus = 2
 
-    if not File.exists?(parityDisk)
-      vb.customize ['createhd', '--filename', parityDisk, '--variant', 'Fixed', '--size', 3 * 1024]
+    if not File.exists?(disk1)
+      vb.customize ['createhd', '--filename', disk1, '--variant', 'Fixed', '--size', 3 * 1024]
     end
 
-    if not File.exists?(dataDisk1)
-      vb.customize ['createhd', '--filename', dataDisk1, '--variant', 'Fixed', '--size', 3 * 1024]
+    if not File.exists?(disk2)
+      vb.customize ['createhd', '--filename', disk2, '--variant', 'Fixed', '--size', 3 * 1024]
     end
 
-    if not File.exists?(dataDisk2)
-      vb.customize ['createhd', '--filename', dataDisk2, '--variant', 'Fixed', '--size', 3 * 1024]
+    if not File.exists?(disk3)
+      vb.customize ['createhd', '--filename', disk3, '--variant', 'Fixed', '--size', 3 * 1024]
+    end
+
+    if not File.exists?(disk4)
+      vb.customize ['createhd', '--filename', disk4, '--variant', 'Fixed', '--size', 3 * 1024]
     end
 
     # On the first 'up', the vm won't exist and this shell command will
@@ -77,9 +82,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ['storagectl', :id, '--name', 'SCSI', '--add', 'scsi']
     end
 
-    vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 0, '--device', 0, '--type', 'hdd', '--medium', parityDisk]
-    vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', dataDisk1]
-    vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', dataDisk2]
+    vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 0, '--device', 0, '--type', 'hdd', '--medium', disk1]
+    vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk2]
+    vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk3]
+    vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk4]
   end
 
   # This is required to set 'ansible.groups' for this vm.

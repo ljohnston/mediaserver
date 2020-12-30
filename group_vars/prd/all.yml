@@ -5,6 +5,7 @@ automounter_service_file: 'com.user.mediaserver.automounter.plist'
 
 mediaserver_hostname: 'mediaserver'
 media_share: 'storage'
+backup_share: 'backup'
 
 media_users:
   - name: 'alison'
@@ -27,12 +28,11 @@ media_users:
 nopasswd_sudoers:
   - 'ljohnston'
 
-# devices:
-#   - device: "/dev/sda"
-#     fs_type: "ext4"
-#     fs_opts: "-m 2 -T largefile4"
-#     mount_point: "/mnt/"
-#     type: "data"
+data_device:
+  device: "/dev/sda"
+  fs_type: "ext4"
+  fs_opts: ""
+  mount_point: "/mnt/data"
 
 snapraid__parity_devices:
   - device: "/dev/sdb"

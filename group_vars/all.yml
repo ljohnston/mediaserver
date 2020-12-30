@@ -34,9 +34,11 @@ media_static_folders:
   - 'tv'
 
 backup_share: 'backup'
-backup_path: '/backup'
+backup_path: '{{ data_device.mount_point }}/backup'
 
-filesystems__devices: '{{ snapraid__parity_devices + snapraid__data_devices }}'
+devices: '{{ [data_device] }}'
+
+filesystems__devices: '{{ [devices] + snapraid__parity_devices + snapraid__data_devices }}'
 
 mergerfs__mount_point: '/storage'
 
@@ -50,7 +52,7 @@ smbd_port: '445'
 samba__custom_global:
   'dns proxy'     : 'no'
   'guest ok'      : 'no'
-  'hosts allow'   : '10.'
+  'hosts allow'   : '192.168.'
   'security'      : 'user'
   'server role'   : 'standalone server'
   'server string' : 'Samba Server %v'

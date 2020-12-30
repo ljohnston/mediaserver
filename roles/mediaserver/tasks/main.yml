@@ -5,6 +5,10 @@
   include: 'config.yml'
   tags: ['config']
 
+- name: 'create mounts'
+  include: 'mounts.yml'
+  tags: ['mounts']
+
 - name: 'create users/groups'
   include: 'users.yml'
   tags: ['users']
