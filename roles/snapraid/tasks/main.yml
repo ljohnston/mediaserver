@@ -28,7 +28,40 @@
     state: mounted
   with_flattened: "{{ snapraid__parity_devices + snapraid__data_devices }}"
 
+# /var/snapraid is used in snapraid.conf
+- name: 'create /var/snapraid dir'
+  file:
+    path: "/var/snapraid"
+    state: directory
+
 - name: 'create snapraid.conf'
   template: 
     src: 'etc/snapraid.conf.j2' 
     dest: '/etc/snapraid.conf'
+
+- name: 'copy snapraid-runner.py'
+  copy:
+    src: 'snapraid-runner.py'
+    dest: '/usr/local/bin/'
+    mode: 'ugo+x'
+
+- name: 'create snapraid-runner.conf'
+  template:
+    src: 'etc/snapraid-runner.conf.j2'
+    dest: '/etc/snapraid-runner.conf'
+
+- name: 'create snapraid-runner.log file'
+  copy:
+    content: ''
+    dest: '/var/log/snapraid-runner.log'
+    force: 'no'
+    group: '{{ media_group }}'
+    owner: 'root'
+    mode: '0664'
+
+- name: 'create snapraid-runner cron'
+  cron:
+    name: 'snapraid-runner'
+    minute: '0'
+    hour: '7'
+    job: "/usr/local/bin/snapraid-runner.py --conf /etc/snapraid-runner.conf"
