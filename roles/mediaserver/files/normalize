@@ -5,7 +5,11 @@ import glob
 import logging
 import logging.handlers
 import os
+import subprocess
 import sys
+
+# Needed to allow individual loggers to manage their level.
+logging.root.setLevel(logging.NOTSET)
 
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
@@ -13,7 +17,7 @@ console_handler.setLevel(logging.INFO)
 
 file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/normalize.log')
 file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-file_handler.setLevel(logging.WARNING)
+file_handler.setLevel(logging.INFO)
 
 logger = logging.getLogger('normalize')
 logger.addHandler(console_handler)
@@ -22,6 +26,8 @@ logger.addHandler(file_handler)
 def normalize(args):
     sources = args.sources.split(',')
     destination = args.destination
+
+    returncode = 0
 
     for i in (range(len(sources))):
         source = sources[i]
@@ -39,8 +45,40 @@ def normalize(args):
             destfile = os.path.splitext(destfile)[0]+'.m4a'
 
             if not os.path.exists(destfile):
-                cmd = 'ffmpeg-normalize "{}" -o "{}" -c:a aac -ar 48000'.format(sourcefile, destfile)
-                os.system(cmd)
+                cmd = ['ffmpeg-normalize', sourcefile,
+                       '-o', destfile,
+                       '-c:a', 'aac',
+                       '-ar', '48000',
+                       '-vn']
+
+                logger.info(" ".join(cmd))
+
+                p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+                p.communicate()
+
+                if p.returncode != 0:
+                    returncode = 1
+                    for line in iter(p.stdout.readline, ''):
+                        logger.error(line.rstrip())
+
+    return returncode
+
+def cleanup(args):
+    sources = args.sources.split(',')
+    destination = args.destination
+
+    if not os.path.exists(destination):
+        return
+
+    for destfile in glob.iglob(os.path.join(destination, '**/*.m4a'), recursive=True):
+
+        for i in (range(len(sources))):
+            source = sources[i]
+            sourcefile = os.path.join(source, os.path.relpath(destfile, destination))
+
+            if not os.path.exists(sourcefile):
+                logger.info("deleting '{}' as source file no longer exists".format(destfile))
+                os.remove(destfile)
 
 def main():
     parser = argparse.ArgumentParser(description='Mediaserver audio normalizer')
@@ -58,7 +96,10 @@ def main():
 
     args = parser.parse_args()
 
-    sys.exit(normalize(args))
+    returncode = normalize(args)
+    cleanup(args)
+
+    sys.exit(returncode)
 
 
 if __name__ == '__main__':
