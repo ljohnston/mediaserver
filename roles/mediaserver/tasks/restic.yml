@@ -8,12 +8,9 @@
       path: '/usr/bin/restic'
     register: restic
 
-  - debug:
-      msg: '{{ restic }}'
-
   - name: 'set restic installation status'
     ansible.builtin.set_fact:
-      restic_installed: "{{ restic.stat.islnk is defined and restic.stat.islnk and restic_binary in restic.stat.lnk_source }}"
+      restic_installed: '{{ restic.stat.islnk is defined and restic.stat.islnk and restic_binary in restic.stat.lnk_source }}'
 
   - name: 'get restic version'
     ansible.builtin.command: '/usr/bin/restic version'
@@ -33,12 +30,12 @@
 
   - name: 'set restic download variable'
     ansible.builtin.set_fact:
-      restic_download_url: "{{ restic_releases.json | json_query('[?name==`restic ' + restic_version + '`].assets[] | [?name==`' + restic_download + '`] | [0].browser_download_url') }}" 
+      restic_download_url: '{{ restic_releases.json | json_query("[?name==`restic " + restic_version + "`].assets[] | [?name==`" + restic_download + "`] | [0].browser_download_url") }}' 
     when: install_restic
 
   - name: 'download restic'
     get_url:                                                           
-      url: "{{ restic_download_url }}"                       
+      url: '{{ restic_download_url }}'                       
       dest: '/usr/bin/'
     when: install_restic
 
@@ -60,8 +57,8 @@
     ansible.builtin.file:
       path: '{{ restic.stat.lnk_source }}'
       state: 'absent'
-    when: "restic.stat.islnk and install_restic"
+    when: 'restic.stat.exists and restic.stat.islnk and install_restic'
 
   vars:
-    - restic_binary: "restic_{{ restic_version }}_linux_amd64" 
-    - restic_download: "restic_{{ restic_version }}_linux_amd64.bz2"
+    - restic_binary: 'restic_{{ restic_version }}_linux_amd64' 
+    - restic_download: 'restic_{{ restic_version }}_linux_amd64.bz2'
