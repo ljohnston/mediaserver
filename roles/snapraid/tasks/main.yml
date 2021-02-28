@@ -55,7 +55,7 @@
     content: ''
     dest: '/var/log/snapraid-runner.log'
     force: 'no'
-    group: '{{ media_group }}'
+    group: 'root'
     owner: 'root'
     mode: '0664'
 
