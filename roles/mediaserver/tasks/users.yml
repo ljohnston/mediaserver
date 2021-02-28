@@ -32,7 +32,7 @@
   user:
     name: 'plexuser'
     append: 'yes'
-    create_home: 'no'
+    create_home: 'yes'
     groups: '{{ media_group }}'
     password_lock: 'yes'
     shell: '/bin/bash'
