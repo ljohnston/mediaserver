@@ -117,7 +117,7 @@ postfix_smtp_tls_security_level: 'may'
 postfix_smtp_tls_note_starttls_offer: false
 
 postfix_smtp_generic_maps_database_type: 'regexp'
-postfix_generic:
+postfix_smtp_generic_maps:
   - pattern: '/.+@{{ mediaserver_hostname }}/'
     result: 'lance_johnston@yahoo.com'
 
