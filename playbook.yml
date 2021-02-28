@@ -5,35 +5,15 @@
 - hosts: mediaservers
   become: yes
 
-  # Little hackery going on here. Ansible requires python2.7, but Xenial comes
-  # without python installed. We can fix that with a "pre_task" (see below),
-  # but simply collecting facts requires ansible and python. So we'll turn off
-  # facts and then run the "setup" task (which gathers facts) as a "pre_task"
-  # after installing python.
-  #
-  # With ansible 2.8+, ansible will search the guest for a python interpreter,
-  # so it seems this is no longer necessary.
-  #
-  # gather_facts: false
-  #
-  # pre_tasks:
-  #   - name: 'Install python 2.7 for Ansible'
-  #     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-  #     register: output
-  #     changed_when: output.stdout != ''
-  #   - setup:
-  #     tags:
-  #       - always
-
-    # We'll also install our any galaxy roles here.
-    # This doesn't work... ansible "compiles" the playbook and dies if these
-    # aren't there.
-    # - name: 'install ansible-galaxy roles'
-    #   command: 'ansible-galaxy install -r requirements.yml --roles-path roles.galaxy'
-    #   delegate_to: localhost
-    #   become: no
-    #   register: galaxy_roles
-    #   changed_when: '"was installed successfully" in galaxy_roles.stdout'
+  # Install any galaxy roles here.
+  # This doesn't work... ansible "compiles" the playbook and dies if these
+  # don't exist.
+  # - name: 'install ansible-galaxy roles'
+  #   command: 'ansible-galaxy install -r requirements.yml --roles-path roles.galaxy'
+  #   delegate_to: localhost
+  #   become: no
+  #   register: galaxy_roles
+  #   changed_when: '"was installed successfully" in galaxy_roles.stdout'
 
   roles:
     - { role: 'roles.galaxy/geerlingguy.docker', tags: 'docker' }
@@ -51,93 +31,3 @@
 
   roles:
     - { role: 'macbook', tags: 'macbook' }
-
-
-# 
-# Can test with...
-#
-# $ date |mailx -s 'test email' johnston.lance@gmail.com
-
-# 
-# Had to run 'sudo newaliases' to resolve unavailable aliases log error.
-# Hed to 'postmap ...' all the databases (maps, sasl)
-# mediaserver-email
-# aqbmqbzikuvskrsm
-#
-# main.cf
-# Yahoo!
-# relayhost = [smtp.mail.yahoo.com]:587
-# smtp_use_tls = yes
-# smtp_sasl_auth_enable = yes
-# smtp_sasl_security_options =
-# smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd_yahoo
-# smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
-# smtp_generic_maps = hash:/etc/postfix/map/generic_map, regexp:/etc/postfix/map/regex_map_yahoo
-
-# sasl/sasl_passwd_yahoo
-# [smtp.mail.yahoo.com]:587 lance_johnston@yahoo.com:aqbmqbzikuvskrsm
-
-# map/regex_map_yahoo
-# /.+@mediaserver-dev.localdomain/    lance_johnston@yahoo.com
-
-
-# Take 2:
-# # Ansible managed
-# 
-# # See /usr/share/postfix/main.cf.dist for a commented, more complete version
-# 
-# # Debian specific:  Specifying a file name will cause the first
-# # line of that file to be used as the name.  The Debian default
-# # is /etc/mailname.
-# #myorigin = /etc/mailname
-# 
-# #smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
-# #biff = no
-# 
-# # appending .domain is the MUA's job.
-# #append_dot_mydomain = no
-# 
-# # Uncomment the next line to generate "delayed mail" warnings
-# #delay_warning_time = 4h
-# 
-# #readme_directory = no
-# 
-# # TLS parameters
-# #smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-# #smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
-# #smtpd_use_tls=yes
-# #smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
-# #smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
-# 
-# # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
-# # information on enabling SSL in the smtp client.
-# 
-# #myhostname = mediaserver-dev
-# #default_database_type = hash
-# #alias_maps = hash:/etc/aliases
-# #alias_database = hash:/etc/aliases
-# smtp_generic_maps = hash:/etc/postfix/generic
-# #mydestination = mediaserver-dev, localdomain, localhost, localhost.localdomain
-# #mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
-# #mailbox_size_limit = 0
-# #recipient_delimiter = +
-# #inet_interfaces = all
-# #inet_protocols = all
-# 
-# relayhost = [smtp.mail.yahoo.com]:587
-# smtp_sasl_auth_enable = yes
-# smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
-# smtp_sasl_security_options =
-# #smtp_sasl_tls_security_options =
-# #smtp_sasl_mechanism_filter =
-# smtp_use_tls = yes
-# #smtp_tls_security_level = encrypt
-# #smtp_tls_note_starttls_offer = yes
-# smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
-# 
-# 
-# message_size_limit = 10240000
-# 
-# # Disable the SMTP VRFY command. This stops some techniques used to harvest email addresses.
-# #disable_vrfy_command = no
-
