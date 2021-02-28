@@ -5,6 +5,7 @@ import glob
 import logging
 import logging.handlers
 import os
+import pathlib
 import subprocess
 import sys
 
@@ -22,6 +23,17 @@ file_handler.setLevel(logging.INFO)
 logger = logging.getLogger('normalize')
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
+
+def normalize_it(sourcefile, destfile):
+    if not os.path.exists(destfile):
+        return True
+
+    real_sourcefile = pathlib.Path(sourcefile).resolve()
+
+    if os.stat(real_sourcefile).st_mtime > os.stat(destfile).st_mtime:
+        return True
+
+    return False
 
 def normalize(args):
     sources = args.sources.split(',')
@@ -44,12 +56,14 @@ def normalize(args):
 
             destfile = os.path.splitext(destfile)[0]+'.m4a'
 
-            if not os.path.exists(destfile):
+            # if not os.path.exists(destfile):
+            if normalize_it(sourcefile, destfile):
                 cmd = ['ffmpeg-normalize', sourcefile,
                        '-o', destfile,
                        '-c:a', 'aac',
                        '-ar', '48000',
-                       '-vn']
+                       '-vn',
+                       '--force']
 
                 logger.info(" ".join(cmd))
 
