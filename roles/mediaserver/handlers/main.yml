@@ -3,8 +3,3 @@
 
 - name: 'docker-compose up'
   command: 'docker-compose -f /docker-compose.yml up -d'
-
-- name: 'restart cron daemon'
-  systemd:
-    name: 'cron'
-    state: 'restarted'

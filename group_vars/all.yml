@@ -14,6 +14,8 @@ ansible_python_interpreter: 'auto'
 # plex_version: '1.21.3.4021-5a0a3e4b2'
 plex_version: '1.21.4.4079-1b7748a7b'
 
+plex_timezone: 'America/Denver'
+
 restic_version: '0.11.0'
 
 media_directory: 'media'
@@ -128,4 +130,5 @@ postfix_smtp_generic_maps:
 ntp_enabled: 'true'
 ntp_timezone: 'America/Denver'
 ntp_manage_config: 'true'
+ntp_cron_handler_enabled: 'true'
 

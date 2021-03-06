@@ -1,6 +1,4 @@
 ---
 - name: 'set timezone'
   timezone:
-    name: 'America/Denver'
-  notify: 
-    - 'restart cron daemon'
+    name: '{{ plex_timezone }}'
