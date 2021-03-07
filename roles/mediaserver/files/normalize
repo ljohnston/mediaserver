@@ -110,15 +110,16 @@ def main():
 
     args = parser.parse_args()
 
-    returncode = normalize(args)
+    rtn = normalize(args)
+
     cleanup(args)
 
-    sys.exit(returncode)
+    return rtn
 
 
 if __name__ == '__main__':
     try:
         sys.exit(main())
     except Exception:
-        logging.exception('caught exception:')
+        logger.exception('uncaught exception:')
         sys.exit(1)

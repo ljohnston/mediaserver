@@ -368,12 +368,14 @@ def main():
 
     args = parser.parse_args()
 
-    sys.exit(sync_photos(args))
+    rtn = sync_photos(args)
+
+    return rtn
 
 
 if __name__ == '__main__':
     try:
         sys.exit(main())
     except Exception:
-        logging.exception('caught exception:')
+        logging.exception('uncaught exception:')
         sys.exit(1)

@@ -113,13 +113,15 @@ def main():
 
     args = parser.parse_args()
 
-    sys.exit(sync_music(args))
+    rtn = sync_music(args)
+
+    return rtn
 
 
 if __name__ == '__main__':
     try:
         sys.exit(main())
     except Exception:
-        logging.exception('caught exception:')
+        logging.exception('uncaught exception:')
         sys.exit(1)
 
