@@ -55,7 +55,7 @@
     minute: '0'
     hour: '*'
     user: 'plexuser'
-    job: "/usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/lance_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_lance"
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/lance_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_lance"
 
 - name: 'mobile photo-sync cron - alison'
   cron:
@@ -63,7 +63,7 @@
     minute: '0'
     hour: '*'
     user: 'plexuser'
-    job: "/usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/alison_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_alison"
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/alison_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_alison"
 
 - name: 'historian photo-sync cron'
   cron:
@@ -71,7 +71,7 @@
     minute: '0'
     hour: '8-23,0'
     user: 'plexuser'
-    job: "/usr/local/bin/sync_photos -t historian -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos"
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t historian -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos"
 
 - name: 'historian rsync cron'
   cron:
@@ -79,7 +79,7 @@
     minute: '20'
     hour: '*/4'
     user: 'plexuser'
-    job: "/usr/local/bin/historian_rsync -s {{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
+    job: ". /etc/environment; /usr/local/bin/historian_rsync -s {{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
 
 - name: 'itunes music-sync cron'
   cron:
@@ -87,7 +87,7 @@
     minute: '0'
     hour: '8,12,16,20'
     user: 'plexuser'
-    job: "/usr/local/bin/sync_music -t itunes -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d {{ mergerfs__mount_point }}/{{ media_directory }}/music"
+    job: ". /etc/environment; /usr/local/bin/sync_music -t itunes -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d {{ mergerfs__mount_point }}/{{ media_directory }}/music"
 
 - name: 'music normalizer cron'
   cron:
@@ -95,4 +95,4 @@
     minute: '0'
     hour: '9,13,17,21'
     user: 'plexuser'
-    job: "/usr/local/bin/normalize -s {{ mergerfs__mount_point }}/{{ media_directory }}/music -d {{ mergerfs__mount_point }}/{{ media_directory }}/music_normalized"
+    job: ". /etc/environment; /usr/local/bin/normalize -s {{ mergerfs__mount_point }}/{{ media_directory }}/music -d {{ mergerfs__mount_point }}/{{ media_directory }}/music_normalized"
