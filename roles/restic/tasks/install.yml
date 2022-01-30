@@ -1,0 +1,63 @@
+---
+
+- block:
+
+  - name: 'stat /usr/bin/restic'
+    ansible.builtin.stat:
+      path: '/usr/bin/restic'
+    register: restic
+
+  - name: 'set restic installation status'
+    ansible.builtin.set_fact:
+      restic_installed: '{{ restic.stat.islnk is defined and restic.stat.islnk and restic_binary in restic.stat.lnk_source }}'
+
+  - name: 'get restic version'
+    ansible.builtin.command: '/usr/bin/restic version'
+    register: restic_version_output
+    when: 'restic_installed'
+
+  - name: 'set install restic variable'
+    ansible.builtin.set_fact:
+      install_restic: '{{ not restic_installed or restic_version not in restic_version_output.stdout }}'
+
+  - name: 'get restic releases'
+    uri:
+      url: 'https://api.github.com/repos/restic/restic/releases'
+      return_content: true
+    register: restic_releases
+    when: install_restic
+
+  - name: 'set restic download variable'
+    ansible.builtin.set_fact:
+      restic_download_url: '{{ restic_releases.json | json_query("[?name==`restic " + restic_version + "`].assets[] | [?name==`" + restic_download + "`] | [0].browser_download_url") }}' 
+    when: install_restic
+
+  - name: 'download restic'
+    get_url:                                                           
+      url: '{{ restic_download_url }}'                       
+      dest: '/usr/bin/'
+    when: install_restic
+
+  - name: 'uncompress restic'
+    ansible.builtin.shell:                                                           
+      cmd: 'bunzip2 /usr/bin/{{ restic_download }}'                       
+      creates: '/usr/bin/{{ restic_binary }}'
+    when: install_restic
+
+  - name: 'create restic symlink'
+    ansible.builtin.file:                                                           
+      src: '/usr/bin/{{ restic_binary }}'                       
+      dest: '/usr/bin/restic'
+      mode: 'ugo+x'
+      state: 'link'
+    when: install_restic
+
+  - name: 'delete old restic symlink'
+    ansible.builtin.file:
+      path: '{{ restic.stat.lnk_source }}'
+      state: 'absent'
+    when: 'restic.stat.exists and restic.stat.islnk and install_restic'
+
+  vars:
+    - restic_binary: 'restic_{{ restic_version }}_linux_amd64' 
+    - restic_download: 'restic_{{ restic_version }}_linux_amd64.bz2'

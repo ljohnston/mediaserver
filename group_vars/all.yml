@@ -18,7 +18,9 @@ plex_version: '1.25.3.5409-f11334058'
 # emby releases here:  https://emby.media/linux-server.html
 emby_version: '4.6.7.0'
 
-restic_version: '0.11.0'
+mediaserver_timezone: 'America/Denver'
+
+restic_version: '0.12.0'
 
 media_directory: 'media'
 media_group: 'mediausers'

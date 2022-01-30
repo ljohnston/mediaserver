@@ -1,3 +1,13 @@
+# TODO:
+
+    x data disk/mount
+    x Alison's laptop backup
+    x snapraid sync script
+    - backups (backblaze)
+    - mediaserver scripts
+    - photo libraries/handling
+    - Nextcloud
+
 # vagrant_mediaserver
 
 Ansible project to configure my media server.

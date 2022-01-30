@@ -1,0 +1,21 @@
+---
+
+- name: 'create restic directory'
+  ansible.builtin.file: 
+    path: '{{ plexuser_home }}/.restic'
+    owner: 'plexuser'
+    group: 'plexuser'
+    mode: '0700'
+    state: 'directory'
+
+- name: 'create restic repo password file'
+  copy:
+    content: '{{ restic_repo_password }}'
+    dest: '{{ plexuser_home }}/.restic/repo-password'
+    owner: 'plexuser'
+    group: 'plexuser'
+    mode: '0600'
+
+# - name: 'repo init check'
+#   ansible.builtin.command: 'restic snaspshot'
+

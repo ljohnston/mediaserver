@@ -8,7 +8,7 @@ services:
     environment:
       - PUID={{ plexuser_uid }}
       - PGID={{ plexuser_gid }}
-      - TZ={{ plex_timezone }}
+      - TZ={{ mediaserver_timezone }}
       - VERSION={{ plex_version }}
     volumes:
       - /var/lib/plexmediaserver:/config

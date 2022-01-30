@@ -42,3 +42,4 @@
   set_fact:
     plexuser_uid: '{{ create_plexuser.uid }}'
     plexuser_gid: '{{ create_plexuser.group }}'
+    plexuser_home: '{{ create_plexuser.home }}'

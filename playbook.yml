@@ -25,6 +25,7 @@
     - { role: 'mergerfs',    tags: 'mergerfs' }
     - { role: 'mediaserver', tags: 'mediaserver' }
     - { role: 'samba',       tags: 'samba' }
+    - { role: 'restic',      tags: 'restic' }
 
 - hosts: macbook
   connection: local

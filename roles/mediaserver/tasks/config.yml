@@ -1,4 +1,4 @@
 ---
 - name: 'set timezone'
   timezone:
-    name: '{{ plex_timezone }}'
+    name: '{{ mediaserver_timezone }}'

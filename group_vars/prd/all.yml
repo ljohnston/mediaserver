@@ -7,6 +7,11 @@ mediaserver_hostname: 'mediaserver'
 media_share: 'storage'
 backup_share: 'backup'
 
+b2_app_key_id: todo
+b2_app_key: todo
+restic_repo: b2:cheewee-net/{{ mediaserver_hostname }}
+restic_repo_password: todo
+
 media_users:
   - name: 'alison'
     create_home: 'no'

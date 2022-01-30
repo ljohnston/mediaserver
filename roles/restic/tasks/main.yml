@@ -1,0 +1,8 @@
+---
+# tasks file for restic
+
+- name: 'install restic'
+  include: 'install.yml'
+
+- name: 'init restic repo'
+  include: 'repo.yml'

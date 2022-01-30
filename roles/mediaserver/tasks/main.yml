@@ -29,10 +29,6 @@
   include: 'ffmpeg.yml'
   tags: ['ffmpeg']
 
-- name: 'restic'
-  include: 'restic.yml'
-  tags: ['restic']
-
 - name: 'scripts'
   include: 'scripts.yml'
   tags: ['scripts','test']
