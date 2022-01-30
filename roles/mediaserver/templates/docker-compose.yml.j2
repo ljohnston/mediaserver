@@ -14,4 +14,19 @@ services:
       - /var/lib/plexmediaserver:/config
       - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
     restart: unless-stopped
+  emby:
+    image: emby/embyserver:{{ emby_version }}
+    container_name: embyserver
+    environment:
+      - PUID={{ plexuser_uid }}
+      - PGID={{ plexuser_gid }}
+      - TZ={{ mediaserver_timezone }}
+      # - UMASK_SET=022 #optional
+    volumes:
+      - /var/lib/emby/config:/config
+      - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
+    ports:
+      - 8096:8096
+      - 8920:8920
+    restart: unless-stopped
 
