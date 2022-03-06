@@ -8,7 +8,7 @@
     - photo libraries/handling
     - Nextcloud
 
-# vagrant_mediaserver
+# mediaserver
 
 Ansible project to configure my media server.
 
