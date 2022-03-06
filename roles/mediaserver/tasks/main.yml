@@ -21,15 +21,19 @@
   include: 'backup.yml'
   tags: ['backup']
 
+- name: 'setup mysql'
+  include: 'mysql.yml'
+  tags: ['mysql']
+
 - name: 'docker apps'
   include: 'docker_apps.yml'
   tags: ['docker_apps']
 
-- name: 'ffmpeg'
+- name: 'install ffmpeg'
   include: 'ffmpeg.yml'
   tags: ['ffmpeg']
 
-- name: 'scripts'
+- name: 'install scripts'
   include: 'scripts.yml'
   tags: ['scripts','test']
 

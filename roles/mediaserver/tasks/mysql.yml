@@ -1,0 +1,9 @@
+---
+# tasks file for mysql
+
+- name: 'create mysql data directory'
+  file:
+      path: 'mnt/data/mysql'
+      # group: '{{ media_group }}'
+      # mode: 'ug=rwx,o=rx,g+s'
+      state: 'directory'

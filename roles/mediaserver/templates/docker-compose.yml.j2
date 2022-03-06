@@ -1,5 +1,12 @@
 ---
-version: "2"
+version: '2'
+
+# volumes:
+#   nextcloud:
+#     driver: local
+#   mysql:
+#     driver: local
+
 services:
   plex:
     image: linuxserver/plex
@@ -17,6 +24,7 @@ services:
   emby:
     image: emby/embyserver:{{ emby_version }}
     container_name: embyserver
+    restart: unless-stopped
     environment:
       - PUID={{ plexuser_uid }}
       - PGID={{ plexuser_gid }}
@@ -28,5 +36,36 @@ services:
     ports:
       - 8096:8096
       - 8920:8920
+  mysql:
+    image: mysql
+    container_name: mysql
     restart: unless-stopped
-
+    environment:
+      - PUID=999
+      - PGID=999
+      - MYSQL_ROOT_HOST=172.*.*.*
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - /mnt/data/mysql:/var/lib/mysql
+  nextcloud:
+    image: nextcloud
+    container_name: nextcloud
+    restart: unless-stopped
+    links:
+      - mysql
+    ports:
+      - 8080:80
+    volumes:
+      # - nextcloud:/var/www/html
+      - /mnt/data/nextcloud/nextcloud:/var/www/html
+      - /mnt/data/nextcloud/apps:/var/www/html/custom_apps
+      - /mnt/data/nextcloud/config:/var/www/html/config
+      - /mnt/data/nextcloud/data:/var/www/html/data
+    environment:
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_HOST=mysql
