@@ -37,35 +37,38 @@ services:
       - 8096:8096
       - 8920:8920
   mysql:
-    image: mysql
+    image: {{ mysql_image }}
     container_name: mysql
     restart: unless-stopped
     environment:
       - PUID=999
       - PGID=999
+      - MYSQL_ROOT_PASSWORD={{ mysql_root_password }}
+      - MYSQL_DATABASE={{ nextcloud_mysql_database }}
+      - MYSQL_USER={{ nextcloud_mysql_user }}
+      - MYSQL_PASSWORD={{ nextcloud_mysql_database }}
+      # Docker gateway (allow connections from host)
       - MYSQL_ROOT_HOST=172.*.*.*
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=nextcloud
-      - MYSQL_ROOT_PASSWORD=root
     volumes:
-      - /mnt/data/mysql:/var/lib/mysql
+      - {{ data_device.mount_point }}/mysql:/var/lib/mysql
   nextcloud:
-    image: nextcloud
+    image: {{ nextcloud_image }}
     container_name: nextcloud
     restart: unless-stopped
     links:
       - mysql
     ports:
-      - 8080:80
+      - {{ nextcloud_port }}:80
     volumes:
-      # - nextcloud:/var/www/html
-      - /mnt/data/nextcloud/nextcloud:/var/www/html
-      - /mnt/data/nextcloud/apps:/var/www/html/custom_apps
-      - /mnt/data/nextcloud/config:/var/www/html/config
-      - /mnt/data/nextcloud/data:/var/www/html/data
+      - {{ data_device.mount_point }}/nextcloud/nextcloud:/var/www/html
+      - {{ data_device.mount_point }}/nextcloud/apps:/var/www/html/custom_apps
+      - {{ data_device.mount_point }}/nextcloud/config:/var/www/html/config
+      - {{ data_device.mount_point }}/nextcloud/data:/var/www/html/data
     environment:
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=nextcloud
       - MYSQL_HOST=mysql
+      - MYSQL_DATABASE={{ nextcloud_mysql_database }}
+      - MYSQL_USER={{ nextcloud_mysql_user }}
+      - MYSQL_PASSWORD={{ nextcloud_admin_password }}
+      - NEXTCLOUD_ADMIN_USER={{ nextcloud_admin_user }}
+      - NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_admin_password }}
+      - NEXTCLOUD_TRUSTED_DOMAINS={{ nextcloud_trusted_domains }}
