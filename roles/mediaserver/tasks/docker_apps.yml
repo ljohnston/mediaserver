@@ -1,5 +1,11 @@
 ---
 
+- name: 'copy wait-for-it.sh'
+  copy:
+    src: 'wait-for-it.sh'
+    dest: '/usr/local/bin/'
+    mode: '0755'
+
 - name: 'create docker-compose.yml'
   template:
     src: 'docker-compose.yml.j2'

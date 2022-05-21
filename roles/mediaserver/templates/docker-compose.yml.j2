@@ -54,12 +54,16 @@ services:
   nextcloud:
     image: {{ nextcloud_image }}
     container_name: nextcloud
+    entrypoint: sh -c '/wait-for-it.sh mysql:3306 --timeout=120 -- /entrypoint.sh apache2-foreground'
     restart: unless-stopped
+    depends_on: 
+      - mysql
     links:
       - mysql
     ports:
       - {{ nextcloud_port }}:80
     volumes:
+      - /usr/local/bin/wait-for-it.sh:/wait-for-it.sh
       - {{ data_device.mount_point }}/nextcloud/nextcloud:/var/www/html
       - {{ data_device.mount_point }}/nextcloud/apps:/var/www/html/custom_apps
       - {{ data_device.mount_point }}/nextcloud/config:/var/www/html/config
