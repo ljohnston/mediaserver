@@ -12,14 +12,14 @@ ansible_python_interpreter: 'auto'
 # - Version number will be displayed on page.
 
 # plex releases here:  https://www.plex.tv/media-server-downloads
-plex_version: '1.25.6.5577-c8bd13540'
+plex_version: '1.26.1.5798-99a4a6ac9'
 
 # emby releases here:  https://emby.media/linux-server.html
 emby_version: '4.6.7.0'
 
-mediaserver_timezone: 'America/Denver'
+restic_version: '0.12.1'
 
-restic_version: '0.12.0'
+mediaserver_timezone: 'America/Denver'
 
 media_directory: 'media'
 media_group: 'mediausers'
