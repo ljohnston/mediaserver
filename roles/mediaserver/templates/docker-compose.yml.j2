@@ -20,6 +20,10 @@ services:
     volumes:
       - /var/lib/plexmediaserver:/config
       - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
+
+      # Set '/transcode' as transcoder temp directory in Plex settings.
+      - /tmp/plex:/transcode
+
     restart: unless-stopped
   emby:
     image: emby/embyserver:{{ emby_version }}
