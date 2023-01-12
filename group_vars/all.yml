@@ -12,7 +12,7 @@ ansible_python_interpreter: 'auto'
 # - Version number will be displayed on page.
 
 # plex releases here:  https://www.plex.tv/media-server-downloads
-plex_version: '1.26.1.5798-99a4a6ac9'
+plex_version: '1.30.1.6497-5fc2e0894'
 
 # emby releases here:  https://emby.media/linux-server.html
 emby_version: '4.6.7.0'
@@ -127,9 +127,9 @@ nextcloud_port: '8080'
 
 nextcloud_trusted_domains: '{{ mediaserver_hostname }}:{{ nextcloud_port }} 192.168.*.*'
 
-# 
+#
 # postfix
-# 
+#
 
 postfix_relayhost: 'smtp.mail.yahoo.com'
 postfix_relayhost_port: '587'
@@ -146,13 +146,13 @@ postfix_sasl_password: !vault |
   30323134343135366663613463333462343130313133613232343066633565326335
 postfix_smtp_tls_cafile: '/etc/ssl/certs/ca-certificates.crt'
 
-# 
+#
 # This is a hack because the galaxy postfix role kinda sucks:
 # - postfix_relaytls: If we set this to true, it brings along
 #   settings that we don't want and can't configure.
 # - smtp_generic_maps: We can't set 'regexp', which we need.
-#   Note that the module will always include this setting, so 
-#   we're essentially overriding it here since the raw options 
+#   Note that the module will always include this setting, so
+#   we're essentially overriding it here since the raw options
 #   are added at the end of main.cf (fortunately, those have
 #   precedence).
 #
