@@ -1,0 +1,75 @@
+---
+
+#
+# Create share directories with sgid set to ensure all future files will be
+# owned by the media users group.
+#
+# We'll also set the ACLs on the share directories to ensure that all future
+# files will be group writeable, regardless of what a user's umask may be.
+#
+
+- name: 'create share directory'
+  file:
+      path: '{{ data_device.mount_point }}/{{ item }}'
+      group: '{{ media_group }}'
+      mode: 'ug=rwx,o=rx,g+s'
+      state: 'directory'
+  loop: '{{ data_share_dirs }}'
+
+#
+# Set the ACLs on the share directory...
+#
+
+- name: 'set user acl on share directory'
+  acl:
+      path: '{{ data_device.mount_point }}/{{ item }}'
+      etype: 'user'
+      permissions: 'rwX'
+      state: 'present'
+  loop: '{{ data_share_dirs }}'
+
+- name: 'set group acl on share directory'
+  acl:
+      path: '{{ data_device.mount_point }}/{{ item }}'
+      etype: 'group'
+      permissions: 'rwX'
+      state: 'present'
+  loop: '{{ data_share_dirs }}'
+
+- name: 'set other acl on share directory'
+  acl:
+      path: '{{ data_device.mount_point }}/{{ item }}'
+      etype: 'other'
+      permissions: 'rX'
+      state: 'present'
+  loop: '{{ data_share_dirs }}'
+
+#
+# ... and set the default ACLs so future files are correct.
+#
+
+- name: 'set default user acl on share directory'
+  acl:
+      path: '{{ data_device.mount_point }}/{{ item }}'
+      default: true
+      etype: 'user'
+      permissions: 'rwX'
+      state: 'present'
+  loop: '{{ data_share_dirs }}'
+
+- name: 'set default group acl on share directory'
+  acl:
+      path: '{{ data_device.mount_point }}/{{ item }}'
+      default: true
+      etype: 'group'
+      permissions: 'rwX'
+      state: 'present'
+  loop: '{{ data_share_dirs }}'
+
+- name: 'set default other acl on share directory'
+  acl:
+      path: '{{ data_device.mount_point }}/{{ item }}'
+      etype: 'other'
+      permissions: 'rX'
+      state: 'present'
+  loop: '{{ data_share_dirs }}'

@@ -24,7 +24,7 @@ mediaserver_timezone: 'America/Denver'
 media_directory: 'media'
 media_group: 'mediausers'
 
-media_static_folders:
+media_dirs:
   - 'historian_export'
   - 'historian_import'
   - 'source_music'
@@ -40,11 +40,26 @@ media_static_folders:
   - 'photos'
   - 'tv'
 
+media_share: 'storage'
+
+# TODO: {{
+# Seems there's probably a better way to deal with this.
+# Something where we just define the `data_share_dirs` and
+# then generate the share names, paths, and samba config in
+# some loopy way rather then more or less hard-coding them here.
+
+# These need samba shares (see samba__shares below).
+data_share_dirs:
+  - 'backup'
+  - 'historian'
+
 backup_share: 'backup'
 backup_path: '{{ data_device.mount_point }}/backup'
+historian_share: 'historian'
+historian_path: '{{ data_device.mount_point }}/historian'
+# }}
 
 devices: '{{ [data_device] }}'
-
 filesystems__devices: '{{ [devices] + snapraid__parity_devices + snapraid__data_devices }}'
 
 mergerfs__mount_point: '/storage'
@@ -79,6 +94,15 @@ samba__shares: "{
   },
   '{{ backup_share }}': {
     'path'           : '{{ backup_path }}',
+    'browsable'      : 'yes',
+    'create mask'    : '0775',
+    'directory mask' : '0775',
+    'force group'    : 'mediausers',
+    'valid users'    : '@mediausers',
+    'writable'       : 'yes',
+  },
+  '{{ historian_share }}': {
+    'path'           : '{{ historian_path }}',
     'browsable'      : 'yes',
     'create mask'    : '0775',
     'directory mask' : '0775',

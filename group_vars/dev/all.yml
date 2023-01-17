@@ -2,8 +2,10 @@
 env: 'dev'
 
 mediaserver_hostname: 'mediaserver-dev'
+
 media_share: 'storage-dev'
 backup_share: 'backup-dev'
+historian_share: 'historian-dev'
 
 b2_app_key_id: !vault |
   $ANSIBLE_VAULT;1.1;AES256

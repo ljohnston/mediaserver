@@ -17,9 +17,9 @@
   include: 'files.yml'
   tags: ['files']
 
-- name: 'create backup dir'
-  include: 'backup.yml'
-  tags: ['backup']
+- name: 'create data share dirs'
+  include: 'data_shares.yml'
+  tags: ['data_shares']
 
 - name: 'setup mysql'
   include: 'mysql.yml'

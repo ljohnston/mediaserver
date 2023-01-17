@@ -4,8 +4,6 @@ env: 'prd'
 automounter_service_file: 'com.user.mediaserver.automounter.plist'
 
 mediaserver_hostname: 'mediaserver'
-media_share: 'storage'
-backup_share: 'backup'
 
 b2_app_key_id: todo
 b2_app_key: todo
