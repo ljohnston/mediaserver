@@ -12,6 +12,7 @@ file = /var/log/snapraid-runner.log
 ; maximum logfile size in KiB, leave empty for infinite
 maxsize = 5000
 
+{% if snapraid_runner__send_email is defined and snapraid_runner__send_email | bool %}
 [email]
 ; when to send an email, comma-separated list of [success, error]
 sendon = success,error
@@ -20,6 +21,7 @@ short = true
 subject = [SnapRAID] Status Report:
 from = {{ postfix_sasl_user }}
 to = johnston.lance@gmail.com
+{% endif %}
 
 [smtp]
 host = {{ postfix_relayhost }}

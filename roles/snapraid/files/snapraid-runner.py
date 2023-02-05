@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import division
-
 import argparse
 import configparser
 import logging
@@ -26,11 +24,7 @@ def tee_log(infile, out_lines, log_level):
     """
     def tee_thread():
         for line in iter(infile.readline, ""):
-            line = line.strip()
-            # Do not log the progress display
-            if "\r" in line:
-                line = line.split("\r")[-1]
-            logging.log(log_level, line.strip())
+            logging.log(log_level, line.rstrip())
             out_lines.append(line)
         infile.close()
     t = threading.Thread(target=tee_thread)
@@ -44,19 +38,18 @@ def snapraid_command(command, args={}, *, allow_statuscodes=[]):
     Run snapraid command
     Raises subprocess.CalledProcessError if errorlevel != 0
     """
-    arguments = ["--conf", config["snapraid"]["config"]]
+    arguments = ["--conf", config["snapraid"]["config"],
+                 "--quiet"]
     for (k, v) in args.items():
         arguments.extend(["--" + k, str(v)])
     p = subprocess.Popen(
         [config["snapraid"]["executable"], command] + arguments,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        universal_newlines=True,
         # Snapraid always outputs utf-8 on windows. On linux, utf-8
         # also seems a sensible assumption.
         encoding="utf-8",
-        errors="replace"
-    )
+        errors="replace")
     out = []
     threads = [
         tee_log(p.stdout, out, logging.OUTPUT),
@@ -148,7 +141,7 @@ def load_config(args):
 
     int_options = [
         ("snapraid", "deletethreshold"), ("logging", "maxsize"),
-        ("scrub", "percentage"), ("scrub", "older-than"), ("email", "maxsize"),
+        ("scrub", "older-than"), ("email", "maxsize"),
     ]
     for section, option in int_options:
         try:
@@ -162,8 +155,15 @@ def load_config(args):
     config["email"]["short"] = (config["email"]["short"].lower() == "true")
     config["snapraid"]["touch"] = (config["snapraid"]["touch"].lower() == "true")
 
+    # Migration
+    if config["scrub"]["percentage"]:
+        config["scrub"]["plan"] = config["scrub"]["percentage"]
+
     if args.scrub is not None:
         config["scrub"]["enabled"] = args.scrub
+
+    if args.ignore_deletethreshold:
+        config["snapraid"]["deletethreshold"] = -1
 
 
 def setup_logger():
@@ -208,6 +208,8 @@ def main():
     parser.add_argument("--no-scrub", action='store_false',
                         dest='scrub', default=None,
                         help="Do not scrub (overrides config)")
+    parser.add_argument("--ignore-deletethreshold", action='store_true',
+                        help="Sync even if configured delete threshold is exceeded")
     args = parser.parse_args()
 
     if not os.path.exists(args.conf):
@@ -271,6 +273,7 @@ def run():
         logging.error(
             "Deleted files exceed delete threshold of {}, aborting".format(
                 config["snapraid"]["deletethreshold"]))
+        logging.error("Run again with --ignore-deletethreshold to sync anyways")
         finish(False)
 
     if (diff_results["remove"] + diff_results["add"] + diff_results["move"] +
@@ -288,10 +291,17 @@ def run():
     if config["scrub"]["enabled"]:
         logging.info("Running scrub...")
         try:
-            snapraid_command("scrub", {
-                "percentage": config["scrub"]["percentage"],
+            # Check if a percentage plan was given
+            int(config["scrub"]["plan"])
+        except ValueError:
+            scrub_args = {"plan": config["scrub"]["plan"]}
+        else:
+            scrub_args = {
+                "plan": config["scrub"]["plan"],
                 "older-than": config["scrub"]["older-than"],
-            })
+            }
+        try:
+            snapraid_command("scrub", scrub_args)
         except subprocess.CalledProcessError as e:
             logging.error(e)
             finish(False)
@@ -302,3 +312,4 @@ def run():
 
 
 main()
+
