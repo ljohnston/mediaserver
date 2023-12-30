@@ -2,42 +2,42 @@
 # tasks file for mediaserver
 
 - name: 'general system config'
-  include: 'config.yml'
+  include_tasks: 'config.yml'
   tags: ['config']
 
 - name: 'create mounts'
-  include: 'mounts.yml'
+  include_tasks: 'mounts.yml'
   tags: ['mounts']
 
 - name: 'create users/groups'
-  include: 'users.yml'
+  include_tasks: 'users.yml'
   tags: ['users']
 
 - name: 'create files/dirs'
-  include: 'files.yml'
+  include_tasks: 'files.yml'
   tags: ['files']
 
 - name: 'create data share dirs'
-  include: 'data_shares.yml'
+  include_tasks: 'data_shares.yml'
   tags: ['data_shares']
 
 - name: 'setup mysql'
-  include: 'mysql.yml'
+  include_tasks: 'mysql.yml'
   tags: ['mysql']
 
 - name: 'docker apps'
-  include: 'docker_apps.yml'
+  include_tasks: 'docker_apps.yml'
   tags: ['docker_apps']
 
 - name: 'install ffmpeg'
-  include: 'ffmpeg.yml'
+  include_tasks: 'ffmpeg.yml'
   tags: ['ffmpeg']
 
 - name: 'install scripts'
-  include: 'scripts.yml'
+  include_tasks: 'scripts.yml'
   tags: ['scripts','test']
 
 - name: 'test'
-  include: 'test.yml'
+  include_tasks: 'test.yml'
   tags: ['test']
   when: env == 'dev'

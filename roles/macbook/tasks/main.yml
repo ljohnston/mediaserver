@@ -2,6 +2,6 @@
 # tasks file for macbook
 
 - name: 'mediaserver automounter'
-  include: 'automounter.yml'
+  include_tasks: 'automounter.yml'
   tags: ['automounter']
- 
+

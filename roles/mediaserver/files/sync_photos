@@ -362,7 +362,7 @@ def main():
         '-n',
         '--not-in-destination',
         required=False,
-        help='Only sync if photo does not exist in this destination.')
+        help='Only sync if photo does not exist in the destination.')
     parser.add_argument(
         '-f',
         '--flag-file',

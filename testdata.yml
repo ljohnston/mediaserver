@@ -17,6 +17,6 @@
       dest: '{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/'
       group: '{{ media_group }}'
       owner: 'root'
-      mode: 'ug=rwX,o=rX' 
+      mode: 'ug=rwX,o=rX'
       recurse: 'yes'
-      
+

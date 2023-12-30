@@ -122,6 +122,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create symlink in project dir to seed source media for testing.
   if File.exist?('./source_music')
     config.vm.provision "ansible" do |ansible|
+      ansible.compatibility_mode = "2.0"
       ansible.raw_arguments = Shellwords.shellsplit(ENV["ANSIBLE_ARGS"]) if ENV["ANSIBLE_ARGS"]
       ansible.groups = {
         "dev" => [hostname],
