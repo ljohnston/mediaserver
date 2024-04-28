@@ -1,5 +1,5 @@
 ---
 # handlers file for mediaserver
 
-- name: 'docker-compose up'
-  command: 'docker-compose -f /docker-compose.yml up -d'
+- name: 'docker compose up'
+  command: 'docker compose -f /docker-compose.yml up -d'

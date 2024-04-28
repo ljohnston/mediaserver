@@ -1,10 +1,11 @@
 #!/bin/bash
 
 #
-# TODO: 
-# - logging, log rotation
-#   Here's an interesting link:
-#       https://serverfault.com/questions/310098/how-to-add-a-timestamp-to-bash-script-log 
+# NOTE: I'm not using this script anymore. The newest version of historian
+# stores it's photo's in native format (i.e. they're not embedded in an opaque
+# "vault" anymore), so an export from historian for syncing to 'photos' is no
+# longer necessary. We still need to sync from the historian location where the
+# shadow vault is stored, but we can now use the 'sync_photos' script.
 #
 
 RTN_GENERAL_ERROR=1
@@ -50,7 +51,7 @@ export_files() {
 wait() {
     local source=$1
     local quietperiod=$2
-    local waitlimit=$3 
+    local waitlimit=$3
 
     local starttime=$(date +%s)
 
@@ -68,7 +69,7 @@ wait() {
 sync() {
     local source=$1
     local destination=$2
-    local reductionlimit=$3 
+    local reductionlimit=$3
 
     source_file_count=$(find $source -type f |wc -l)
     destination_file_count=$(find $destination -type f |wc -l)
@@ -76,16 +77,16 @@ sync() {
     if [ $source_file_count -lt $(( $destination_file_count * ${reductionlimit}/100 )) ]; then
         die "Source files ($source_file_count) relative to desination files ($destination_file_count) below reduction limit (${reductionlimit}%)" $RTN_REDUCTIONLIMIT_EXCEEDED
     fi
-    
+
     rsync --verbose --recursive --delete --checksum --remove-source-files $source/ $destination
 }
 
 remove_import() {
     local source=$1
 
-    # Loop entirely to deal with removing hidden files in the 
+    # Loop entirely to deal with removing hidden files in the
     # root of the export directory.
-    for f in $(ls -a $source); do 
+    for f in $(ls -a $source); do
         [[ "$f" != "." && "$f" != ".." ]] && rm -rf $source/$f
     done
 }

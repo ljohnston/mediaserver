@@ -1,0 +1,25 @@
+---
+# This playbook is only run as part of vagrant provisioning.
+
+- hosts: mediaservers
+  become: yes
+
+  tags: 'testdata'
+
+  tasks:
+
+  - name: 'copy historian vault test data'
+    synchronize:
+      src: './historian_vault/'
+      dest: '{{ mergerfs__mount_point }}/{{ media_directory }}/historian/'
+      perms: 'no'
+      times: 'no'
+
+  - name: 'set historian vault test data perms'
+    file:
+      dest: '{{ mergerfs__mount_point }}/{{ media_directory }}/historian/'
+      group: '{{ media_group }}'
+      owner: 'root'
+      mode: 'ug=rwX,o=rX'
+      recurse: 'yes'
+

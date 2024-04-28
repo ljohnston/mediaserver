@@ -8,6 +8,33 @@
     mode: '0775'
     state: 'directory'
 
+- name: 'copy media management scripts'
+  copy:
+    src: 'files/{{ item }}'
+    dest: '/usr/local/bin/'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  with_flattened: [ 'sync_music', 'sync_photos', 'normalize' ]
+
+- name: 'create library directory for mediaserver scripts'
+  file:
+    path: '/usr/local/bin/mediaserver'
+    group: 'root'
+    owner: 'root'
+    mode: '0775'
+    state: 'directory'
+
+- name: 'copy media management library'
+  copy:
+    # Ansible _should_ find this automatically if the file path is relative.
+    # It wasn't though...
+    src: 'files/mediaserver/Mediaserver.py'
+    dest: '/usr/local/bin/mediaserver'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
 - name: 'create log directory for mediaserver scripts'
   file:
     path: '/var/log/mediaserver'
@@ -25,7 +52,7 @@
     group: '{{ media_group }}'
     owner: 'root'
     mode: '0664'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize', 'historian_rsync' ]
+  with_flattened: [ 'sync_music', 'sync_photos', 'normalize' ]
 
 # ... so we need to make sure we set ownership/permissions separately.
 - name: 'set ownership/permissions on log files for mediaserver scripts'
@@ -34,20 +61,8 @@
     group: '{{ media_group }}'
     owner: 'root'
     mode: '0664'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize', 'historian_rsync' ]
+  with_flattened: [ 'sync_music', 'sync_photos', 'normalize' ]
   ignore_errors: "{{ ansible_check_mode }}"
-
-- name: 'copy media management scripts'
-  # TODO: These aren't templates...
-  template:
-    # Ansible should find this automatically if the file path is relative.
-    # It wasn't though...
-    src: '{{ role_path }}/files/{{ item }}'
-    dest: '/usr/local/bin/'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize', 'historian_rsync' ]
 
 - name: 'mobile photo-sync cron - lance'
   cron:
@@ -55,7 +70,7 @@
     minute: '0'
     hour: '*'
     user: 'plexuser'
-    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/lance_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_lance"
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/lance_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos_lance"
 
 - name: 'mobile photo-sync cron - alison'
   cron:
@@ -63,23 +78,7 @@
     minute: '0'
     hour: '*'
     user: 'plexuser'
-    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/alison_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_alison"
-
-- name: 'historian photo-sync cron'
-  cron:
-    name: 'historian photo-sync'
-    minute: '0'
-    hour: '8-23,0'
-    user: 'plexuser'
-    job: ". /etc/environment; /usr/local/bin/sync_photos -t historian -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos"
-
-- name: 'historian rsync cron'
-  cron:
-    name: 'historian rsync'
-    minute: '20'
-    hour: '*/4'
-    user: 'plexuser'
-    job: ". /etc/environment; /usr/local/bin/historian_rsync -s {{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/alison_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos_alison"
 
 - name: 'itunes music-sync cron'
   cron:

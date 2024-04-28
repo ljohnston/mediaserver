@@ -4,6 +4,8 @@
 - hosts: mediaservers
   become: yes
 
+  tags: 'testdata'
+
   tasks:
   - name: 'copy source_music test data'
     synchronize:

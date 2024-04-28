@@ -10,10 +10,11 @@ import unittest
 
 # TODO:
 
-# To facilitate test/script development. Pass path to script location (i.e. the
-# location of the script this test will be calling for tests) as argument on
-# command line.
-script_path = ''
+# For normal testing via serverspec, this test will execute the script that
+# exists on the path. To facilitate testing against a different script (e.g.
+# one that may be undergoing development), pass the path to the script as a
+# command line argument.
+script_dir = ''
 
 class TestMediaserverItunesSync(unittest.TestCase):
 
@@ -76,7 +77,7 @@ class TestMediaserverItunesSync(unittest.TestCase):
                             os.path.join(self.source_music_dir, "Alison's iTunes")]
 
         self.create_itunes_test_data(libraries)
-        args = [os.path.join(script_path, 'sync_music'),
+        args = [os.path.join(script_dir, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
                 '-d', self.dest_music_dir]
@@ -108,7 +109,7 @@ class TestMediaserverItunesSync(unittest.TestCase):
                             os.path.join(self.source_music_dir, "Alison's iTunes")]
 
         self.create_itunes_test_data(libraries)
-        args = [os.path.join(script_path, 'sync_music'),
+        args = [os.path.join(script_dir, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
                 '-d', self.dest_music_dir]
@@ -129,7 +130,7 @@ class TestMediaserverItunesSync(unittest.TestCase):
         }
 
         self.create_itunes_test_data(libraries)
-        args = [os.path.join(script_path, 'sync_music'),
+        args = [os.path.join(script_dir, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
                 '-d', self.dest_music_dir]
@@ -161,7 +162,7 @@ class TestMediaserverItunesSync(unittest.TestCase):
                             os.path.join(self.source_music_dir, "Alison's iTunes")]
 
         self.create_itunes_test_data(libraries)
-        args = [os.path.join(script_path, 'sync_music'),
+        args = [os.path.join(script_dir, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
                 '-d', self.dest_music_dir]
@@ -180,7 +181,7 @@ class TestMediaserverItunesSync(unittest.TestCase):
         }
 
         self.create_itunes_test_data(libraries)
-        args = [os.path.join(script_path, 'sync_music'),
+        args = [os.path.join(script_dir, 'sync_music'),
                 '-t', 'itunes',
                 '-s', ','.join(itunes_libraries),
                 '-d', self.dest_music_dir]
@@ -200,5 +201,5 @@ class TestMediaserverItunesSync(unittest.TestCase):
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        script_path = sys.argv.pop()
+        script_dir = sys.argv.pop()
     unittest.main()

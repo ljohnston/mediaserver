@@ -12,7 +12,7 @@ import unittest
 
 #
 # To facilitate test/script development, pass the path to script location (i.e.
-# the location of the script this test will be calling for tests) an as
+# the location of the script this test will be calling for tests) as an
 # argument on command line. For example:
 #
 #   $ /test/test_mediaserver_photosyncapp_sync.py /vagrant/roles/mediaserver/files/

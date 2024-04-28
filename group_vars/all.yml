@@ -12,7 +12,7 @@ ansible_python_interpreter: 'auto'
 # - Version number will be displayed on page.
 
 # plex releases here:  https://www.plex.tv/media-server-downloads
-plex_version: '1.32.8.7639-fb6452ebf'
+plex_version: 'v.1.40.0.7998-c29d4c0c8'
 
 # emby releases here:  https://emby.media/linux-server.html
 emby_version: '4.6.7.0'
@@ -25,15 +25,14 @@ media_directory: 'media'
 media_group: 'mediausers'
 
 media_dirs:
-  - 'historian_export'
+  - 'historian'
   - 'historian_import'
   - 'source_music'
   - 'source_photos'
   - 'source_photos/lance_photosync'
   - 'source_photos/alison_photosync'
-  - 'mobile_photos'
-  - 'mobile_photos_alison'
-  - 'mobile_photos_lance'
+  - 'photos_alison'
+  - 'photos_lance'
   - 'music'
   - 'music_normalized'
   - 'movies'
@@ -41,6 +40,7 @@ media_dirs:
   - 'tv'
 
 media_share: 'storage'
+media_share_path: '{{ mergerfs__mount_point }}'
 
 # TODO: {{
 # Seems there's probably a better way to deal with this.
@@ -51,12 +51,11 @@ media_share: 'storage'
 # These need samba shares (see samba__shares below).
 data_share_dirs:
   - 'backup'
-  - 'historian'
 
 backup_share: 'backup'
-backup_path: '{{ data_device.mount_point }}/backup'
+backup_share_path: '{{ data_device.mount_point }}/backup'
 historian_share: 'historian'
-historian_path: '{{ data_device.mount_point }}/historian'
+historian_share_path: '{{ mergerfs__mount_point }}/media/historian'
 # }}
 
 devices: '{{ [data_device] }}'
@@ -93,7 +92,7 @@ samba__shares: "{
     'writable'       : 'yes',
   },
   '{{ backup_share }}': {
-    'path'           : '{{ backup_path }}',
+    'path'           : '{{ backup_share_path }}',
     'browsable'      : 'yes',
     'create mask'    : '0775',
     'directory mask' : '0775',
@@ -102,7 +101,7 @@ samba__shares: "{
     'writable'       : 'yes',
   },
   '{{ historian_share }}': {
-    'path'           : '{{ historian_path }}',
+    'path'           : '{{ historian_share_path }}',
     'browsable'      : 'yes',
     'create mask'    : '0775',
     'directory mask' : '0775',

@@ -14,13 +14,15 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
 console_handler.setLevel(logging.INFO)
 
-file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/sync_music.log')
-file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-file_handler.setLevel(logging.WARNING)
-
 logger = logging.getLogger('sync_music')
 logger.addHandler(console_handler)
-logger.addHandler(file_handler)
+
+if (os.path.isfile('/var/log/mediaserver')):
+    file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/sync_music.log')
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    file_handler.setLevel(logging.WARNING)
+
+    logger.addHandler(file_handler)
 
 music_types = ['itunes']
 

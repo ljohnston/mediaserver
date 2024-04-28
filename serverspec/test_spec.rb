@@ -40,18 +40,10 @@ describe command('sync_photos --help') do
   its(:exit_status) { should eq 0 }
 end
 
-describe command('historian_rsync --help') do
+describe command('/vagrant/test/test_mediaserver_itunes_sync.py') do
   its(:exit_status) { should eq 0 }
 end
 
-describe command('/test/test_mediaserver_itunes_sync.py') do
-  its(:exit_status) { should eq 0 }
-end
-
-describe command('/test/test_mediaserver_photosyncapp_sync.py') do
-  its(:exit_status) { should eq 0 }
-end
-
-describe command('/test/test_historian_rsync.py') do
+describe command('/vagrant/test/test_mediaserver_photosyncapp_sync.py') do
   its(:exit_status) { should eq 0 }
 end

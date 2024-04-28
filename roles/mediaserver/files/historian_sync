@@ -1,0 +1,229 @@
+#!/usr/bin/env python3
+
+import argparse
+import datetime
+import glob
+import hashlib
+import logging
+import logging.handlers
+import os
+import sys
+
+import xml.etree.ElementTree as ET
+from abc import ABC, abstractmethod
+
+from mediaserver import Mediaserver
+
+# Needed to allow individual loggers to manage their level.
+logging.root.setLevel(logging.NOTSET)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+console_handler.setLevel(logging.INFO)
+
+logger = logging.getLogger('historian_sync')
+logger.addHandler(console_handler)
+
+if (os.path.isfile('/var/log/mediaserver')):
+    file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/historian_sync.log')
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    file_handler.setLevel(logging.WARNING)
+
+    logger.addHandler(file_handler)
+
+
+item_extensions = (
+    '.jpeg',
+    '.jpg',
+    '.mov',
+    '.mp4',
+    '.mpg',
+    '.png',
+    '.tif')
+
+
+class Photo(ABC):
+
+    # TODO: rename file to filename, currently this would break Mediaserver.py
+    def __init__(self, type, file, datetime=None):
+        self.type = type
+        self.file = file
+        self.datetime = datetime;
+        self.__digest = None
+
+    def digest(self):
+        if self.__digest == None:
+            md5 = hashlib.md5()
+            with open(self.file, 'rb') as f:
+                while True:
+                    data = f.read(32 * 1024)
+                    if not data:
+                        break
+                    md5.update(data)
+            self.__digest = md5.hexdigest()
+        return self.__digest
+
+    # Return the relative path where this file should be "synced"
+    # within a sync destination.
+    @abstractmethod
+    def get_sync_path(self, path, datetime = None):
+        pass
+
+
+
+class HistorianPhoto(Photo):
+
+    def __init__(self, file, datetime):
+        Photo.__init__(self, 'historian', file, datetime)
+
+    def get_sync_path(self, source_path):
+        filename = os.path.basename(self.file)
+        return f'{self.datetime.year}/{self.datetime.strftime("%B")}/{filename}'
+
+
+class PhotosyncAppPhoto(Photo):
+    # Filenames:
+    # Usually: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+    # Can be:  YYYY-MM-DD_HH-MM-SS_<randomname>.<ext>
+    # Source files are already in <yyyy>/<mm>/<dd> subdirs.
+
+    def __init__(self, file):
+        Photo.__init__(self, 'photosync-app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        return photo_relpath
+
+
+def sync_photo(photo, source, destination, sync_db, photo_db):
+    sync_record = sync_db.read_record(photo)
+    photo_record = photo_db.read_record(photo)
+
+    # No-op if photo has been synced before or it exists in destination.
+    if sync_record != None or photo_record != None:
+        return
+
+    symlink = os.path.join(destination, photo.get_sync_path(source))
+    symlink_directory = os.path.dirname(symlink)
+
+    if not os.path.exists(symlink_directory):
+        os.makedirs(symlink_directory)
+
+    if not os.path.exists(symlink):
+        os.symlink(os.path.relpath(photo.file, os.path.dirname(symlink)), symlink)
+
+    sync_db.write_record(photo)
+    photo_db.write_record(photo)
+
+
+def load_containers(source):
+    item_map = {}
+
+    for path in glob.iglob(os.path.join(source, '**/*.containerx'), recursive=True):
+        tree = ET.parse(path)
+        root = tree.getroot()
+
+        categories = root.attrib['Category'].split('/')
+
+        if categories != None:
+            for item in root.findall('Item'):
+                item_map[item.attrib['Id']] = root.attrib['Category'].split('/')
+
+    return item_map
+
+
+def to_datetime(org_date):
+    # Historian dates look like this: G2015-02-21-18-59-40-874.
+    date_arr = org_date[1:].split('-')[0:6]
+
+    #
+    # The datetime constructor takes ints, so we need to translate the
+    # string elements in the array via eval(), which doesn't like strings
+    # with leading zeros or empty strings.
+    #
+
+    def apply(el):
+        zero_stripped = el.lstrip('0')
+        return 0 if zero_stripped == '' else eval(zero_stripped)
+
+    return datetime.datetime(*map(apply, date_arr))
+
+
+def load_vault(source):
+    # item id to tags array
+    item_map = load_containers(source)
+
+    tree = ET.parse(f'{source}/manifest.vaultx')
+    root = tree.getroot()
+
+    image_map = {}
+
+    for image in root.findall('Items/Image'):
+        active_rev = image.find('Rev[@Act="True"]')
+
+        if image.attrib['ID'] == 'PICT0054-30139':
+            print(active_rev.attrib['Fil'])
+
+        if active_rev != None:
+            item_id = image.attrib['ID']
+            image_dict = {
+              'ID': image.attrib['ID'],
+              'capture_date': to_datetime(image.attrib['OrgDate']),
+              'tags': item_map.get(item_id, [])}
+            image_map[active_rev.attrib['Fil']] = image_dict
+
+    for video in root.findall('Items/Video'):
+        item_id = video.attrib['ID']
+        image_dict = {
+          'ID': video.attrib['ID'],
+          'capture_date': to_datetime(video.attrib['OrgDate']),
+          'tags': item_map.get(item_id, [])}
+        image_map[video.attrib['Fil']] = image_dict
+
+    return image_map
+
+
+def historian_sync(source, destination):
+    images = load_vault(source)
+
+    sync_db = Mediaserver.SyncDB(source, destination)
+    photo_db = Mediaserver.PhotoDB(destination)
+
+    # glob/iglob doesn't support multiple patterns.
+    for root, dirs, files in os.walk(os.path.join(source, 'Items')):
+        for file in files:
+            if file.endswith((item_extensions)):
+                if file in images:
+                    photo = HistorianPhoto(os.path.join(root, file), images[file]['capture_date'])
+                    sync_photo(photo, source, destination, sync_db, photo_db)
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Historian photo sync utility')
+
+    parser.add_argument(
+        '-s',
+        '--source',
+        required=True,
+        help='Path(s) to photo vault.')
+    parser.add_argument(
+        '-d',
+        '--destination',
+        required=True,
+        help='Path to the sync destination.')
+
+    args = parser.parse_args()
+
+    rtn = historian_sync(args.source, args.destination)
+
+    return rtn
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except Exception:
+        logging.exception('uncaught exception:')
+        sys.exit(1)
+
+

@@ -95,8 +95,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network :private_network, ip: '192.168.1.10'
 
-  # config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "./test", "/test"
+  config.vm.synced_folder ".", "/vagrant"
+  # config.vm.synced_folder "./test", "/test"
 
   config.vm.provision :shell, inline: bootstrap
 
@@ -105,7 +105,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ansible.galaxy_role_file = 'requirements.yml'
     ansible.galaxy_roles_path = 'roles.galaxy'
-    ansible.galaxy_command = 'ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path}'
+    ansible.galaxy_command = 'ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path} --force'
 
     ansible.raw_arguments = Shellwords.shellsplit(ENV["ANSIBLE_ARGS"]) if ENV["ANSIBLE_ARGS"]
 
@@ -116,10 +116,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "mediaservers" => [hostname],
     }
 
+    # ansible.verbose = "vvv"
+
     ansible.playbook = "playbook.yml"
   end
 
-  # Create symlink in project dir to seed source media for testing.
+  # Create symlink in project dir to seed source music for testing.
   if File.exist?('./source_music')
     config.vm.provision "ansible" do |ansible|
       ansible.compatibility_mode = "2.0"
@@ -128,11 +130,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "dev" => [hostname],
         "mediaservers" => [hostname],
       }
-      ansible.playbook = "testdata.yml"
+      ansible.playbook = "testdata_music.yml"
+    end
+  end
+
+  # Create symlink in project dir to seed historian for testing.
+  if File.exist?('./historian_vault')
+    config.vm.provision "ansible" do |ansible|
+      ansible.compatibility_mode = "2.0"
+      ansible.raw_arguments = Shellwords.shellsplit(ENV["ANSIBLE_ARGS"]) if ENV["ANSIBLE_ARGS"]
+      ansible.groups = {
+        "dev" => [hostname],
+        "mediaservers" => [hostname],
+      }
+      ansible.playbook = "testdata_historian.yml"
     end
   end
 
   config.vm.provision :serverspec do |spec|
     spec.pattern = 'serverspec/*_spec.rb'
+    # spec.html_output = true
   end
 end

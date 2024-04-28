@@ -1,43 +1,58 @@
 ---
 # tasks file for mediaserver
 
-- name: 'general system config'
-  include_tasks: 'config.yml'
+- block:
+  - name: 'general system config'
+    include_tasks: 'config.yml'
   tags: ['config']
 
-- name: 'create mounts'
-  include_tasks: 'mounts.yml'
+- block:
+  - name: 'create mounts'
+    include_tasks: 'mounts.yml'
   tags: ['mounts']
 
-- name: 'create users/groups'
-  include_tasks: 'users.yml'
+- block:
+  - name: 'create users/groups'
+    include_tasks: 'users.yml'
   tags: ['users']
 
-- name: 'create files/dirs'
-  include_tasks: 'files.yml'
-  tags: ['files']
-
-- name: 'create data share dirs'
-  include_tasks: 'data_shares.yml'
-  tags: ['data_shares']
-
-- name: 'setup mysql'
-  include_tasks: 'mysql.yml'
-  tags: ['mysql']
-
-- name: 'docker apps'
-  include_tasks: 'docker_apps.yml'
-  tags: ['docker_apps']
-
-- name: 'install ffmpeg'
-  include_tasks: 'ffmpeg.yml'
-  tags: ['ffmpeg']
-
-- name: 'install scripts'
-  include_tasks: 'scripts.yml'
-  tags: ['scripts','test']
-
-- name: 'test'
-  include_tasks: 'test.yml'
+- block:
+  - name: 'test'
+    include_tasks: 'test.yml'
   tags: ['test']
   when: env == 'dev'
+
+- block:
+  - name: 'create files/dirs'
+    include_tasks: 'files.yml'
+  tags: ['files']
+
+- block:
+  - name: 'create data share dirs'
+    include_tasks: 'data_shares.yml'
+  tags: ['data_shares']
+
+- block:
+  - name: 'setup mysql'
+    include_tasks: 'mysql.yml'
+  tags: ['mysql']
+
+- block:
+  - name: 'docker apps'
+    include_tasks: 'docker_apps.yml'
+  tags: ['docker_apps']
+
+- block:
+  - name: 'install ffmpeg'
+    include_tasks: 'ffmpeg.yml'
+  tags: ['ffmpeg']
+
+- block:
+  - name: 'install python packages'
+    include_tasks: 'python_packages.yml'
+  tags: ['scripts','test']
+
+- block:
+  - name: 'install scripts'
+    include_tasks: 'scripts.yml'
+  tags: ['scripts','test']

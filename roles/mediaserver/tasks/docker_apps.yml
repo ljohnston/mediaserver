@@ -13,6 +13,6 @@
     owner: 'root'
     group: 'root'
     mode: '0600'
-  notify: 
-    - 'docker-compose up'
+  notify:
+    - 'docker compose up'
 

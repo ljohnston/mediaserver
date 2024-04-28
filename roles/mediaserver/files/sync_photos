@@ -3,13 +3,14 @@
 import argparse
 import glob
 import hashlib
-import json
 import logging
 import logging.handlers
 import os
 import sys
 
 from abc import ABC, abstractmethod
+
+from mediaserver import Mediaserver
 
 # Needed to allow individual loggers to manage their level.
 logging.root.setLevel(logging.NOTSET)
@@ -18,156 +19,18 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
 console_handler.setLevel(logging.INFO)
 
-file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/sync_photos.log')
-file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-file_handler.setLevel(logging.WARNING)
-
-logger = logging.getLogger('sync_music')
+logger = logging.getLogger('sync_photos')
 logger.addHandler(console_handler)
-logger.addHandler(file_handler)
+
+if (os.path.isfile('/var/log/mediaserver')):
+    file_handler = logging.handlers.WatchedFileHandler('/var/log/mediaserver/sync_photos.log')
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    file_handler.setLevel(logging.WARNING)
+
+    logger.addHandler(file_handler)
 
 # TODO: Real enums?
 photo_types = ['historian', 'photosync-app']
-
-#
-# All plex photo libraries (i.e. our sync targets) should have the following
-# diretory structure:
-#
-#   <root>
-#     <year>
-#       <month>
-#         <day>
-#           ...
-#
-
-class MediaserverDB(ABC):
-
-    def __init__(self, database_dir, db):
-        self.db_path = os.path.join(database_dir, db)
-        if not os.path.exists(self.db_path):
-            os.makedirs(self.db_path)
-
-    @abstractmethod
-    def get_key(self, photo):
-        pass
-
-    @abstractmethod
-    def to_dict(self, photo):
-        pass
-
-    @abstractmethod
-    def from_dict(self, data):
-        pass
-
-    # TODO: We need a select method (really just select all), so that we can
-    # remove DB records for files that may have been deleted.
-    def select_all(self):
-        pass
-
-    def read_record(self, photo):
-        rec = self.__get_record_path(photo)
-
-        if not os.path.isfile(rec):
-            return None
-
-        # TODO: Error handling. Deserializing may fail due to corrupt or
-        # incomplete file. In that case we should delete it and return None.
-        with open(rec, 'r') as f:
-            data = json.load(f)
-
-        return self.from_dict(data)
-
-    def write_record(self, photo):
-        rec = self.__get_record_path(photo)
-
-        rec_dir = os.path.dirname(rec)
-        if not os.path.exists(rec_dir):
-            os.makedirs(rec_dir)
-
-        with open(rec, 'w') as f:
-            json.dump(self.to_dict(photo), f)
-
-    def delete_record(self, photo):
-        rec = self.__get_record_path(photo)
-
-        # TODO: Delete empty path elements up the tree.
-
-        if os.path.isfile(rec):
-            os.remove(rec)
-
-    #
-    # "Private" methods.
-    #
-
-    def __get_record_path(self, photo):
-        hash = self.get_key(photo)
-        return os.path.join(self.db_path, hash[-1], hash[-3:-1], hash[:-3])
-
-    def __to_json_str(self, photo, destination_dir):
-        return json.dumps(self.to_dict(photo, destination_dir), sort_keys=True)
-
-
-class PhotoDB(MediaserverDB):
-
-    def __init__(self, database_dir):
-        MediaserverDB.__init__(self, database_dir, '.mediaserver_photoDB')
-
-    def get_key(self, photo):
-        return photo.digest()
-
-    def to_dict(self, photo):
-        data = {}
-        data['type'] = photo.type
-        data['source_file'] = photo.file
-        data['digest'] = photo.digest()
-        return data
-
-    def from_dict(self, data):
-        return PhotoRecord(
-            data['type'],
-            data['source_file'],
-            data['digest'])
-
-class SyncDB(MediaserverDB):
-
-    def __init__(self, database_dir, destination_dir):
-        MediaserverDB.__init__(self, database_dir, '.mediaserver_syncDB')
-        self.destination_dir = destination_dir
-
-    def get_key(self, photo):
-        return hashlib.md5((photo.digest() + self.destination_dir).encode()).hexdigest()
-
-    def to_dict(self, photo):
-        data = {}
-        data['type'] = photo.type
-        data['source_file'] = photo.file
-        data['destination_dir'] = self.destination_dir
-        data['digest'] = photo.digest()
-        return data
-
-    def from_dict(self, data):
-        return SyncRecord(
-            data['type'],
-            data['source_file'],
-            data['destination_dir'],
-            data['digest'])
-
-
-class PhotoRecord:
-
-    def __init__(self, type, source_file, digest):
-        self.type = type
-        self.source_file = source_file
-        self.digest = digest
-
-
-class SyncRecord:
-
-    def __init__(self, type, source_file, destination_dir, digest):
-        self.type = type
-        self.source_file = source_file
-        self.destination_dir = destination_dir
-        self.digest = digest
 
 
 class Photo(ABC):
@@ -278,8 +141,8 @@ def sync_photosyncapp_photos(sources, destination):
     for i in (range(len(sources))):
         source = sources[i]
 
-        sync_db = SyncDB(source, destination)
-        photo_db = PhotoDB(destination)
+        sync_db = Mediaserver.SyncDB(source, destination)
+        photo_db = Mediaserver.PhotoDB(destination)
 
         for path in glob.iglob(os.path.join(source, '**/*'), recursive=True):
 
@@ -358,16 +221,16 @@ def main():
         '--destination',
         required=True,
         help='Path to the media sync destination.')
-    parser.add_argument(
-        '-n',
-        '--not-in-destination',
-        required=False,
-        help='Only sync if photo does not exist in the destination.')
-    parser.add_argument(
-        '-f',
-        '--flag-file',
-        required=False,
-        help='Only sync if this file exists.')
+    # parser.add_argument(
+    #     '-n',
+    #     '--not-in-destination',
+    #     required=False,
+    #     help='Only sync if photo does not exist in the destination.')
+    # parser.add_argument(
+    #     '-f',
+    #     '--flag-file',
+    #     required=False,
+    #     help='Only sync if this file exists.')
 
     args = parser.parse_args()
 

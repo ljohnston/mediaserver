@@ -1,0 +1,19 @@
+---
+# tasks file for python packages
+
+- name: 'install python3-pip package'
+  ansible.builtin.apt:
+    pkg: 'python3-pip'
+    state: 'present'
+
+- name: 'install ffmpeg-normalize'
+  pip:
+    name: 'ffmpeg-normalize'
+    state: 'present'
+    executable: 'pip3'
+
+- name: 'install plexapi'
+  pip:
+    name: 'plexapi'
+    state: 'present'
+    executable: 'pip3'
