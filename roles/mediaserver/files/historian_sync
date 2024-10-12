@@ -42,59 +42,6 @@ item_extensions = (
     '.tif')
 
 
-class Photo(ABC):
-
-    # TODO: rename file to filename, currently this would break Mediaserver.py
-    def __init__(self, type, file, datetime=None):
-        self.type = type
-        self.file = file
-        self.datetime = datetime;
-        self.__digest = None
-
-    def digest(self):
-        if self.__digest == None:
-            md5 = hashlib.md5()
-            with open(self.file, 'rb') as f:
-                while True:
-                    data = f.read(32 * 1024)
-                    if not data:
-                        break
-                    md5.update(data)
-            self.__digest = md5.hexdigest()
-        return self.__digest
-
-    # Return the relative path where this file should be "synced"
-    # within a sync destination.
-    @abstractmethod
-    def get_sync_path(self, path, datetime = None):
-        pass
-
-
-
-class HistorianPhoto(Photo):
-
-    def __init__(self, file, datetime):
-        Photo.__init__(self, 'historian', file, datetime)
-
-    def get_sync_path(self, source_path):
-        filename = os.path.basename(self.file)
-        return f'{self.datetime.year}/{self.datetime.strftime("%B")}/{filename}'
-
-
-class PhotosyncAppPhoto(Photo):
-    # Filenames:
-    # Usually: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
-    # Can be:  YYYY-MM-DD_HH-MM-SS_<randomname>.<ext>
-    # Source files are already in <yyyy>/<mm>/<dd> subdirs.
-
-    def __init__(self, file):
-        Photo.__init__(self, 'photosync-app', file)
-
-    def get_sync_path(self, source_path):
-        photo_relpath = os.path.relpath(self.file, source_path)
-        return photo_relpath
-
-
 def sync_photo(photo, source, destination, sync_db, photo_db):
     sync_record = sync_db.read_record(photo)
     photo_record = photo_db.read_record(photo)
@@ -194,7 +141,7 @@ def historian_sync(source, destination):
         for file in files:
             if file.endswith((item_extensions)):
                 if file in images:
-                    photo = HistorianPhoto(os.path.join(root, file), images[file]['capture_date'])
+                    photo = Mediaserver.HistorianPhoto(os.path.join(root, file), images[file]['capture_date'])
                     sync_photo(photo, source, destination, sync_db, photo_db)
 
 

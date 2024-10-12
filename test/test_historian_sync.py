@@ -70,6 +70,25 @@
 #     pic05(rev 0).jpg
 #
 
+items = {'images': [
+            {'Id': 'pic01',
+             'OrgDate': 'G2020-01-01-17-51-46-000',
+             'Revs': [{'Act': 'False', 'Fil': 'pic01(rev 0).jpg'},
+                      {'Act': 'True', 'Fil': 'pic01(rev 1).jpg'}]},
+            {'Id': 'pic02',
+             'OrgDate': 'G2020-02-02-17-51-46-000',
+             'Revs': [{'Act': 'True', 'Fil': 'pic02(rev 0).jpg'}]},
+            {'Id': 'pic03',
+             'OrgDate': 'G2020-02-02-17-51-46-000',
+             'Revs': [{'Act': 'True', 'Fil': 'pic03(rev 0).jpg'}]},
+            {'Id': 'pic05',
+             'OrgDate': 'G2022-03-03-17-51-46-000',
+             'Revs': [{'Act': 'True', 'Fil': 'pic05(rev 0).jpg'}]}],
+         'movies': [
+            {'Id': 'movie1', 'OrgDate': 'G2020-02-02-17-51-46-000', 'Fil': 'movie1.mpg'}]
+}
+
+import glob
 import os
 import shutil
 import subprocess
@@ -89,6 +108,8 @@ import xml.etree.ElementTree as ET
 #
 script_path = ''
 
+# ElementTree in Python 3.9 has an indent method.
+# Maybe at some point we can get rid of this.
 def indent(elem, level=0):
     indent_size = "  "
     i = "\n" + level * indent_size
@@ -146,25 +167,6 @@ class TestHistorianSync(unittest.TestCase):
     #     shutil.rmtree(self.test_dir)
 
 
-    # ElementTree in Python 3.9 has an indent method.
-    # Maybe at some point we can get rid of this.
-    def indent(self, elem, level=0):
-        indent_size = "  "
-        i = "\n" + level * indent_size
-        if len(elem):
-            if not elem.text or not elem.text.strip():
-                elem.text = i + indent_size
-            if not elem.tail or not elem.tail.strip():
-                elem.tail = i
-            for elem in elem:
-                self.indent(elem, level + 1)
-            if not elem.tail or not elem.tail.strip():
-                elem.tail = i
-        else:
-            if level and (not elem.tail or not elem.tail.strip()):
-                elem.tail = i
-
-
     def create_manifest(self):
         manifest = ET.Element('Manifest')
         items = ET.SubElement(manifest, 'Items')
@@ -200,11 +202,12 @@ class TestHistorianSync(unittest.TestCase):
         image4_rev1.set('Act', 'True')
         image4_rev1.set('Fil', 'pic05(rev 0).jpg')
 
-        video1 = ET.SubElement(items, 'Image')
+        video1 = ET.SubElement(items, 'Video')
         video1.set('ID', 'movie01')
         video1.set('OrgDate', 'G2020-02-02-17-51-46-000')
+        video1.set('Fil', 'movie01.mpg')
 
-        self.indent(manifest)
+        indent(manifest)
 
         with open(os.path.join(self.vault_dir, 'manifest.vaultx'), 'wb') as f:
             f.write(ET.tostring(manifest))
@@ -259,14 +262,25 @@ class TestHistorianSync(unittest.TestCase):
         self.create_manifest()
         self.create_items()
 
+
+    def test_historian_sync(self):
+        self.create_test_data()
+
         args = [os.path.join(script_path, 'historian_sync'),
                 '-s', self.vault_dir,
                 '-d', self.photos_dir]
         response = subprocess.run(args, shell=False)
 
+        synced_files = [
+                f for f in glob.glob(os.path.join(self.photos_dir, '**/*'), recursive=True) \
+                if not os.path.isdir(f)]
+        synced_dirs = [
+                f for f in glob.glob(os.path.join(self.photos_dir, '**/*'), recursive=True) \
+                if os.path.isdir(f)]
 
-    def test_historian_sync(self):
-        self.create_test_data()
+        self.assertEqual(len(synced_files), 5)
+        self.assertEqual(len(synced_dirs), 7)
+        self.assertEqual(response.returncode, 0)
 
 
 if __name__ == '__main__':

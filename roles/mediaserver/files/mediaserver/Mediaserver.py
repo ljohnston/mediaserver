@@ -34,17 +34,6 @@ from abc import ABC, abstractmethod
 #     some tags). TODO: I could test this.
 #
 
-#
-# Ideally, plex photo libraries (i.e. our sync targets) will have the following
-# diretory structure when possible:
-#
-#   <root>
-#     <year>
-#       <month>
-#         <day>
-#           ...
-#
-
 class MediaserverDB(ABC):
 
     def __init__(self, database_dir, db):
@@ -115,9 +104,10 @@ class MediaserverDB(ABC):
 #
 # A PhotoDB is a database of photos in the current directory tree.
 #
-#   - type: the type of photo application where the image originated (e.g.
+#   - type: type of photo application where the image originated (e.g.
 #     photosync or historian).
-#   - source_file: the location of the originating file
+#   - source_file: absolute path location of the original file
+#   - destination_relpath: synced file relative path in destination
 #   - digest: MD5 of the source file
 #
 
@@ -133,6 +123,7 @@ class PhotoDB(MediaserverDB):
         data = {}
         data['type'] = photo.type
         data['source_file'] = photo.file
+        data['sync_path'] = photo.get_sync_path(photo.file)
         data['digest'] = photo.digest()
         return data
 
@@ -140,14 +131,16 @@ class PhotoDB(MediaserverDB):
         return PhotoRecord(
             data['type'],
             data['source_file'],
+            data['sync_path'],
             data['digest'])
 
 
 class PhotoRecord:
 
-    def __init__(self, type, source_file, digest):
+    def __init__(self, type, source_file, destination_relpath, digest):
         self.type = type
         self.source_file = source_file
+        self.destination_relpath = destination_relpath
         self.digest = digest
 
 
@@ -195,3 +188,57 @@ class SyncRecord:
         self.source_file = source_file
         self.destination_dir = destination_dir
         self.digest = digest
+
+
+class Photo(ABC):
+
+    # TODO: rename file to filename, currently this would break Mediaserver.py
+    def __init__(self, type, file, datetime=None):
+        self.type = type
+        self.file = file
+        self.datetime = datetime;
+        self.__digest = None
+
+    def digest(self):
+        if self.__digest == None:
+            md5 = hashlib.md5()
+            with open(self.file, 'rb') as f:
+                while True:
+                    data = f.read(32 * 1024)
+                    if not data:
+                        break
+                    md5.update(data)
+            self.__digest = md5.hexdigest()
+        return self.__digest
+
+    # Return the relative path where this file should be "synced" within
+    # a sync destination (i.e. relative to the destination root).
+    @abstractmethod
+    def get_sync_path(self, path):
+        pass
+
+
+
+class HistorianPhoto(Photo):
+
+    def __init__(self, file, datetime):
+        Photo.__init__(self, 'historian', file, datetime)
+
+    def get_sync_path(self, source_path):
+        filename = os.path.basename(self.file)
+        return f'{self.datetime.year}/{self.datetime.strftime("%B")}/{filename}'
+
+
+class PhotosyncAppPhoto(Photo):
+    # Filenames:
+    # Usually: YYYY-MM-DD_HH-MM-SS_IMG_<randomname>.<ext>
+    # Can be:  YYYY-MM-DD_HH-MM-SS_<randomname>.<ext>
+    # Source files are already in <yyyy>/<mm>/<dd> subdirs.
+
+    def __init__(self, file):
+        Photo.__init__(self, 'photosync-app', file)
+
+    def get_sync_path(self, source_path):
+        photo_relpath = os.path.relpath(self.file, source_path)
+        return photo_relpath
+
