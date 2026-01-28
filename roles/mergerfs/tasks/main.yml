@@ -2,8 +2,11 @@
 # tasks file for mergerfs
 
 - name: 'install MergerFS package'
-  apt:
-    deb: '{{ mergerfs__download_url }}'
+  ansible.builtin.apt:
+    # TODO: Don't need this download url andmroe: deb: '{{ mergerfs__download_url }}'
+    name: 'mergerfs'
+    state: 'present'
+    update_cache: true
 
 - name: 'create mergerfs mount point'
   file:

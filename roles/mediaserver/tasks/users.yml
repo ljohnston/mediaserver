@@ -36,10 +36,10 @@
     groups: '{{ media_group }}'
     password_lock: 'yes'
     shell: '/bin/bash'
-  register: create_plexuser
+  register: plexuser
 
 - name: 'set plexuser uid/gid facts'
   set_fact:
-    plexuser_uid: '{{ create_plexuser.uid }}'
-    plexuser_gid: '{{ create_plexuser.group }}'
-    plexuser_home: '{{ create_plexuser.home }}'
+    plexuser_uid: '{{ plexuser.uid }}'
+    plexuser_gid: '{{ plexuser.group }}'
+    plexuser_home: '{{ plexuser.home }}'

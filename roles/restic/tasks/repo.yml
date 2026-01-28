@@ -1,7 +1,7 @@
 ---
 
 - name: 'create restic directory'
-  ansible.builtin.file: 
+  ansible.builtin.file:
     path: '{{ plexuser_home }}/.restic'
     owner: 'plexuser'
     group: 'plexuser'

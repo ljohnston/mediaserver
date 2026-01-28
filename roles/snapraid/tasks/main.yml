@@ -1,14 +1,21 @@
 ---
 # tasks file for snapraid
+# - name: 'install ca-certificates (fixes cert errors)'
+#   ansible.builtin.apt:
+#     name: ca-certificates
+#     state: latest
 
-- name: 'install snapraid ppa'
-  apt_repository:
-    repo: 'ppa:tikhonov/snapraid'
+# - name: 'install snapraid ppa'
+#   ansible.builtin.apt_repository:
+#     repo: 'ppa:tikhonov/snapraid'
+#     state: 'present'
+#     update_cache: true
 
 - name: 'install snapraid package'
-  apt:
+  ansible.builtin.apt:
     pkg: 'snapraid'
     state: 'present'
+    update_cache: true
 
 - name: 'create snapraid mount points'
   file:
@@ -17,13 +24,13 @@
   with_flattened: "{{ snapraid__parity_devices + snapraid__data_devices }}"
 
 # - debug:
-#     msg: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
+#     msg: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}"
 #   with_flattened: "{{ snapraid__parity_devices + snapraid__data_devices }}"
 
 - name: 'create snapraid mounts'
   mount:
     path: "{{ item.mount_point }}"
-    src: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
+    src: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}"
     fstype: "{{ item.fs_type }}"
     state: mounted
   with_flattened: "{{ snapraid__parity_devices + snapraid__data_devices }}"
@@ -35,8 +42,8 @@
     state: directory
 
 - name: 'create snapraid.conf'
-  template: 
-    src: 'etc/snapraid.conf.j2' 
+  template:
+    src: 'etc/snapraid.conf.j2'
     dest: '/etc/snapraid.conf'
 
 - name: 'copy snapraid-runner.py'

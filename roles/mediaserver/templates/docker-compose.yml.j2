@@ -1,11 +1,12 @@
 ---
-version: '2'
 
 # volumes:
 #   nextcloud:
 #     driver: local
 #   mysql:
 #     driver: local
+
+name: mediaserver
 
 services:
   plex:
@@ -25,21 +26,12 @@ services:
       - /tmp/plex:/transcode
 
     restart: unless-stopped
-  emby:
-    image: emby/embyserver:{{ emby_version }}
-    container_name: embyserver
-    restart: unless-stopped
-    environment:
-      - PUID={{ plexuser_uid }}
-      - PGID={{ plexuser_gid }}
-      - TZ={{ mediaserver_timezone }}
-      # - UMASK_SET=022 #optional
-    volumes:
-      - /var/lib/emby/config:/config
-      - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
-    ports:
-      - 8096:8096
-      - 8920:8920
+
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
   mysql:
     image: {{ mysql_image }}
     container_name: mysql
@@ -55,6 +47,12 @@ services:
       - MYSQL_ROOT_HOST=172.*.*.*
     volumes:
       - {{ data_device.mount_point }}/mysql:/var/lib/mysql
+
+    deploy:
+      resources:
+        limits:
+          memory: 250M
+
   nextcloud:
     image: {{ nextcloud_image }}
     container_name: nextcloud
@@ -80,3 +78,8 @@ services:
       - NEXTCLOUD_ADMIN_USER={{ nextcloud_admin_user }}
       - NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_admin_password }}
       - NEXTCLOUD_TRUSTED_DOMAINS={{ nextcloud_trusted_domains }}
+
+    deploy:
+      resources:
+        limits:
+          memory: 100M
