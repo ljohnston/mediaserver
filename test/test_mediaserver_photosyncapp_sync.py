@@ -32,8 +32,8 @@ class TestMediaserverPhotosyncSync(unittest.TestCase):
 
 
     def tearDown(self):
-        print(self.test_dir)
-        # shutil.rmtree(self.test_dir)
+        # print(self.test_dir)
+        shutil.rmtree(self.test_dir)
 
 
     def create_test_data(self, data_defs):

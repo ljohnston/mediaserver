@@ -1,6 +1,7 @@
 ---
 
 # - debug: var=ansible_env.HOME
+# - debug: var=ansible_user_dir
 # - debug: var=ansible_user_id
 # - debug: var=automount_user
 
@@ -32,6 +33,6 @@
     mode: '0644'
   vars:
     script_path: '{{ ansible_user_dir }}/applescript/automounter.applescript'
-  notify: 
+  notify:
     - 'reload automounter launch agent'
 

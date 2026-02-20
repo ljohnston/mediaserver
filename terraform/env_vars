@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# run using 'eval $([OCI_CLI_PROFILe=<profile>] ./env_vars)'
+
+OCI_CONFIG=~/.oci/config
+
+if [ ! -f ${OCI_CONFIG} ]; then 
+    echo "WARNING: '${OCI_CONFIG}' not found" >&2
+    exit 0
+fi
+
+PROFILE="${OCI_CLI_PROFILE:-DEFAULT}"
+
+awk -v PROFILE=$PROFILE -F ' *= *' '{
+  if ( $0 ~ /^\[.*\] */ ) {
+    gsub( /(\[|\]| *$)/, "", $0 )
+    SECTION=$0
+  } 
+  else if ( ($0 !~ /^ *#/) && ($2 != "") && (SECTION==PROFILE) ) {
+    gsub( /^(user|tenancy)$/, $1"_ocid", $1 )
+    print "export TF_VAR_"$1"\="$2
+  }
+}' ${OCI_CONFIG}

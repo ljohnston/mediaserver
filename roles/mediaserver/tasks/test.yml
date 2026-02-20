@@ -1,8 +1,24 @@
 ---
 
-- name: 'add vagrant user to media users group'
-  user:
-    name: 'vagrant'
-    groups: ['{{ media_group }}']
-    append: 'yes'
+#
+# NOTE: These tasks only run when env = 'dev' (see main.yml).
+#
+
+# - name: 'add ubuntu user to media users group'
+#   ansible.builtin.user:
+#     name: 'ubuntu'
+#     groups: '{{ media_group }}'
+#     append: 'yes'
+
+- name: 'Copy test scripts'
+  ansible.builtin.copy:
+    src: 'test'
+    dest: '{{ plexuser.home }}'
+    owner: 'plexuser'
+    mode: '0755'
+
+- name: 'test mediaserver itunes sync script'
+  ansible.builtin.shell: '~/test/test_mediaserver_itunes_sync.py'
+  become: true
+  become_user: 'plexuser'
 

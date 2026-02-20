@@ -11,13 +11,17 @@ output "bastion_http_forward_command" {
 
 output "bastion_ssh_forward_command" {
   value = replace(
-    replace(
-      oci_bastion_session.ssh_forward.ssh_metadata.command,
-      "<privateKey>",
-      var.private_key_path
-    ),
-    "<localPort>",
-    var.local_ssh_forward_port)
+      replace(
+        oci_bastion_session.ssh_forward.ssh_metadata.command,
+        "<privateKey>",
+        var.private_key_path
+      ),
+      "<localPort>",
+      var.local_ssh_forward_port)
+}
+
+output "bastion_ssh_forward_port" {
+  value = var.local_ssh_forward_port
 }
 
 output "bastion_plex_forward_command" {
@@ -29,6 +33,10 @@ output "bastion_plex_forward_command" {
     ),
     "<localPort>",
     var.local_plex_forward_port)
+}
+
+output "bastion_plex_forward_port" {
+  value = var.local_plex_forward_port
 }
 
 output "instance_private_ip" {

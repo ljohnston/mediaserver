@@ -52,6 +52,11 @@ media_users:
 nopasswd_sudoers:
   - 'ljohnston'
 
+#
+# For dev, the boot disk is sda, so our first additional disk will be sdb.
+# The production server has an nvme boot disk, so mounts there start at sda.
+#
+
 data_device:
   device: "/dev/sdb"
   fs_type: "ext4"
@@ -65,7 +70,7 @@ snapraid__parity_devices:
     mount_point: "/mnt/snapraid/parity/1-parity"
     type: "parity"
 
-# That data devices in our Vagrant box are only getting 768 inodes.
+# The data devices in our Vagrant box are only getting 768 inodes.
 # That's not enough.
 
 snapraid__data_devices:

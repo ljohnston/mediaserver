@@ -1,10 +1,6 @@
 ---
 env: 'prd'
 
-automounter_service_file: 'com.user.mediaserver.automounter.plist'
-
-mediaserver_hostname: 'mediaserver'
-
 b2_app_key_id: todo
 b2_app_key: todo
 restic_repo: b2:cheewee-net/{{ mediaserver_hostname }}

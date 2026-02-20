@@ -9,9 +9,18 @@
   include_tasks: 'mounts.yml'
   tags: ['mounts']
 
+
+#
+# The user tasks set facts are needed in other tasks. Using the
+# 'always' tag will ensure they run no matter what tags are passed,
+# so the facts will always be available.
+#
+# TODO: Re-evaluate how to manage dependencies across playbook/tasks?
+#
+
 - name: 'create users/groups'
-  include_tasks: 'users.yml'
-  tags: ['users']
+  import_tasks: 'users.yml'
+  tags: ['always']
 
 - name: 'create files/dirs'
   include_tasks: 'files.yml'
@@ -37,7 +46,9 @@
   include_tasks: 'scripts.yml'
   tags: ['scripts','test']
 
+# 'import_tasks' will push the 'when' condition down to imported tasks.
 - name: 'test'
-  include_tasks: 'test.yml'
+  import_tasks: 'test.yml'
   tags: ['test']
   when: env == 'dev'
+
