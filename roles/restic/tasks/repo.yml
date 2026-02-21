@@ -16,6 +16,3 @@
     group: 'plexuser'
     mode: '0600'
 
-# - name: 'repo init check'
-#   ansible.builtin.command: 'restic snaspshot'
-

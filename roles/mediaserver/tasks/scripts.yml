@@ -1,7 +1,7 @@
 ---
 
 - name: 'create data directory for mediaserver scripts'
-  file:
+  ansible.builtin.file:
     path: '/var/lib/mediaserver'
     group: '{{ media_group }}'
     owner: 'root'
@@ -9,45 +9,45 @@
     state: 'directory'
 
 - name: 'create log directory for mediaserver scripts'
-  file:
+  ansible.builtin.file:
     path: '/var/log/mediaserver'
     group: '{{ media_group }}'
     owner: 'root'
     mode: '0775'
     state: 'directory'
 
-# Note this is a copy task that won't create the file if it exists...
+- name: 'set mediaserver scripts fact'
+  ansible.builtin.set_fact:
+    mediaserver_scripts: "{{ query('ansible.builtin.fileglob', 'scripts/*') | map('ansible.builtin.basename') }}"
+
+# This copy task won't create the file if it already exists...
 - name: 'create log files for mediaserver scripts'
-  copy:
+  ansible.builtin.copy:
     content: ''
     dest: '/var/log/mediaserver/{{ item }}.log'
     force: 'no'
     group: '{{ media_group }}'
     owner: 'root'
     mode: '0664'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize', 'historian_rsync' ]
+  loop: '{{ mediaserver_scripts }}'
 
-# ... so we need to make sure we set ownership/permissions separately.
+# ... so we need to set ownership/permissions separately.
 - name: 'set ownership/permissions on log files for mediaserver scripts'
-  file:
+  ansible.builtin.file:
     dest: '/var/log/mediaserver/{{ item }}.log'
     group: '{{ media_group }}'
     owner: 'root'
     mode: '0664'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize', 'historian_rsync' ]
+  loop: '{{ mediaserver_scripts }}'
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: 'copy media management scripts'
-  # TODO: These aren't templates...
-  template:
-    # Ansible should find this automatically if the file path is relative.
-    # It wasn't though...
-    src: '{{ role_path }}/files/{{ item }}'
+- name: 'copy mediaserver scripts'
+  ansible.builtin.copy:
+    src: 'scripts/'
     dest: '/usr/local/bin/'
     owner: 'root'
     group: 'root'
     mode: '0755'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize', 'historian_rsync' ]
 
 - name: 'mobile photo-sync cron - lance'
   cron:

@@ -67,6 +67,8 @@ function build_command() {
     echo $cmd
 }
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+
 if [[ -n "${1}" && ${tf_passthrough_cmds[*]} =~ ${1} ]] ; then
     tf_cmd=${1}
     tf_cmd_args=${@:2}
@@ -77,7 +79,7 @@ else
     tf_cmd=${2}
     tf_cmd_args=${@:3}
 
-    if [[ ! -d ${infrastructure_id} ]]; then
+    if [[ ! -d ${script_dir}/${infrastructure_id} ]]; then
         die "Infrastructure subdir '${infrastructure_id}' not found."
     fi
 fi
@@ -88,7 +90,6 @@ export TF_VAR_home=${HOME}
 
 # Export TF_VAR_'s for anything being set in ~/.oci/config.
 # Any vars also specified within the project will take precedence.
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 [ -f ${script_dir}/env_vars ] && eval $(OCI_CLI_PROFILE=${OCI_CLI_PROFILE} ${script_dir}/env_vars)
 
 cmd=$(build_command $tf_cmd $tf_cmd_args)

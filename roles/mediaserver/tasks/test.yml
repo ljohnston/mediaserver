@@ -4,21 +4,19 @@
 # NOTE: These tasks only run when env = 'dev' (see main.yml).
 #
 
-# - name: 'add ubuntu user to media users group'
-#   ansible.builtin.user:
-#     name: 'ubuntu'
-#     groups: '{{ media_group }}'
-#     append: 'yes'
+- name: 'set mediaserver test scripts fact'
+  ansible.builtin.set_fact:
+    mediaserver_test_scripts: "{{ query('ansible.builtin.fileglob', 'tests/*') | map('ansible.builtin.basename') }}"
 
-- name: 'Copy test scripts'
+- name: 'copy test scripts'
   ansible.builtin.copy:
-    src: 'test'
-    dest: '{{ plexuser.home }}'
+    src: 'tests'
+    dest: '{{ plexuser_home }}'
     owner: 'plexuser'
     mode: '0755'
 
-- name: 'test mediaserver itunes sync script'
-  ansible.builtin.shell: '~/test/test_mediaserver_itunes_sync.py'
+- name: 'run mediaserver test scripts'
+  ansible.builtin.shell: '~/tests/{{ item }}'
   become: true
   become_user: 'plexuser'
-
+  loop: '{{ mediaserver_test_scripts }}'

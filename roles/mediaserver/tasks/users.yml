@@ -15,7 +15,7 @@
     groups: '{{ item.groups + [ media_group ] }}'
     update_password: 'on_create'
   no_log: 'true'
-  with_flattened: "{{ media_users }}"
+  loop: "{{ media_users }}"
 
 - name: 'create nopasswd sudoers'
   template:
@@ -38,8 +38,8 @@
     shell: '/bin/bash'
   register: plexuser
 
-- name: 'set plexuser uid/gid facts'
-  set_fact:
+- name: 'set plexuser facts'
+  ansible.builtin.set_fact:
     plexuser_uid: '{{ plexuser.uid }}'
     plexuser_gid: '{{ plexuser.group }}'
     plexuser_home: '{{ plexuser.home }}'

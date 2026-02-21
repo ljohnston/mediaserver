@@ -2,7 +2,9 @@
 # tasks file for restic
 
 - name: 'install restic'
-  include_tasks: 'install.yml'
+  import_tasks: 'install.yml'
+  tags: ['restic', 'restic_install']
 
 - name: 'init restic repo'
-  include_tasks: 'repo.yml'
+  import_tasks: 'repo.yml'
+  tags: ['restic', 'restic_repo']
