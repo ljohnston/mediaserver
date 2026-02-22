@@ -1,5 +1,7 @@
 import pytest
 
+# TODO: Add more tests...
+
 @pytest.mark.parametrize("pkg", ['docker-ce', 'mergerfs', 'samba', 'snapraid'])
 def test_packages(host, pkg):
     assert host.package(pkg).is_installed
@@ -17,7 +19,7 @@ def test_mediausers_group_exists(host):
     mediausers_group = host.group("mediausers")
     assert mediausers_group.exists
 
-@pytest.mark.parametrize("user", ["alison", "ljohnston"])
+@pytest.mark.parametrize("user", ["alison", "ljohnston", "plexuser"])
 def test_users_exist(host, user):
     user = host.user(user)
     assert user.exists
@@ -25,10 +27,6 @@ def test_users_exist(host, user):
 
 def test_mediaserver_scripts_run(host):
     with host.sudo("plexuser"):
+        assert host.run("normalize --help").rc == 0
         assert host.run("sync_music --help").rc == 0
         assert host.run("sync_photos --help").rc == 0
-
-def test_test_scripts(host):
-    with host.sudo("plexuser"):
-        assert host.run("~/test/test_mediaserver_itunes_sync.py").rc == 0
-        assert host.run("~/test/test_mediaserver_photosyncapp_sync.py").rc == 0

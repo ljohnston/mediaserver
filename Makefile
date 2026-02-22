@@ -41,21 +41,21 @@ dev-infra:
 .PHONY: dev-config
 dev-config: 
 	@$(TUNNEL_COMMAND) \
-		ansible-playbook playbook.yml \
-		--inventory inventory/hosts.yml \
-		--private-key ~/.ssh/id_ed25519 \
-		--vault-id ~/.ansible/.vault_pass \
-		--limit dev \
-		$(ANSIBLE_ARGS)
+	ansible-playbook playbook.yml \
+	--inventory inventory/hosts.yml \
+	--private-key ~/.ssh/id_ed25519 \
+	--vault-id ~/.ansible/.vault_pass \
+	--limit dev \
+	$(ANSIBLE_ARGS)
 
 .PHONY: dev-test
 dev-test: 
 	@$(TUNNEL_COMMAND) \
-		pytest tests/test.py \
-		--hosts=ansible://dev \
-		--ansible-inventory=inventory/hosts.yml \
-		--connection=ansible \
-		--sudo
+	pytest tests/test.py \
+	--hosts=ansible://dev \
+	--ansible-inventory=inventory/hosts.yml \
+	--connection=ansible \
+	--sudo
 
 .PHONY: dev-ssh
 dev-ssh:
@@ -79,7 +79,6 @@ dev-destroy:
 
 .PHONY: prd-test
 prd-test: 
-	@$(TUNNEL_COMMAND) \
 	pytest tests/test.py \
 	--hosts=ansible://prd \
 	--ansible-inventory=inventory/hosts.yml \
