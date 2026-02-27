@@ -16,14 +16,39 @@ targets:
 	    |awk '{ print "- " $$0 }'
 
 TUNNEL_COMMAND := \
-	ssh_cmd=$$(terraform/tf.sh dev -chdir=terraform output -raw bastion_ssh_forward_command |sed 's/-N -L/-f -N -L/') && \
-	echo "Starting SSH tunnel..."; echo; \
-	eval "$${ssh_cmd} -- tag=bastion_ssh_forward" < /dev/null > /dev/null 2>&1; \
-	trap 'echo "Shutting down SSH tunnel..."; pkill -f "tag=bastion_ssh_forward" 2>/dev/null' EXIT; \
-	while ! nc -z localhost $$(terraform/tf.sh dev -chdir=terraform output -raw bastion_ssh_forward_port) >/dev/null 2>&1; do \
-		sleep 0.1; \
+	while : ; do \
+		tunnel_port=$$((RANDOM%63000 + 2000)); \
+		if ! nc -z localhost $$tunnel_port >/dev/null 2>&1; then \
+			break; \
+		fi; \
+	done; \
+	ssh_cmd="$$(terraform/tf.sh dev \
+			-chdir=terraform output \
+			-raw bastion_ssh_forward_command \
+		    |sed -E "s/-L [0-9]{4,}:/-L $$tunnel_port:/")"; \
+	echo "Starting SSH tunnel on port $$tunnel_port..."; \
+	sh -c "$$ssh_cmd" >/dev/null 2>&1 & \
+	ssh_pid=$$!; \
+	trap 'echo "Shutting down SSH tunnel on port $$tunnel_port..."; \
+              kill $$ssh_pid 2>/dev/null; \
+	      wait $$ssh_pid 2>/dev/null' \
+	      EXIT; \
+	max_attempts=40; \
+	for i in $$(seq 1 $$max_attempts); do \
+		if nc -z localhost $$tunnel_port >/dev/null 2>&1; then \
+			break; \
+		fi; \
+		if ! kill -0 $$ssh_pid 2>/dev/null; then \
+			echo "ERROR: SSH tunnel process exited prematurely."; \
+			exit 1; \
+		fi; \
+		sleep 0.2; \
+		if [ $$i -eq $$max_attempts ]; then \
+			echo "ERROR: Timed out waiting for SSH tunnel."; \
+			exit 1; \
+		fi; \
 	done;
-
+	
 .PHONY: dev-plan
 dev-plan:
 	@terraform/tf.sh dev -chdir=terraform plan
@@ -42,6 +67,7 @@ dev-infra:
 dev-config: 
 	@$(TUNNEL_COMMAND) \
 	ansible-playbook playbook.yml \
+	--extra-vars "ansible_port=$$tunnel_port" \
 	--inventory inventory/hosts.yml \
 	--private-key ~/.ssh/id_ed25519 \
 	--vault-id ~/.ansible/.vault_pass \
@@ -51,16 +77,18 @@ dev-config:
 .PHONY: dev-test
 dev-test: 
 	@$(TUNNEL_COMMAND) \
-	pytest tests/test.py \
+	ANSIBLE_REMOTE_PORT=$$tunnel_port \
+	pytest \
 	--hosts=ansible://dev \
 	--ansible-inventory=inventory/hosts.yml \
 	--connection=ansible \
-	--sudo
+	--sudo \
+	tests/test.py 
 
 .PHONY: dev-ssh
 dev-ssh:
 	@$(TUNNEL_COMMAND) \
-	ssh -p 9022 ubuntu@localhost
+	ssh -p $$tunnel_port ubuntu@localhost
 
 .PHONY: dev
 dev: dev-infra dev-config dev-test
