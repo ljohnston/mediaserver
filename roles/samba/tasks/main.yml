@@ -9,8 +9,8 @@
   register: samba__register_packages
   until: samba__register_packages is succeeded
 
-- debug:
-    msg: "{{ lookup('template', 'roles/samba/templates/etc/samba/smb.conf.j2') }}"
+# - debug:
+#     msg: "{{ lookup('template', 'roles/samba/templates/etc/samba/smb.conf.j2') }}"
 
 - name: 'configure samba'
   template:

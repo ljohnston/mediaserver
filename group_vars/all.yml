@@ -58,20 +58,46 @@ data_share_dirs:
   - 'backup'
   - 'historian'
 
+#
+# NOTE: The actual attached disks will be discovered at runtime. The number of
+# discovered disks will be compared to those defined below. The discovered
+# disks will be sorted by name, and mounted at the mountpoint defined below in
+# order (e.g. sda1 -> /mnt/data, sdb1 -> /mnt/snapraid/parity/1-parity, etc.).
+#
+# The filesystems and associated mounts are handled via the 'label' attribute
+# as fined in the following list of dictionaries.
+#
+
+data_disk:
+  mountpoint: '/mnt/data'
+  fs_opts: ''
+  fs_type: 'ext4'
+  label: 'data'
+
+snapraid_disks:
+  - mountpoint: '/mnt/snapraid/parity/1-parity'
+    fs_opts: '-m 0 -T largefile4'
+    fs_type: 'ext4'
+    label: 'snapraid-parity'
+  - mountpoint: '/mnt/snapraid/data/disk1'
+    fs_opts: '-m 2 -T largefile4'
+    fs_type: 'ext4'
+    label: 'snapraid-disk1'
+  - mountpoint: '/mnt/snapraid/data/disk2'
+    fs_opts: '-m 2 -T largefile4'
+    fs_type: 'ext4'
+    label: 'snapraid-disk2'
+
+disks: '{{ [data_disk] + snapraid_disks }}'
+
 backup_share: 'backup'
-backup_path: '{{ data_device.mount_point }}/backup'
+backup_path: '{{ data_disk.mountpoint }}/backup'
 historian_share: 'historian'
-historian_path: '{{ data_device.mount_point }}/historian'
+historian_path: '{{ data_disk.mountpoint }}/historian'
 # }}
 
-devices: '{{ [data_device] }}'
-filesystems__devices: '{{ [devices] + snapraid__parity_devices + snapraid__data_devices }}'
-
 mergerfs__mount_point: '/storage'
-
-# Seems like map(...) oughta create a list, but seems to create some sort of
-# "generator" object. Would sure be nice if any of the docs were any good.
-mergerfs__mounts: '{{ snapraid__data_devices | map(attribute="mount_point") | list }}'
+mergerfs__mounts: '{{ snapraid_disks | map(attribute="mountpoint") | list }}'
 
 # For mac automounter applescript.
 smbd_port: '445'
@@ -85,37 +111,6 @@ samba__custom_global:
   'server string' : 'Samba Server %v'
   'workgroup'     : 'WORKGROUP'
 
-# This syntax is total hackery to allow using a variable as a dictionary key.
-# See here:  https://github.com/ansible/ansible/pull/19664
-# samba__shares: "{
-#   '{{ media_share }}': {
-#     'path'           : '{{ mergerfs__mount_point }}',
-#     'browsable'      : 'yes',
-#     'create mask'    : '0775',
-#     'directory mask' : '0775',
-#     'force group'    : 'mediausers',
-#     'valid users'    : '@mediausers',
-#     'writable'       : 'yes',
-#   },
-#   '{{ backup_share }}': {
-#     'path'           : '{{ backup_path }}',
-#     'browsable'      : 'yes',
-#     'create mask'    : '0775',
-#     'directory mask' : '0775',
-#     'force group'    : 'mediausers',
-#     'valid users'    : '@mediausers',
-#     'writable'       : 'yes',
-#   },
-#   '{{ historian_share }}': {
-#     'path'           : '{{ historian_path }}',
-#     'browsable'      : 'yes',
-#     'create mask'    : '0775',
-#     'directory mask' : '0775',
-#     'force group'    : 'mediausers',
-#     'valid users'    : '@mediausers',
-#     'writable'       : 'yes',
-#   }
-# }"
 samba__shares:
   - name: '{{ media_share }}'
     path: '{{ mergerfs__mount_point }}'

@@ -46,7 +46,7 @@ services:
       # Docker gateway (allow connections from host)
       - MYSQL_ROOT_HOST=172.*.*.*
     volumes:
-      - {{ data_device.mount_point }}/mysql:/var/lib/mysql
+      - {{ data_disk.mountpoint }}/mysql:/var/lib/mysql
 
     deploy:
       resources:
@@ -66,10 +66,10 @@ services:
       - {{ nextcloud_port }}:80
     volumes:
       - /usr/local/bin/wait-for-it.sh:/wait-for-it.sh
-      - {{ data_device.mount_point }}/nextcloud/nextcloud:/var/www/html
-      - {{ data_device.mount_point }}/nextcloud/apps:/var/www/html/custom_apps
-      - {{ data_device.mount_point }}/nextcloud/config:/var/www/html/config
-      - {{ data_device.mount_point }}/nextcloud/data:/var/www/html/data
+      - {{ data_disk.mountpoint }}/nextcloud/nextcloud:/var/www/html
+      - {{ data_disk.mountpoint }}/nextcloud/apps:/var/www/html/custom_apps
+      - {{ data_disk.mountpoint }}/nextcloud/config:/var/www/html/config
+      - {{ data_disk.mountpoint }}/nextcloud/data:/var/www/html/data
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_DATABASE={{ nextcloud_mysql_database }}

@@ -1,6 +1,8 @@
 # TODO:
 
   - Address all ansible deprecation warnings.
+  - Install python both local and remote (and setup/use a venv?). Might want
+    to look into a new tool called "uv" for this.
 
 # mediaserver
 

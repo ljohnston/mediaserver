@@ -5,9 +5,13 @@
   import_tasks: 'config.yml'
   tags: ['mediaserver', 'mediaserver_config']
 
-- name: 'create mounts'
-  import_tasks: 'mounts.yml'
-  tags: ['mediaserver', 'mediaserver_mounts']
+# - name: 'create mounts'
+#   import_tasks: 'mounts.yml'
+#   tags: ['mediaserver', 'mediaserver_mounts']
+
+- name: 'create filesystems, mounts'
+  import_tasks: 'disks.yml'
+  tags: ['mediaserver', 'mediaserver_disks']
 
 #
 # NOTE: users.yml sets some facts that other tasks rely on. Each
@@ -21,7 +25,7 @@
          'mediaserver_users',
          'mediaserver_docker_apps',
          'mediaserver_test',
-         'restic_repo']
+         'restic']
 
 - name: 'create files/dirs'
   import_tasks: 'files.yml'
@@ -47,7 +51,6 @@
   import_tasks: 'scripts.yml'
   tags: ['mediaserver', 'mediaserver_scripts']
 
-# include_tasks here so the when condition is applied to the include itself.
 - name: 'test'
   import_tasks: 'test.yml'
   tags: ['mediaserver', 'mediaserver_test']

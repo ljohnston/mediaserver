@@ -3,7 +3,6 @@
 
 - name: 'install MergerFS package'
   ansible.builtin.apt:
-    # TODO: Don't need this download url andmroe: deb: '{{ mergerfs__download_url }}'
     name: 'mergerfs'
     state: 'present'
     update_cache: true

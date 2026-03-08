@@ -52,39 +52,6 @@ media_users:
 nopasswd_sudoers:
   - 'ljohnston'
 
-#
-# For dev, the boot disk is sda, so our first additional disk will be sdb.
-# The production server has an nvme boot disk, so mounts there start at sda.
-#
-
-data_device:
-  device: "/dev/sdb"
-  fs_type: "ext4"
-  fs_opts: ""
-  mount_point: "/mnt/data"
-
-snapraid__parity_devices:
-  - device: "/dev/sdc"
-    fs_type: "ext4"
-    fs_opts: "-m 0 -T largefile4"
-    mount_point: "/mnt/snapraid/parity/1-parity"
-    type: "parity"
-
-# The data devices in our Vagrant box are only getting 768 inodes.
-# That's not enough.
-
-snapraid__data_devices:
-  - device: "/dev/sdd"
-    fs_type: "ext4"
-    fs_opts: "-m 2 -T largefile4 -N 4096"
-    mount_point: "/mnt/snapraid/data/disk1"
-    type: "data"
-  - device: "/dev/sde"
-    fs_type: "ext4"
-    fs_opts: "-m 2 -T largefile4 -N 4096"
-    mount_point: "/mnt/snapraid/data/disk2"
-    type: "data"
-
 snapraid_runner__send_email: false
 
 mergerfs__mount_options: 'defaults,allow_other,direct_io,use_ino,category.create=eplfs,moveonenospc=true,minfreespace=256M,fsname=mergerfsPool'
