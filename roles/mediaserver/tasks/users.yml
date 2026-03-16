@@ -1,12 +1,12 @@
 ---
 
 - name: 'create media group'
-  group:
+  ansible.builtin.group:
     name: '{{ media_group }}'
     state: 'present'
 
 - name: 'create media users'
-  user:
+  ansible.builtin.user:
     name: '{{ item.name }}'
     create_home: '{{ item.create_home }}'
     password: '{{ item.password | password_hash("sha512") }}'
@@ -29,7 +29,7 @@
     loop_var: username
 
 - name: 'create plexuser'
-  user:
+  ansible.builtin.user:
     name: 'plexuser'
     append: 'yes'
     create_home: 'yes'

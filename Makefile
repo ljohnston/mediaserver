@@ -40,7 +40,7 @@ TUNNEL_COMMAND := \
 			break; \
 		fi; \
 		if ! kill -0 $$ssh_pid 2>/dev/null; then \
-			if [ $$1 -le 5 ]; then \
+			if [ $$i -le 5 ]; then \
 				sleep 0.5; \
 				continue; \
 			fi; \
@@ -123,7 +123,7 @@ dev-destroy:
 
 .PHONY: dev-plex-tunnel
 dev-plex-tunnel:
-	$$(terraform/tf.sh dev \
+	@$$(terraform/tf.sh dev \
 		-chdir=terraform output \
 		-raw bastion_plex_forward_command)
 
