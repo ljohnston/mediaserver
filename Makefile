@@ -15,6 +15,7 @@ targets:
 	    |sort -u \
 	    |awk '{ print "- " $$0 }'
 
+
 TUNNEL_COMMAND := \
 	while : ; do \
 		tunnel_port=$$((RANDOM%63000 + 2000)); \
@@ -39,6 +40,10 @@ TUNNEL_COMMAND := \
 			break; \
 		fi; \
 		if ! kill -0 $$ssh_pid 2>/dev/null; then \
+			if [ $$1 -le 5 ]; then \
+				sleep 0.5; \
+				continue; \
+			fi; \
 			echo "ERROR: SSH tunnel process exited prematurely."; \
 			exit 1; \
 		fi; \
@@ -48,10 +53,23 @@ TUNNEL_COMMAND := \
 			exit 1; \
 		fi; \
 	done;
+
+
+.PHONY: ansible-tags
+ansible-tags:
+	@ansible-playbook --list-tags playbook.yml 2>&1 \
+		|grep -v '^[WARNING]' \
+		|grep "TASK TAGS" \
+		|cut -d ":" -f 2- \
+		|tr -d '[]' \
+		|tr ',' '\n' \
+		|sed 's/^[ \t]*//'
 	
+
 .PHONY: dev-plan
 dev-plan:
 	@terraform/tf.sh dev -chdir=terraform plan
+
 
 .PHONY: dev-infra
 dev-infra:
@@ -62,6 +80,7 @@ dev-infra:
 	elif [ "$$exit_code" = "0" ]; then \
 		echo "Terraform config up to date."; \
 	fi
+
 
 .PHONY: dev-config
 dev-config: 
@@ -74,6 +93,7 @@ dev-config:
 	--limit dev \
 	$(ANSIBLE_ARGS)
 
+
 .PHONY: dev-test
 dev-test: 
 	@$(TUNNEL_COMMAND) \
@@ -85,17 +105,28 @@ dev-test:
 	--sudo \
 	tests/test.py 
 
+
 .PHONY: dev-ssh
 dev-ssh:
 	@$(TUNNEL_COMMAND) \
 	ssh -p $$tunnel_port ubuntu@localhost
 
+
 .PHONY: dev
 dev: dev-infra dev-config dev-test
+
 
 .PHONY: dev-destroy
 dev-destroy:
 	@terraform/tf.sh dev -chdir=terraform destroy
+
+
+.PHONY: dev-plex-tunnel
+dev-plex-tunnel:
+	$$(terraform/tf.sh dev \
+		-chdir=terraform output \
+		-raw bastion_plex_forward_command)
+
 
 .PHONY: prd-config
 	@ansible-playbook playbook.yml \
@@ -105,6 +136,7 @@ dev-destroy:
 	--limit prd \
 	$(ANSIBLE_ARGS)
 
+
 .PHONY: prd-test
 prd-test: 
 	pytest tests/test.py \
@@ -113,8 +145,10 @@ prd-test:
 	--connection=ansible \
 	--sudo
 
+
 .PHONY: prd
 prd: prd-config prd-test
+
 
 # '--ask-become-pass' here as log file creation requires root.
 .PHONY: macbook-config
@@ -125,4 +159,3 @@ macbook-config:
 	--ask-become-pass \
 	--limit macbook \
 	$(ANSIBLE_ARGS)
-
