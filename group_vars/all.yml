@@ -82,11 +82,11 @@ snapraid_disks:
   - mountpoint: '/mnt/snapraid/data/disk1'
     fs_opts: '-m 2 -T largefile4'
     fs_type: 'ext4'
-    label: 'snapraid-disk1'
+    label: 'snapraid-data1'
   - mountpoint: '/mnt/snapraid/data/disk2'
     fs_opts: '-m 2 -T largefile4'
     fs_type: 'ext4'
-    label: 'snapraid-disk2'
+    label: 'snapraid-data2'
 
 disks: '{{ [data_disk] + snapraid_disks }}'
 
