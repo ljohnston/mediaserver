@@ -12,11 +12,11 @@
   ansible.builtin.copy:
     src: 'tests'
     dest: '{{ plexuser_home }}'
-    owner: 'plexuser'
+    owner: '{{ plexuser.name }}'
     mode: '0755'
 
 - name: 'run mediaserver test scripts'
   ansible.builtin.shell: '~/tests/{{ item }}'
   become: true
-  become_user: 'plexuser'
+  become_user: '{{ plexuser.name }}'
   loop: '{{ mediaserver_test_scripts }}'

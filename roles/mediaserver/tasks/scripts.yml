@@ -3,7 +3,7 @@
 - name: 'create data directory for mediaserver scripts'
   ansible.builtin.file:
     path: '/var/lib/mediaserver'
-    group: '{{ media_group }}'
+    group: '{{ media_group.name }}'
     owner: 'root'
     mode: '0775'
     state: 'directory'
@@ -11,7 +11,7 @@
 - name: 'create log directory for mediaserver scripts'
   ansible.builtin.file:
     path: '/var/log/mediaserver'
-    group: '{{ media_group }}'
+    group: '{{ media_group.name }}'
     owner: 'root'
     mode: '0775'
     state: 'directory'
@@ -26,7 +26,7 @@
     content: ''
     dest: '/var/log/mediaserver/{{ item }}.log'
     force: 'no'
-    group: '{{ media_group }}'
+    group: '{{ media_group.name }}'
     owner: 'root'
     mode: '0664'
   loop: '{{ mediaserver_scripts }}'
@@ -35,7 +35,7 @@
 - name: 'set ownership/permissions on log files for mediaserver scripts'
   ansible.builtin.file:
     dest: '/var/log/mediaserver/{{ item }}.log'
-    group: '{{ media_group }}'
+    group: '{{ media_group.name }}'
     owner: 'root'
     mode: '0664'
   loop: '{{ mediaserver_scripts }}'
@@ -54,7 +54,7 @@
     name: 'mobile photo-sync - lance'
     minute: '0'
     hour: '*'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/lance_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_lance"
 
 - name: 'mobile photo-sync cron - alison'
@@ -62,7 +62,7 @@
     name: 'mobile photo-sync - alison'
     minute: '0'
     hour: '*'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/alison_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_alison"
 
 - name: 'historian photo-sync cron'
@@ -70,7 +70,7 @@
     name: 'historian photo-sync'
     minute: '0'
     hour: '8-23,0'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/sync_photos -t historian -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos"
 
 - name: 'historian rsync cron'
@@ -78,7 +78,7 @@
     name: 'historian rsync'
     minute: '20'
     hour: '*/4'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/historian_rsync -s {{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
 
 - name: 'itunes music-sync cron'
@@ -86,7 +86,7 @@
     name: 'itunes music-sync'
     minute: '0'
     hour: '8,12,16,20'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/sync_music -t itunes -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d {{ mergerfs__mount_point }}/{{ media_directory }}/music"
 
 - name: 'music normalizer cron'
@@ -94,5 +94,5 @@
     name: 'normalize'
     minute: '0'
     hour: '9,13,17,21'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/normalize -s {{ mergerfs__mount_point }}/{{ media_directory }}/music -d {{ mergerfs__mount_point }}/{{ media_directory }}/music_normalized"

@@ -2,8 +2,16 @@
 
 - name: 'create media group'
   ansible.builtin.group:
-    name: '{{ media_group }}'
+    name: '{{ media_group.name }}'
+    gid: '{{ media_group.gid }}'
     state: 'present'
+
+- name: 'create media user groups'
+  ansible.builtin.group:
+    name: '{{ item.name }}'
+    gid: '{{ item.gid }}'
+    state: 'present'
+  loop: '{{ media_users + [plexuser] }}'
 
 - name: 'create media users'
   ansible.builtin.user:
@@ -12,10 +20,28 @@
     password: '{{ item.password | password_hash("sha512") }}'
     shell: '{{ item.shell }}'
     append: 'yes'
-    groups: '{{ item.groups + [ media_group ] }}'
+    group: '{{ item.name }}'
+    groups: '{{ item.groups }}'
     update_password: 'on_create'
   no_log: 'true'
-  loop: "{{ media_users }}"
+  loop: '{{ media_users }}'
+
+- name: 'create plexuser'
+  ansible.builtin.user:
+    name: '{{ plexuser.name }}'
+    create_home: '{{ plexuser.create_home }}'
+    password: '{{ plexuser.password | password_hash("sha512") }}'
+    shell: '{{ plexuser.shell }}'
+    append: 'yes'
+    group: '{{ plexuser.name }}'
+    groups: '{{ plexuser.groups }}'
+    update_password: 'on_create'
+  no_log: 'true'
+  register: created_plexuser
+
+- name: 'set plexuser facts'
+  ansible.builtin.set_fact:
+    plexuser_home: '{{ created_plexuser.home }}'
 
 - name: 'create nopasswd sudoers'
   template:
@@ -27,19 +53,3 @@
   loop: '{{ nopasswd_sudoers | default([]) }}'
   loop_control:
     loop_var: username
-
-- name: 'create plexuser'
-  ansible.builtin.user:
-    name: 'plexuser'
-    append: 'yes'
-    create_home: 'yes'
-    groups: '{{ media_group }}'
-    password_lock: 'yes'
-    shell: '/bin/bash'
-  register: plexuser
-
-- name: 'set plexuser facts'
-  ansible.builtin.set_fact:
-    plexuser_uid: '{{ plexuser.uid }}'
-    plexuser_gid: '{{ plexuser.group }}'
-    plexuser_home: '{{ plexuser.home }}'

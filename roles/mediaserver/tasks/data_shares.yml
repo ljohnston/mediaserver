@@ -11,7 +11,7 @@
 - name: 'create share directories'
   file:
       path: '{{ data_disk.mountpoint }}/{{ item }}'
-      group: '{{ media_group }}'
+      group: '{{ media_group.name }}'
       mode: 'ug=rwx,o=rx,g+s'
       state: 'directory'
   loop: '{{ data_share_dirs }}'

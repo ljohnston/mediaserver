@@ -27,7 +27,6 @@ automounter_service_file: 'com.user.mediaserver.automounter.plist'
 mediaserver_timezone: 'America/Denver'
 
 media_directory: 'media'
-media_group: 'mediausers'
 
 media_dirs:
   - 'historian_export'
@@ -46,6 +45,44 @@ media_dirs:
   - 'tv'
 
 media_share: 'storage'
+
+media_group:
+  name: 'mediausers'
+  gid: 3000
+
+media_users:
+  - name: 'alison'
+    create_home: 'no'
+    groups: [ '{{ media_group.name }}' ]
+    password: ''
+    shell: '/sbin/nologin'
+    uid: 2001
+    gid: 2001
+  - name: 'ljohnston'
+    create_home: 'yes'
+    groups: [ '{{ media_group.name }}', 'sudo' ]
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      65336132306232646366653462353533666166343736323239613162306261363066366463393333
+      3561373833303461373635383138646461666537613961300a636464653639326263623438396533
+      31396131663031633365353266653964366363393331626131363766626164626435333532363839
+      3138613665353732320a633339326161373862373431353135656662383234626430623931316361
+      3863
+    shell: '/bin/bash'
+    uid: 2000
+    gid: 2000
+
+plexuser:
+  name: 'plexuser'
+  create_home: 'yes'
+  groups: [ '{{ media_group.name }}' ]
+  password: '!'
+  shell: '/bin/bash'
+  uid: 2002
+  gid: 2002
+
+nopasswd_sudoers:
+  - 'ljohnston'
 
 # TODO: {{
 # Seems there's probably a better way to deal with this.
@@ -136,6 +173,24 @@ samba__shares:
     force group: 'mediausers'
     valid users: '@mediausers'
     writable: 'yes'
+
+samba__users:
+  - name: alison
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      32383866646434653037616331356139376266363664303339376237646636613330323730663837
+      6562663433363138346464383134373634646466333934350a363564353564386533326163346665
+      35333237356332636565323232633731363237326638323137313135323538303533323561633634
+      6462343366316334380a323664363765333233326533333664383864633933356538346636313034
+      3031
+  - name: ljohnston
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      65336132306232646366653462353533666166343736323239613162306261363066366463393333
+      3561373833303461373635383138646461666537613961300a636464653639326263623438396533
+      31396131663031633365353266653964366363393331626131363766626164626435333532363839
+      3138613665353732320a633339326161373862373431353135656662383234626430623931316361
+      3863
 
 #
 # nextcloud

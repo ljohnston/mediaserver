@@ -39,14 +39,6 @@ TUNNEL_COMMAND := \
 		if nc -z localhost $$tunnel_port >/dev/null 2>&1; then \
 			break; \
 		fi; \
-		if ! kill -0 $$ssh_pid 2>/dev/null; then \
-			if [ $$i -le 5 ]; then \
-				sleep 0.5; \
-				continue; \
-			fi; \
-			echo "ERROR: SSH tunnel process exited prematurely."; \
-			exit 1; \
-		fi; \
 		sleep 0.2; \
 		if [ $$i -eq $$max_attempts ]; then \
 			echo "ERROR: Timed out waiting for SSH tunnel."; \
