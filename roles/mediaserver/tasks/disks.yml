@@ -8,7 +8,6 @@
          | regex_replace('^/dev/', '')
          | regex_replace('^mapper/', '')
          | regex_replace('p?[0-9]+$', '')
-         | regex_replace('[0-9]+$', '')
       }}
 
 - name: 'build list of non-boot block devices'

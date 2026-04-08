@@ -121,9 +121,10 @@ dev-plex-tunnel:
 
 
 .PHONY: prd-config
+prd-config:
 	@ansible-playbook playbook.yml \
+	--ask-become-pass \
 	--inventory inventory/hosts.yml \
-	--private-key ~/.ssh/id_ed25519 \
 	--vault-id ~/.ansible/.vault_pass \
 	--limit prd \
 	$(ANSIBLE_ARGS)

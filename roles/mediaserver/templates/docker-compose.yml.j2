@@ -32,6 +32,21 @@ services:
         limits:
           memory: 1G
 
+  # emby:
+  #   image: emby/embyserver
+  #   container_name: embyserver
+  #   network_mode: host # Enable DLNA and Wake-on-Lan
+  #   environment:
+  #     - UID={{ plexuser.uid }}
+  #     - GID={{ plexuser.gid }}
+  #   volumes:
+  #     - /var/lib/plexmediaserver:/config
+  #     - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
+  #   ports:
+  #     - 8096:8096 # HTTP port
+  #     - 8920:8920 # HTTPS port
+  #   restart: on-failure
+
   mysql:
     image: {{ mysql_image }}
     container_name: mysql

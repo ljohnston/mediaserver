@@ -22,6 +22,7 @@
     append: 'yes'
     group: '{{ item.name }}'
     groups: '{{ item.groups }}'
+    uid: '{{ item.uid }}'
     update_password: 'on_create'
   no_log: 'true'
   loop: '{{ media_users }}'
@@ -35,6 +36,7 @@
     append: 'yes'
     group: '{{ plexuser.name }}'
     groups: '{{ plexuser.groups }}'
+    uid: '{{ plexuser.uid }}'
     update_password: 'on_create'
   no_log: 'true'
   register: created_plexuser

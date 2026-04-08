@@ -13,7 +13,7 @@
 # A couple of upgrade notes:
 #   - When I install the OS, I need to create an admin user that won't
 #     conflict with any of my ansible configured users (e.g. ljohnston).
-#     This is different than when I did that original OS install and
+#     This is different than when I did the original OS install and
 #     created my ljohnston user at install time.
 #   - Prior to running this script in prd, the /docker-compose.yml file
 #     needs to be edited to set the UID/GID for the plex container
@@ -21,7 +21,6 @@
 #
 # To summarize the prd OS upgrade process:
 #   - Copy this script to prd mediaserver 'ljohnston' user's home dir.
-#   - Modify the script to comment/uncomment things for prd.
 #   - Edit /docker-compose.yml to set plex container UID/GID to 2002/2002.
 #   - Run the script via 'sudo bash migrate.sh prd', which will run in DRY_RUN
 #     mode. Ensure nothing ugly happens.
@@ -29,6 +28,18 @@
 #   - Do the OS upgrade on the server, creating an 'ubuntu' admin user.
 #   - Run the ansible playbook against prd. Will need to modify things to
 #     get the playbook to run as the new 'ubuntu' user.
+#
+# Post prd migration notes:
+#   - I had to create a new user on the box with sudo privileges to run the
+#     script because logging in and running as my ljohnston user would fail
+#     usermod due to systemd process was using that user.
+#   - Due to the above failure, rerunning the script would fail for groupmod
+#     and usermod issues since the groups/users had already been modified. I
+#     simply went in and commented out the sections of the script that didn't
+#     need to be rerun.
+#   - In retrospect, the script could have been a little more robust, but it
+#     should be a onetime only thing.
+#
 #
 
 set -euo pipefail
@@ -122,10 +133,15 @@ run_cmd() {
 # Stop services
 # ---------------------------
 echo "Stop services writing to disks..."
-# Example, edit as needed:
-# run_cmd "sudo systemctl stop docker plexmediaserver sonarr radarr"
 
-run_cmd "sudo docker compose -f /docker-compose.yml down"
+# dev/prd on different docker versions.
+if which docker-compose &>/dev/null; then
+  DOCKER_COMPOSE_CMD="docker-compose"
+else
+  DOCKER_COMPOSE_CMD="docker compose"
+fi
+
+run_cmd "sudo $DOCKER_COMPOSE_CMD -f /docker-compose.yml down"
 run_cmd "sudo systemctl stop docker.socket docker.service smbd"
 
 # ---------------------------
@@ -166,20 +182,21 @@ done
 
 # ---------------------------
 # Update file ownership
+# ---------------------------
 
 for disk in "${DATA_DIRS[@]}"; do
     echo "Updating files with old mediausers GID ($OLD_MEDIA_GID) to new GID ($NEW_MEDIA_GID)..."
-    run_cmd "sudo find \"$disk\" -gid $OLD_MEDIA_GID -print0 | sudo xargs -0 --no-run-if-empty chgrp $NEW_MEDIA_GID"
+    run_cmd "sudo find \"$disk\" -gid $OLD_MEDIA_GID -print0 | sudo xargs -0 --no-run-if-empty chgrp -h $NEW_MEDIA_GID"
 
     echo "Processing data disks for UIDs/GIDs..."
     echo "Disk: $disk"
     for old_uid in "${!UID_MAP[@]}"; do
         new_uid=${UID_MAP[$old_uid]}
-        run_cmd "sudo find \"$disk\" -uid $old_uid -print0 | sudo xargs -0 --no-run-if-empty chown $new_uid"
+        run_cmd "sudo find \"$disk\" -uid $old_uid -print0 | sudo xargs -0 --no-run-if-empty chown -h $new_uid"
     done
     for old_gid in "${!GID_MAP[@]}"; do
         new_gid=${GID_MAP[$old_gid]}
-        run_cmd "sudo find \"$disk\" -gid $old_gid -print0 | sudo xargs -0 --no-run-if-empty chgrp $new_gid"
+        run_cmd "sudo find \"$disk\" -gid $old_gid -print0 | sudo xargs -0 --no-run-if-empty chgrp -h $new_gid"
     done
 done
 
@@ -211,8 +228,8 @@ for u in "${!USER_EXTRA_PATHS[@]}"; do
     for path in ${USER_EXTRA_PATHS[$u]}; do
         if [ -d "$path" ]; then
 	    echo "Updating $path for $u:$u..."
-            run_cmd "sudo find $path -uid $old_uid -print0 | sudo xargs -0 -r chown $new_uid"
-            run_cmd "sudo find $path -gid $old_gid -print0 | sudo xargs -0 -r chgrp $new_gid"
+            run_cmd "sudo find $path -uid $old_uid -print0 | sudo xargs -0 -r chown -h $new_uid"
+            run_cmd "sudo find $path -gid $old_gid -print0 | sudo xargs -0 -r chgrp -h $new_gid"
         fi
     done
 done
@@ -224,11 +241,11 @@ if [ "$ROOT_SCAN" = true ]; then
     echo "Scanning / for old UIDs/GIDs..."
     for old_uid in "${!UID_MAP[@]}"; do
         new_uid=${UID_MAP[$old_uid]}
-        run_cmd "sudo find / -xdev -uid $old_uid -print0 | sudo xargs -0 --no-run-if-empty chown $new_uid || true"
+        run_cmd "sudo find / -xdev -uid $old_uid -print0 | sudo xargs -0 --no-run-if-empty chown -h $new_uid || true"
     done
     for old_gid in "${!GID_MAP[@]}"; do
         new_gid=${GID_MAP[$old_gid]}
-        run_cmd "sudo find / -xdev -gid $old_gid -print0 | sudo xargs -0 --no-run-if-empty chgrp $new_gid || true"
+        run_cmd "sudo find / -xdev -gid $old_gid -print0 | sudo xargs -0 --no-run-if-empty chgrp -h $new_gid || true"
     done
 fi
 
@@ -264,6 +281,6 @@ echo "Restart services..."
 # run_cmd "sudo systemctl start docker plexmediaserver sonarr radarr"
 
 run_cmd "sudo systemctl start docker smbd"
-run_cmd "sudo docker compose -f /docker-compose.yml up -d"
+run_cmd "sudo $DOCKER_COMPOSE_CMD -f /docker-compose.yml up -d"
 
 echo "UID/GID and mediausers migration complete."
