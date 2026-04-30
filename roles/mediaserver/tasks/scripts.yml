@@ -1,91 +1,92 @@
 ---
 
-- name: 'create data directory for mediaserver scripts'
-  file:
+- name: 'create directory for mediaserver scripts'
+  ansible.builtin.file:
     path: '/var/lib/mediaserver'
-    group: '{{ media_group }}'
+    group: '{{ media_group.name }}'
     owner: 'root'
     mode: '0775'
     state: 'directory'
 
-- name: 'copy media management scripts'
-  copy:
-    src: 'files/{{ item }}'
+- name: 'create log directory for mediaserver scripts'
+  ansible.builtin.file:
+    path: '/var/log/mediaserver'
+    group: '{{ media_group.name }}'
+    owner: 'root'
+    mode: '0775'
+    state: 'directory'
+
+- name: 'set mediaserver scripts fact'
+  ansible.builtin.set_fact:
+    mediaserver_scripts: "{{ query('ansible.builtin.fileglob', 'scripts/*') | map('ansible.builtin.basename') }}"
+
+# This copy task won't create the file if it already exists...
+- name: 'create log files for mediaserver scripts'
+  ansible.builtin.copy:
+    content: ''
+    dest: '/var/log/mediaserver/{{ item }}.log'
+    force: 'no'
+    group: '{{ media_group.name }}'
+    owner: 'root'
+    mode: '0664'
+  loop: '{{ mediaserver_scripts }}'
+
+# ... so we need to set ownership/permissions separately.
+- name: 'set ownership/permissions on log files for mediaserver scripts'
+  ansible.builtin.file:
+    dest: '/var/log/mediaserver/{{ item }}.log'
+    group: '{{ media_group.name }}'
+    owner: 'root'
+    mode: '0664'
+  loop: '{{ mediaserver_scripts }}'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: 'copy mediaserver scripts'
+  ansible.builtin.copy:
+    src: 'scripts/'
     dest: '/usr/local/bin/'
     owner: 'root'
     group: 'root'
     mode: '0755'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize' ]
-
-- name: 'create library directory for mediaserver scripts'
-  file:
-    path: '/usr/local/bin/mediaserver'
-    group: 'root'
-    owner: 'root'
-    mode: '0775'
-    state: 'directory'
-
-- name: 'copy media management library'
-  copy:
-    # Ansible _should_ find this automatically if the file path is relative.
-    # It wasn't though...
-    src: 'files/mediaserver/Mediaserver.py'
-    dest: '/usr/local/bin/mediaserver'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
-
-- name: 'create log directory for mediaserver scripts'
-  file:
-    path: '/var/log/mediaserver'
-    group: '{{ media_group }}'
-    owner: 'root'
-    mode: '0775'
-    state: 'directory'
-
-# Note this is a copy task that won't create the file if it exists...
-- name: 'create log files for mediaserver scripts'
-  copy:
-    content: ''
-    dest: '/var/log/mediaserver/{{ item }}.log'
-    force: 'no'
-    group: '{{ media_group }}'
-    owner: 'root'
-    mode: '0664'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize' ]
-
-# ... so we need to make sure we set ownership/permissions separately.
-- name: 'set ownership/permissions on log files for mediaserver scripts'
-  file:
-    dest: '/var/log/mediaserver/{{ item }}.log'
-    group: '{{ media_group }}'
-    owner: 'root'
-    mode: '0664'
-  with_flattened: [ 'sync_music', 'sync_photos', 'normalize' ]
-  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: 'mobile photo-sync cron - lance'
   cron:
     name: 'mobile photo-sync - lance'
     minute: '0'
     hour: '*'
-    user: 'plexuser'
-    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/lance_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos_lance"
+    user: '{{ plexuser.name }}'
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/lance_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_lance"
 
 - name: 'mobile photo-sync cron - alison'
   cron:
     name: 'mobile photo-sync - alison'
     minute: '0'
     hour: '*'
-    user: 'plexuser'
-    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/alison_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos_alison"
+    user: '{{ plexuser.name }}'
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t photosync-app -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/alison_photosync -d {{ mergerfs__mount_point }}/{{ media_directory }}/mobile_photos_alison"
+
+- name: 'historian photo-sync cron'
+  cron:
+    name: 'historian photo-sync'
+    minute: '0'
+    hour: '8-23,0'
+    user: '{{ plexuser.name }}'
+    job: ". /etc/environment; /usr/local/bin/sync_photos -t historian -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian -d {{ mergerfs__mount_point }}/{{ media_directory }}/photos"
+
+- name: 'historian rsync cron'
+  cron:
+    name: 'historian rsync'
+    minute: '20'
+    hour: '*/4'
+    user: '{{ plexuser.name }}'
+    job: ". /etc/environment; /usr/local/bin/historian_rsync -s {{ mergerfs__mount_point }}/{{ media_directory }}/historian_export -d {{ mergerfs__mount_point }}/{{ media_directory }}/source_photos/historian"
 
 - name: 'itunes music-sync cron'
   cron:
     name: 'itunes music-sync'
     minute: '0'
     hour: '8,12,16,20'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/sync_music -t itunes -s {{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Lance\\'s\\ iTunes,{{ mergerfs__mount_point }}/{{ media_directory }}/source_music/Alison\\'s\\ iTunes -d {{ mergerfs__mount_point }}/{{ media_directory }}/music"
 
 - name: 'music normalizer cron'
@@ -93,5 +94,5 @@
     name: 'normalize'
     minute: '0'
     hour: '9,13,17,21'
-    user: 'plexuser'
+    user: '{{ plexuser.name }}'
     job: ". /etc/environment; /usr/local/bin/normalize -s {{ mergerfs__mount_point }}/{{ media_directory }}/music -d {{ mergerfs__mount_point }}/{{ media_directory }}/music_normalized"

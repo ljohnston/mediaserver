@@ -1,8 +1,11 @@
 .DS_store
-.vagrant/
-.vm
+.terraform/
+
+__pycache__/
 
 *.retry
+
+tfplan.out
 
 roles.galaxy/
 

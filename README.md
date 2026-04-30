@@ -1,12 +1,8 @@
 # TODO:
 
-    x data disk/mount
-    x Alison's laptop backup
-    x snapraid sync script
-    - backups (backblaze)
-    - mediaserver scripts
-    - photo libraries/handling
-    - Nextcloud
+  - Address all ansible deprecation warnings.
+  - Install python both local and remote (and setup/use a venv?). Might want
+    to look into a new tool called "uv" for this.
 
 # mediaserver
 
@@ -23,54 +19,94 @@ both of the above links:
 
     * https://github.com/IronicBadger/ansible
 
-Here's another good ansible/vagrant with snapraid and mergerfs link:
+## Prerequisites
 
-    * http://zacklalanne.me/using-vagrant-to-virtualize-multiple-hard-drives/   
+- ansible
+- terraform
+- ansible galaxy roles
 
-##  Ansible 
-
-This project uses some roles from ansible galaxy. To install them:
+  This project uses roles from ansible galaxy that need to be installed prior
+  to running any ansible configuration commands:
 
     $ ansible-galaxy install --role-file requirements.yml --roles-path roles.galaxy
 
-##  Vagrant
+## Ansible 
 
-This project includes a Vagrantfile for local development. Simply...
+The ansible config supports two mediaserver environments, 'dev' and 'prd'. The
+dev environment exists in Oracle Cloud Infrastructure and the project includes
+terraform configuration to manage the dev infrastructure.
 
-    $ vagrant up
+The ansible configuration uses ansible-vault to manage secrets.
 
-  Or, if vm already exists...
+## Make
 
-    $ vagrant provision
+The project includes a Makefile to manage all of the infrastructure creation
+and configuration tasks and more. To get a full list of supported targets run:
 
-  Or, to target specfic ansible configuration:
+    $ make
 
-    ANSILBE_ARGS='--tags snapraid' vagrant provision
+Some important targets:
 
-### Vagrant guest additions plugin
+  - `dev-infra`: Run the terraform to build the dev infrastructure in OCI.
 
-  The vagrant guest addtions plugin should be installed (no configuration
-  should be necessary though).
+  - `dev-config`: Apply ansible configuration to the dev mediaserver running
+    in OCI.
 
-    $ vagrant plugin install vagrant-vbguest
+  - `dev-test`: Run some tests to validate the mediaserver configuration in
+    dev.
 
-## mediaserver
+  - `dev`: Run all of the above `dev-...` tasks in order.
 
-To use this project to provision the "production" mediaserver, simply:
+  - `dev-destroy`: Run the terraform to destroy the dev infrastructure running
+    in OCI.
 
-    $ ansible-playbook playbook.yml --vault-id ~/.ansible/.vault_pass -i inventory/hosts
+  - `prd-config`: Apply ansible configuration to the prd mediaserver.
+
+  - `prd-test`: Run some tests to validate the mediaserver configuration in
+    prd.
+
+  - `prd`: Run the above `prd-...` tasks in order.
+
+  - `macbook-config`: There is ansible configuration for a local macbook to
+    automate local mounts of mediaserver data directory.
+
+Any of the above `...-config` targets run ansible configurations. The Makefile
+supports injection of ansible arguments via the `ANSIBLE_ARGS` environment
+variable. For example:
+
+    $ ANSIBLE_ARGS='-v' make dev-config
+    $ ANSIBLE_ARGS='--tags=mediaserver_test' make dev-config
+    $ ANSIBLE_ARGS='-v --tags=mediaserver_test' make dev-config
+    $ ANSIBLE_ARGS='--check' make prd-config
 
 ## iTunes
 
-iTunes is a pain in the ass when it comes to how it manages libraries and such.
-It's possible that it can get out of sync with the filesystem.
+All of the music media on the mediaserver is managed via iTunes. The iTunes
+library location on my local macbook is configured to live on the mediaserver
+(this is why the macbook ansible config for local mediaserver mounts is
+important). To add new music to the prd mediaserver, simply import it into
+iTunes.
 
-We can audit things via the following:
+**NOTE**: I'm not sure if the following is still relevant to the new Apple Music
+app.
 
-  iTunes Library
-    $ grep '>Album<' iTunes\ Library.xml |sed 's/.*<string>\(.*\)<\/string>/\1/g' |sort -u >albums_xml
+Note that iTunes can be a pain in the ass when it comes to how it manages
+libraries and such. It's possible that it can get out of sync with the
+filesystem. We can audit things via the following:
 
-  File System
-    $ find iTunes\ Media/Music/ -type f -name '*.m4a' |sed -r 's|/[^/]+$||' |awk -F "/" '{print $NF}' |sort -u >albums_fs
+  - Export albums from iTunes Library XML file
+    ```
+    $ grep '>Album<' iTunes\ Library.xml \
+        |sed 's/.*<string>\(.*\)<\/string>/\1/g' \
+        |sort -u >albums_xml
+    ``````
 
-  diff away ...
+  - Export albums from iTunes directory
+    ```
+    $ find iTunes\ Media/Music/ -type f -name '*.m4a' \
+        |sed -r 's|/[^/]+$||' \
+        |awk -F "/" '{print $NF}' \
+        |sort -u >albums_fs
+    ```
+
+  - Inspect/diff the two files created above.

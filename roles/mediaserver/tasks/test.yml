@@ -1,8 +1,22 @@
 ---
 
-- name: 'add vagrant user to media users group'
-  user:
-    name: 'vagrant'
-    groups: ['{{ media_group }}']
-    append: 'yes'
+#
+# NOTE: These tasks only run when env = 'dev' (see main.yml).
+#
 
+- name: 'set mediaserver test scripts fact'
+  ansible.builtin.set_fact:
+    mediaserver_test_scripts: "{{ query('ansible.builtin.fileglob', 'tests/*') | map('ansible.builtin.basename') }}"
+
+- name: 'copy test scripts'
+  ansible.builtin.copy:
+    src: 'tests'
+    dest: '{{ plexuser_home }}'
+    owner: '{{ plexuser.name }}'
+    mode: '0755'
+
+- name: 'run mediaserver test scripts'
+  ansible.builtin.shell: '~/tests/{{ item }}'
+  become: true
+  become_user: '{{ plexuser.name }}'
+  loop: '{{ mediaserver_test_scripts }}'

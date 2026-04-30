@@ -1,58 +1,56 @@
 ---
 # tasks file for mediaserver
 
-- block:
-  - name: 'general system config'
-    include_tasks: 'config.yml'
-  tags: ['config']
+- name: 'general system config'
+  import_tasks: 'config.yml'
+  tags: ['mediaserver', 'mediaserver_config']
 
-- block:
-  - name: 'create mounts'
-    include_tasks: 'mounts.yml'
-  tags: ['mounts']
+# - name: 'create mounts'
+#   import_tasks: 'mounts.yml'
+#   tags: ['mediaserver', 'mediaserver_mounts']
 
-- block:
-  - name: 'create users/groups'
-    include_tasks: 'users.yml'
-  tags: ['users']
+- name: 'create filesystems, mounts'
+  import_tasks: 'disks.yml'
+  tags: ['mediaserver', 'mediaserver_disks']
 
-- block:
-  - name: 'test'
-    include_tasks: 'test.yml'
-  tags: ['test']
-  when: env == 'dev'
+#
+# NOTE: users.yml sets some facts that other tasks rely on. Each
+#       dependent task's tag(s) need to added here to ensure the
+#       facts are set when referenced.
+#
 
-- block:
-  - name: 'create files/dirs'
-    include_tasks: 'files.yml'
-  tags: ['files']
+- name: 'create users/groups'
+  import_tasks: 'users.yml'
+  tags: ['mediaserver',
+         'mediaserver_users',
+         'mediaserver_docker_apps',
+         'mediaserver_test',
+         'restic']
 
-- block:
-  - name: 'create data share dirs'
-    include_tasks: 'data_shares.yml'
-  tags: ['data_shares']
+- name: 'create files/dirs'
+  import_tasks: 'files.yml'
+  tags: ['mediaserver', 'mediaserver_files']
 
-- block:
-  - name: 'setup mysql'
-    include_tasks: 'mysql.yml'
-  tags: ['mysql']
+- name: 'create data share dirs'
+  import_tasks: 'data_shares.yml'
+  tags: ['mediaserver', 'mediaserver_data_shares']
 
-- block:
-  - name: 'docker apps'
-    include_tasks: 'docker_apps.yml'
-  tags: ['docker_apps']
+- name: 'setup mysql'
+  import_tasks: 'mysql.yml'
+  tags: ['mediaserver', 'mediaserver_mysql']
 
-- block:
-  - name: 'install ffmpeg'
-    include_tasks: 'ffmpeg.yml'
-  tags: ['ffmpeg']
+- name: 'docker apps'
+  import_tasks: 'docker_apps.yml'
+  tags: ['mediaserver', 'mediaserver_docker_apps']
 
-- block:
-  - name: 'install python packages'
-    include_tasks: 'python_packages.yml'
-  tags: ['scripts','test']
+- name: 'install ffmpeg'
+  import_tasks: 'ffmpeg.yml'
+  tags: ['mediaserver', 'mediaserver_ffmpeg']
 
-- block:
-  - name: 'install scripts'
-    include_tasks: 'scripts.yml'
-  tags: ['scripts','test']
+- name: 'install scripts'
+  import_tasks: 'scripts.yml'
+  tags: ['mediaserver', 'mediaserver_scripts']
+
+- name: 'test'
+  import_tasks: 'test.yml'
+  tags: ['mediaserver', 'mediaserver_test']

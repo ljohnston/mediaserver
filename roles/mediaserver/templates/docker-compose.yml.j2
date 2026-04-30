@@ -1,5 +1,4 @@
 ---
-version: '2'
 
 # volumes:
 #   nextcloud:
@@ -11,14 +10,14 @@ name: mediaserver
 
 services:
   plex:
-    image: linuxserver/plex
+    image: lscr.io/linuxserver/plex:version-{{ plex_version }}
     container_name: plex
     network_mode: host
     environment:
-      - PUID={{ plexuser_uid }}
-      - PGID={{ plexuser_gid }}
+      - PUID={{ plexuser.uid }}
+      - PGID={{ plexuser.gid }}
       - TZ={{ mediaserver_timezone }}
-      - VERSION={{ plex_version }}
+      - VERSION=docker
     volumes:
       - /var/lib/plexmediaserver:/config
       - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
@@ -27,21 +26,27 @@ services:
       - /tmp/plex:/transcode
 
     restart: unless-stopped
-  emby:
-    image: emby/embyserver:{{ emby_version }}
-    container_name: embyserver
-    restart: unless-stopped
-    environment:
-      - PUID={{ plexuser_uid }}
-      - PGID={{ plexuser_gid }}
-      - TZ={{ mediaserver_timezone }}
-      # - UMASK_SET=022 #optional
-    volumes:
-      - /var/lib/emby/config:/config
-      - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
-    ports:
-      - 8096:8096
-      - 8920:8920
+
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # emby:
+  #   image: emby/embyserver
+  #   container_name: embyserver
+  #   network_mode: host # Enable DLNA and Wake-on-Lan
+  #   environment:
+  #     - UID={{ plexuser.uid }}
+  #     - GID={{ plexuser.gid }}
+  #   volumes:
+  #     - /var/lib/plexmediaserver:/config
+  #     - {{ mergerfs__mount_point }}/{{ media_directory }}:/data/media
+  #   ports:
+  #     - 8096:8096 # HTTP port
+  #     - 8920:8920 # HTTPS port
+  #   restart: on-failure
+
   mysql:
     image: {{ mysql_image }}
     container_name: mysql
@@ -56,7 +61,13 @@ services:
       # Docker gateway (allow connections from host)
       - MYSQL_ROOT_HOST=172.*.*.*
     volumes:
-      - {{ data_device.mount_point }}/mysql:/var/lib/mysql
+      - {{ data_disk.mountpoint }}/mysql:/var/lib/mysql
+
+    deploy:
+      resources:
+        limits:
+          memory: 250M
+
   nextcloud:
     image: {{ nextcloud_image }}
     container_name: nextcloud
@@ -70,10 +81,10 @@ services:
       - {{ nextcloud_port }}:80
     volumes:
       - /usr/local/bin/wait-for-it.sh:/wait-for-it.sh
-      - {{ data_device.mount_point }}/nextcloud/nextcloud:/var/www/html
-      - {{ data_device.mount_point }}/nextcloud/apps:/var/www/html/custom_apps
-      - {{ data_device.mount_point }}/nextcloud/config:/var/www/html/config
-      - {{ data_device.mount_point }}/nextcloud/data:/var/www/html/data
+      - {{ data_disk.mountpoint }}/nextcloud/nextcloud:/var/www/html
+      - {{ data_disk.mountpoint }}/nextcloud/apps:/var/www/html/custom_apps
+      - {{ data_disk.mountpoint }}/nextcloud/config:/var/www/html/config
+      - {{ data_disk.mountpoint }}/nextcloud/data:/var/www/html/data
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_DATABASE={{ nextcloud_mysql_database }}
@@ -82,3 +93,8 @@ services:
       - NEXTCLOUD_ADMIN_USER={{ nextcloud_admin_user }}
       - NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_admin_password }}
       - NEXTCLOUD_TRUSTED_DOMAINS={{ nextcloud_trusted_domains }}
+
+    deploy:
+      resources:
+        limits:
+          memory: 100M

@@ -1,7 +1,24 @@
 ---
 # tasks file for ffmpeg
 
-- name: 'install ffmpeg package'
-  apt:
-    pkg: 'ffmpeg'
+- name: 'install ffmpeg, pip, pipx'
+  ansible.builtin.package:
+    name:
+      - 'ffmpeg'
+      - 'python3-pip'
+      - 'pipx'
     state: 'present'
+    update_cache: true
+
+- name: 'ensure pipx path is set'
+  ansible.builtin.command: pipx ensurepath
+  become: false
+  changed_when: false
+
+# There's a 'community.general.pipx' module but it requires
+# pipx version >= 1.7.0, which is not what gets installed
+# above. Calling the executable directly works though.
+- name: 'install ffmpeg-normalize via pipx'
+  ansible.builtin.command: 'pipx install ffmpeg-normalize'
+  args:
+    creates: '/root/.local/bin/ffmpeg-normalize'

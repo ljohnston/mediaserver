@@ -1,0 +1,78 @@
+- name: 'get boot device'
+  set_fact:
+    boot_device: >-
+      {{
+        (ansible_facts.mounts
+         | selectattr('mount', '==', '/')
+         | first).device
+         | regex_replace('^/dev/', '')
+         | regex_replace('^mapper/', '')
+         | regex_replace('p?[0-9]+$', '')
+      }}
+
+- name: 'build list of non-boot block devices'
+  set_fact:
+    block_devices: >-
+      {{
+        ansible_facts.devices
+        | dict2items
+        | selectattr('key', 'match', '^(sd[a-z]|nvme[0-9]+n[0-9]+)$')
+        | rejectattr('key', 'equalto', boot_device)
+        | map(attribute='key')
+        | list
+      }}
+
+- name: 'verify device count'
+  fail:
+    msg: 'Device count mismatch: configured {{ disks | length }}, found {{ block_devices | length }}'
+  when:
+    - block_devices | length != disks | length
+
+- name: 'build filesystems fact'
+  set_fact:
+    filesystems: >-
+      {{
+        (filesystems | default([]))
+        + [ {
+            'disk': item.0,
+            'mountpoint': item.1.mountpoint,
+            'fs_opts': item.1.fs_opts,
+            'fs_type': item.1.fs_type,
+            'label': item.1.label
+          } ]
+      }}
+  loop: "{{ block_devices | sort | zip(disks) | list }}"
+
+# - ansible.builtin.debug:
+#     var: filesystems
+
+- name: 'create partitions'
+  ansible.builtin.parted:
+    device: "/dev/{{ item.disk }}"
+    number: 1
+    label: 'gpt'
+    state: present
+  loop: "{{ filesystems }}"
+  when: ansible_facts['devices']['/dev/' + item.disk].partitions is not defined
+
+- name: 'create filesystems'
+  community.general.filesystem:
+    dev: "/dev/{{ item.disk }}1"
+    fstype: "{{ item.fs_type }}"
+    opts: "-L {{ item.label }} {{ item.fs_opts }}"
+  loop: "{{ filesystems }}"
+  when: ansible_facts['devices']['/dev/' + item.disk].partitions['/dev/' + item.disk + '1'] is not defined
+
+- name: 'create mount points'
+  ansible.builtin.file:
+    path: "{{ item.mountpoint }}"
+    state: directory
+  with_flattened: "{{ filesystems }}"
+
+- name: 'create mounts'
+  ansible.posix.mount:
+    path: "{{ item.mountpoint }}"
+    src: "LABEL={{ item.label }}"
+    fstype: "{{ item.fs_type }}"
+    state: mounted
+  with_flattened: "{{ filesystems }}"

@@ -8,10 +8,10 @@
 # files will be group writeable, regardless of what a user's umask may be.
 #
 
-- name: 'create share directory'
+- name: 'create share directories'
   file:
-      path: '{{ data_device.mount_point }}/{{ item }}'
-      group: '{{ media_group }}'
+      path: '{{ data_disk.mountpoint }}/{{ item }}'
+      group: '{{ media_group.name }}'
       mode: 'ug=rwx,o=rx,g+s'
       state: 'directory'
   loop: '{{ data_share_dirs }}'
@@ -22,7 +22,7 @@
 
 - name: 'set user acl on share directory'
   acl:
-      path: '{{ data_device.mount_point }}/{{ item }}'
+      path: '{{ data_disk.mountpoint }}/{{ item }}'
       etype: 'user'
       permissions: 'rwX'
       state: 'present'
@@ -30,7 +30,7 @@
 
 - name: 'set group acl on share directory'
   acl:
-      path: '{{ data_device.mount_point }}/{{ item }}'
+      path: '{{ data_disk.mountpoint }}/{{ item }}'
       etype: 'group'
       permissions: 'rwX'
       state: 'present'
@@ -38,7 +38,7 @@
 
 - name: 'set other acl on share directory'
   acl:
-      path: '{{ data_device.mount_point }}/{{ item }}'
+      path: '{{ data_disk.mountpoint }}/{{ item }}'
       etype: 'other'
       permissions: 'rX'
       state: 'present'
@@ -50,7 +50,7 @@
 
 - name: 'set default user acl on share directory'
   acl:
-      path: '{{ data_device.mount_point }}/{{ item }}'
+      path: '{{ data_disk.mountpoint }}/{{ item }}'
       default: true
       etype: 'user'
       permissions: 'rwX'
@@ -59,7 +59,7 @@
 
 - name: 'set default group acl on share directory'
   acl:
-      path: '{{ data_device.mount_point }}/{{ item }}'
+      path: '{{ data_disk.mountpoint }}/{{ item }}'
       default: true
       etype: 'group'
       permissions: 'rwX'
@@ -68,7 +68,7 @@
 
 - name: 'set default other acl on share directory'
   acl:
-      path: '{{ data_device.mount_point }}/{{ item }}'
+      path: '{{ data_disk.mountpoint }}/{{ item }}'
       etype: 'other'
       permissions: 'rX'
       state: 'present'

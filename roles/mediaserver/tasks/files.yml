@@ -11,7 +11,7 @@
 - name: 'create media directory'
   file:
       path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
-      group: '{{ media_group }}'
+      group: '{{ media_group.name }}'
       mode: 'ug=rwx,o=rx,g+s'
       state: 'directory'
 
@@ -19,22 +19,29 @@
 # Set the ACLs on the media directory...
 #
 
+# TODO: move this to some "global" type role?
+- name: 'install acl'
+  ansible.builtin.apt:
+    name: 'acl'
+    state: 'present'
+    update_cache: true
+
 - name: 'set user acl on media directory'
-  acl:
+  ansible.posix.acl:
       path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       etype: 'user'
       permissions: 'rwX'
       state: 'present'
 
 - name: 'set group acl on media directory'
-  acl:
+  ansible.posix.acl:
       path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       etype: 'group'
       permissions: 'rwX'
       state: 'present'
 
 - name: 'set other acl on media directory'
-  acl:
+  ansible.posix.acl:
       path: '{{ mergerfs__mount_point }}/{{ media_directory }}'
       etype: 'other'
       permissions: 'rX'
@@ -74,7 +81,7 @@
 - name: 'create static media directories'
   file:
       path: '{{ mergerfs__mount_point }}/{{ media_directory }}/{{ item }}'
-      group: '{{ media_group }}'
+      group: '{{ media_group.name }}'
       owner: 'root'
       state: 'directory'
   loop: '{{ media_dirs }}'

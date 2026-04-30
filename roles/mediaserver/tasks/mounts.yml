@@ -2,15 +2,16 @@
 # tasks file for creating mounts
 
 - name: 'create mount points'
-  file:
-    path: "{{ item.mount_point }}"
+  ansible.builtin.file:
+    path: "{{ item.mountpoint }}"
     state: directory
-  with_flattened: "{{ devices }}"
+  with_flattened: "{{ filesystems }}"
 
 - name: 'create mounts'
-  mount:
+  ansible.posix.mount:
     path: "{{ item.mount_point }}"
-    src: "UUID={{ ansible_devices[item.device.split('/')[-1]].partitions[item.device.split('/')[-1] + '1'].uuid }}" 
+    src: "LABEL={{ item.label }}"
     fstype: "{{ item.fs_type }}"
     state: mounted
-  with_flattened: "{{ devices }}"
+  with_flattened: "{{ filesystems }}"
+

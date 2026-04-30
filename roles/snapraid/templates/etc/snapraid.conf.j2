@@ -12,8 +12,8 @@
 {#      jinja-docx-template-avoiding-new-line-in-nested-for                 #}
 {# ------------------------------------------------------------------------ #}
 
-{% for device in snapraid__parity_devices -%}
-    parity {{ device.mount_point }}/snapraid.parity
+{% for disk in snapraid_disks | selectattr('label', 'match', '^snapraid-parity')-%}
+    parity {{ disk.mountpoint }}/snapraid.parity
 {% endfor %}
 
 # Defines the files to use as additional parity storage.
@@ -37,8 +37,8 @@
 # Format: "content FILE"
 
 content /var/snapraid/snapraid.content
-{% for device in snapraid__data_devices -%}
-    content {{ device.mount_point }}/snapraid.content
+{% for disk in snapraid_disks | selectattr('label', 'match', '^snapraid-data') -%}
+    content {{ disk.mountpoint }}/snapraid.content
 {% endfor %}
 
 # Defines the data disks to use
@@ -47,8 +47,8 @@ content /var/snapraid/snapraid.content
 # SnapRAID is better suited for files that rarely changes!
 # Format: "data DISK_NAME DISK_MOUNT_POINT"
 
-{% for device in snapraid__data_devices -%}
-    data d{{ loop.index }} {{ device.mount_point }}/
+{% for disk in snapraid_disks | selectattr('label', 'match', '^snapraid-data') -%}
+    data d{{ loop.index }} {{ disk.mountpoint }}/
 {% endfor %}
 
 # Excludes hidden files and directories (uncomment to enable).
