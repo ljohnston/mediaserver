@@ -119,6 +119,10 @@ dev-plex-tunnel:
 		-chdir=terraform output \
 		-raw bastion_plex_forward_command)
 
+dev-scripts:
+	@ssh -i ~/.ssh/id_rsa -J ocid1.bastionsession.oc1.phx.amaaaaaaucmg5yaablbifoxjn7he52a3q3apeafon4xhrlbnixtcvzf4wfiq@host.bastion.us-phoenix-1.oci.oraclecloud.com -R 10000:localhost:22 -t ljohnston@10.0.1.186 "sshfs -p 10000 ljohnston@localhost:/Users/ljohnston/dev/mediaserver/roles/mediaserver/files /home/ljohnston/mediaserver-test/; bash"
+
+
 
 .PHONY: prd-config
 prd-config:

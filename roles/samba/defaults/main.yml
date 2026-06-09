@@ -1,10 +1,12 @@
 ---
 # defaults file for samba
 
+# NOTE: smbclient for local samba troubleshooting.
 samba__base_packages:
     - 'samba'
     - 'samba-common'
     - 'samba-common-bin'
+    - 'smbclient'
 
 samba__services:
     - 'smbd'

@@ -89,6 +89,12 @@ resource "oci_core_instance" "app" {
   source_details {
     source_type = "image"
     source_id   = data.oci_core_images.ubuntu.images[0].id
+
+    # Shouldn't need this, but if the instance is already provisioned
+    # and an update is triggered for any reason, the modification may
+    # fail because the boot volume when the instance was created was
+    # less than 50 GB.
+    boot_volume_size_in_gbs = "50"
   }
 
   metadata = {
@@ -126,6 +132,9 @@ resource "oci_core_instance" "nat" {
   source_details {
     source_type = "image"
     source_id   = data.oci_core_images.ubuntu.images[0].id
+
+    # See boot_volume_size_in_gbs comment in app instance above.
+    boot_volume_size_in_gbs = "50"
   }
 
   create_vnic_details {

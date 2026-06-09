@@ -54,3 +54,4 @@
 - name: 'test'
   import_tasks: 'test.yml'
   tags: ['mediaserver', 'mediaserver_test']
+  when: env == 'dev'

@@ -72,6 +72,13 @@ media_users:
     uid: 2000
     gid: 2000
 
+    # Only for users that need these installed (dev only).
+    ssh_public_key: '~/.ssh/id_rsa.pub'
+    ssh_private_key: '~/.ssh/id_rsa'
+
+    bashrc_lines:
+      - 'set -o vi'
+
 plexuser:
   name: 'plexuser'
   create_home: 'yes'

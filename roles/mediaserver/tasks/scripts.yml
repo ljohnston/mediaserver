@@ -1,13 +1,5 @@
 ---
 
-- name: 'create directory for mediaserver scripts'
-  ansible.builtin.file:
-    path: '/var/lib/mediaserver'
-    group: '{{ media_group.name }}'
-    owner: 'root'
-    mode: '0775'
-    state: 'directory'
-
 - name: 'create log directory for mediaserver scripts'
   ansible.builtin.file:
     path: '/var/log/mediaserver'
