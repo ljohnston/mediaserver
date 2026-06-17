@@ -7,6 +7,8 @@ __pycache__/
 
 tfplan.out
 
+script_development.mk
+
 roles.galaxy/
 
 /source_music

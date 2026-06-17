@@ -73,11 +73,19 @@ media_users:
     gid: 2000
 
     # Only for users that need these installed (dev only).
-    ssh_public_key: '~/.ssh/id_rsa.pub'
-    ssh_private_key: '~/.ssh/id_rsa'
+    public_keys:
+      - '~/.ssh/id_rsa.pub'
+      - '~/.ssh/id_ed25519.pub'
 
     bashrc_lines:
       - 'set -o vi'
+
+script_development_user:
+  name: ljohnston
+  private_key: '~/.ssh/id_ed25519'
+  local_dir: '{{ role_path }}/files'
+  remote_dir: '~/mediaserver-scripts'
+  reverse_port: 10000
 
 plexuser:
   name: 'plexuser'

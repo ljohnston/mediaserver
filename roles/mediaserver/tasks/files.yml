@@ -19,7 +19,11 @@
 # Set the ACLs on the media directory...
 #
 
-# TODO: move this to some "global" type role?
+#
+# TODO: I should probably create a test for this to verify
+#       permissions on new files.
+#
+
 - name: 'install acl'
   ansible.builtin.apt:
     name: 'acl'
@@ -85,7 +89,4 @@
       owner: 'root'
       state: 'directory'
   loop: '{{ media_dirs }}'
-
-
-
 

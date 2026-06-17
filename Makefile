@@ -2,6 +2,8 @@ SHELL = /bin/bash
 
 .DEFAULT_GOAL := targets
 
+-include script_development.mk
+
 # 
 # Targets.
 #
@@ -15,37 +17,41 @@ targets:
 	    |sort -u \
 	    |awk '{ print "- " $$0 }'
 
+DEV_INSTANCE_IP    := $(shell terraform/tf.sh dev -chdir=terraform output -raw instance_private_ip)
+SSH_BASTION_TARGET := $(shell terraform/tf.sh dev -chdir=terraform output -raw bastion_ssh_target)
 
-TUNNEL_COMMAND := \
-	while : ; do \
-		tunnel_port=$$((RANDOM%63000 + 2000)); \
-		if ! nc -z localhost $$tunnel_port >/dev/null 2>&1; then \
-			break; \
-		fi; \
+SSH_KEY  := ~/.ssh/id_ed25519
+# SSH_OPTS := -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR
+SSH_OPTS := -o IPQoS=throughput -o LogLevel=ERROR 
+
+define open_tunnel
+	# Pick a port beteen 20000 and 25000.
+	export TUNNEL_PORT=$$(( ($$RANDOM % 5001) + 20000 )); \
+	while nc -z localhost $$TUNNEL_PORT >/dev/null 2>&1; do \
+		TUNNEL_PORT=$$(( ($$RANDOM % 5001) + 20000 )); \
 	done; \
-	ssh_cmd="$$(terraform/tf.sh dev \
-			-chdir=terraform output \
-			-raw bastion_ssh_forward_command \
-		    |sed -E "s/-L [0-9]{4,}:/-L $$tunnel_port:/")"; \
-	echo "Starting SSH tunnel on port $$tunnel_port..."; \
-	sh -c "$$ssh_cmd" >/dev/null 2>&1 & \
+	\
+	echo "Opening tunnel to $(DEV_INSTANCE_IP):$(1) on local port $$TUNNEL_PORT..."; \
+	ssh -i $(SSH_KEY) -4 -N -L $$TUNNEL_PORT:$(DEV_INSTANCE_IP):$(1) -p 22 $(SSH_BASTION_TARGET) >/dev/null 2>&1 & \
 	ssh_pid=$$!; \
-	trap 'echo "Shutting down SSH tunnel on port $$tunnel_port..."; \
-              kill $$ssh_pid 2>/dev/null; \
-	      wait $$ssh_pid 2>/dev/null' \
-	      EXIT; \
-	max_attempts=40; \
-	for i in $$(seq 1 $$max_attempts); do \
-		if nc -z localhost $$tunnel_port >/dev/null 2>&1; then \
-			break; \
-		fi; \
-		sleep 0.2; \
-		if [ $$i -eq $$max_attempts ]; then \
-			echo "ERROR: Timed out waiting for SSH tunnel."; \
+	\
+	cleanup() { \
+		echo "Shutting down SSH tunnel on port $$TUNNEL_PORT..."; \
+		kill $$ssh_pid 2>/dev/null; \
+		wait $$ssh_pid 2>/dev/null; \
+	}; \
+	trap cleanup EXIT; \
+	\
+	timeout=40; \
+	until nc -z localhost $$TUNNEL_PORT >/dev/null 2>&1; do \
+		((timeout--)); \
+		if [ $$timeout -eq 0 ]; then \
+			echo "❌ ERROR: Timed out waiting for SSH tunnel."; \
 			exit 1; \
 		fi; \
+		sleep 0.2; \
 	done;
-
+endef
 
 .PHONY: ansible-tags
 ansible-tags:
@@ -76,9 +82,9 @@ dev-infra:
 
 .PHONY: dev-config
 dev-config: 
-	@$(TUNNEL_COMMAND) \
+	@$(call open_tunnel,22) \
 	ansible-playbook playbook.yml \
-	--extra-vars "ansible_port=$$tunnel_port" \
+	--extra-vars "ansible_port=$$TUNNEL_PORT" \
 	--inventory inventory/hosts.yml \
 	--private-key ~/.ssh/id_ed25519 \
 	--vault-id ~/.ansible/.vault_pass \
@@ -88,8 +94,8 @@ dev-config:
 
 .PHONY: dev-test
 dev-test: 
-	@$(TUNNEL_COMMAND) \
-	ANSIBLE_REMOTE_PORT=$$tunnel_port \
+	@$(call open_tunnel,22) \
+	ANSIBLE_REMOTE_PORT=$$TUNNEL_PORT \
 	pytest \
 	--hosts=ansible://dev \
 	--ansible-inventory=inventory/hosts.yml \
@@ -100,13 +106,12 @@ dev-test:
 
 .PHONY: dev-ssh
 dev-ssh:
-	@$(TUNNEL_COMMAND) \
-	ssh -p $$tunnel_port ubuntu@localhost
-
+	@$(call open_tunnel,22) \
+	ssh -q $(SSH_OPTS) \
+	-p $$TUNNEL_PORT ubuntu@localhost
 
 .PHONY: dev
 dev: dev-infra dev-config dev-test
-
 
 .PHONY: dev-destroy
 dev-destroy:
@@ -120,9 +125,38 @@ dev-plex-tunnel:
 		-raw bastion_plex_forward_command)
 
 dev-scripts:
-	@ssh -i ~/.ssh/id_rsa -J ocid1.bastionsession.oc1.phx.amaaaaaaucmg5yaablbifoxjn7he52a3q3apeafon4xhrlbnixtcvzf4wfiq@host.bastion.us-phoenix-1.oci.oraclecloud.com -R 10000:localhost:22 -t ljohnston@10.0.1.186 "sshfs -p 10000 ljohnston@localhost:/Users/ljohnston/dev/mediaserver/roles/mediaserver/files /home/ljohnston/mediaserver-test/; bash"
+ifndef SCRIPT_DEVELOPMENT_USER
+	$(error SCRIPT_DEVELOMENT_USER is not defined!)
+endif	
+	@ssh -i $(SCRIPT_DEVELOPMENT_SSH_KEY) \
+		$(SSH_OPTS) \
+		-J $(SSH_BASTION_TARGET) \
+		-R $(SCRIPT_DEVELOPMENT_REVERSE_PORT):localhost:22 -t \
+		$(SCRIPT_DEVELOPMENT_USER)@$(DEV_INSTANCE_IP) \
+		"sshfs -p $(SCRIPT_DEVELOPMENT_REVERSE_PORT) \
+			$(SCRIPT_DEVELOPMENT_USER)@localhost:$(SCRIPT_DEVELOPMENT_LOCAL_DIR) \
+			$(SCRIPT_DEVELOPMENT_REMOTE_DIR) \
+			-o reconnect -o compression=yes; \
+		trap 'echo \"Cleaning up remote mount...\"; \
+			if mountpoint -q $(SCRIPT_DEVELOPMENT_REMOTE_DIR); then fusermount -u $(SCRIPT_DEVELOPMENT_REMOTE_DIR); fi' \
+		 	EXIT INT TERM; \
+			bash"
 
-
+dev-scripts-unmount:
+ifndef SCRIPT_DEVELOPMENT_USER
+	$(error SCRIPT_DEVELOPMENT_USER is not defined!)
+endif
+	@echo "Checking remote mount status for $(MOUNT_POINT)..."
+	@ssh -i ~/.ssh/id_rsa \
+		$(SSH_OPTS) \
+		-J $(SSH_BASTION_TARGET) \
+		$(SCRIPT_DEVELOPMENT_USER)@$(INSTANCE_IP) \
+		"if mountpoint -q $(SCRIPT_DEVELOPMENT_REMOTE_DIR); then \
+			echo 'Active mount found. Unmounting...'; \
+			fusermount -u $(SCRIPT_DEVELOPMENT_REMOTE_DIR); \
+		 else \
+			echo 'Directory is not mounted. Skipping cleanup.'; \
+		 fi"
 
 .PHONY: prd-config
 prd-config:

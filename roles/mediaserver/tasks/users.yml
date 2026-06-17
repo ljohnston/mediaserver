@@ -57,50 +57,17 @@
   loop_control:
     loop_var: username
 
-#
-# In dev, we need to do some additional user config to support
-# development of mediaserver scripts and tests via an sshfs mount
-# back to those files in the local repo.
-#
-# There's probably a better way to organize this (a separate role?),
-# but for now we'll # just use a block with "when: env == 'dev'".
-#
+- name: 'update bashrc for media users'
+  ansible.builtin.lineinfile:
+    path: '/home/{{ item.0.name }}/.bashrc'
+    line: '{{ item.1 }}'
+  loop: '{{ media_users | subelements("bashrc_lines", skip_missing=True) }}'
+  no_log: true
 
-- name: 'additional dev user config'
-  block:
-    - name: 'update bashrc'
-      ansible.builtin.lineinfile:
-        path: '/home/{{ item.0.name }}/.bashrc'
-        line: '{{ item.1 }}'
-      loop: '{{ media_users | subelements("bashrc_lines", skip_missing=True) }}'
-      no_log: true
-    - name: 'install ssh keys for authorized users'
-      ansible.posix.authorized_key:
-        user: '{{ item.name }}'
-        state: present
-        key: '{{ lookup("file", item.ssh_public_key) }}'
-      loop: '{{ media_users }}'
-      when: item.ssh_public_key is defined
-      no_log: true
-    - name: 'install ssh private keys'
-      ansible.builtin.copy:
-        content: '{{ lookup("file", item.ssh_private_key) }}'
-        dest: '/home/{{ item.name }}/.ssh/id_rsa'
-        owner: '{{ item.name }}'
-        group: '{{ item.name }}'
-        mode: '0600'
-      loop: '{{ media_users }}'
-      when: item.ssh_private_key is defined
-      no_log: true
-  when: env == 'dev'
-
-
-# From laptop:
-# ssh -i ~/.ssh/id_ed25519 -J ocid1.bastionsession.oc1.phx.amaaaaaaucmg5yaaruf5gl7avlhswure5zk2xmgs7crosxcngxg6uska3dja@host.bastion.us-phoenix-1.oci.oraclecloud.com -R 10000:localhost:22 ubuntu@10.0.1.186
-# From mediaserver:
-# sshfs -p 10000 ljohnston@localhost:/Users/ljohnston/dev/mediaserver/roles/mediaserver/files /home/ljohnston/mediaserver-test/
-#
-# NOTE:
-# - install sshfs on mediaserver
-# - create mount point dir
-
+- name: 'install ssh keys'
+  ansible.posix.authorized_key:
+    user: '{{ item.0.name }}'
+    state: present
+    key: '{{ lookup("file", item.1) }}'
+  loop: '{{ media_users | subelements("public_keys", skip_missing=True) }}'
+  no_log: true

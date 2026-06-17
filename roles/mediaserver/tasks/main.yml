@@ -51,6 +51,11 @@
   import_tasks: 'scripts.yml'
   tags: ['mediaserver', 'mediaserver_scripts']
 
+- name: 'setup script development (dev only)'
+  import_tasks: 'script_development.yml'
+  tags: ['mediaserver', 'mediaserver_script_development']
+  when: env == 'dev'
+
 - name: 'test'
   import_tasks: 'test.yml'
   tags: ['mediaserver', 'mediaserver_test']

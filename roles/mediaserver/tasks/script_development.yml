@@ -1,0 +1,55 @@
+---
+
+#
+# In dev, we'll do some additional user config to support development
+# of mediaserver scripts and tests via an sshfs mount back to those
+# files in the local repo.
+#
+
+- name: 'install sshfs'
+  ansible.builtin.apt:
+    name: 'sshfs'
+    state: 'present'
+    update_cache: true
+
+- name: 'install ssh private key'
+  ansible.builtin.copy:
+    content: '{{ lookup("file", script_development_user.private_key) }}'
+    dest: '{{ script_development_user.private_key }}'
+    owner: '{{ script_development_user.name }}'
+    group: '{{ script_development_user.name }}'
+    mode: '0600'
+  become_user: '{{ script_development_user.name }}'
+  no_log: true
+
+- name: 'create remote script mount directory'
+  ansible.builtin.file:
+    path: '{{ script_development_user.remote_dir }}'
+    state: 'directory'
+    mode: '0755'
+  become_user: '{{ script_development_user.name }}'
+
+- name: 'create script_development.mk'
+  ansible.builtin.copy:
+    content: |
+      SCRIPT_DEVELOPMENT_SSH_KEY={{ script_development_user.private_key }}
+      SCRIPT_DEVELOPMENT_USER={{ script_development_user.name }}
+      SCRIPT_DEVELOPMENT_LOCAL_DIR={{ script_development_user.local_dir }}
+      SCRIPT_DEVELOPMENT_REMOTE_DIR={{ script_development_user.remote_dir }}
+      SCRIPT_DEVELOPMENT_REVERSE_PORT={{ script_development_user.reverse_port }}
+    dest: './script_development.mk'
+  delegate_to: localhost
+  become: false
+  vars:
+    ansible_connection: local
+
+# From laptop:
+# ssh -i ~/.ssh/id_ed25519 -J ocid1.bastionsession.oc1.phx.amaaaaaaucmg5yaaruf5gl7avlhswure5zk2xmgs7crosxcngxg6uska3dja@host.bastion.us-phoenix-1.oci.oraclecloud.com -R 10000:localhost:22 ubuntu@10.0.1.186
+# From mediaserver:
+# sshfs -p 10000 ljohnston@localhost:/Users/ljohnston/dev/mediaserver/roles/mediaserver/files /home/ljohnston/mediaserver-test/
+#
+# NOTE:
+# - install sshfs on mediaserver
+# - create mount point dir
+
+

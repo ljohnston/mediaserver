@@ -1,5 +1,5 @@
 output "bastion_ssh_target" {
-  value = regex("(ocid1\\.[^\\s]+@[^\\s:]+)", oci_bastion_session.http_forward.ssh_metadata.command)[0]
+  value = regex("(ocid1\\.[^\\s]+@[^\\s:]+)", oci_bastion_session.ssh_forward.ssh_metadata.command)[0]
 }
 
 output "bastion_http_forward_command" {
